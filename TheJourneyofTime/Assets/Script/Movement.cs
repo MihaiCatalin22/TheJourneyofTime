@@ -1,205 +1,145 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Movement : MonoBehaviour
 {
     public float moveSpeed = 5f;
-    //public float moveInput;  
     public float jumpForce = 10f;  
     public float dashSpeed = 15f;  
     public float dashDuration = 0.2f;
-    public float fallThreshold = -10f; // Threshold to trigger reset
-    public Vector3 startPosition; // Start position for reset
+    public float fallThreshold = -10f;
+    public Vector3 startPosition;
 
-    public float ledgeCheckDistance = 0.5f; // Distance for ledge check raycast
-    public Transform groundCheck; // Position from which to check if grounded
-    public Transform ledgeCheck; // Position from which to check for ledge above
-    public LayerMask whatIsGround; // Layer defining ground surfaces
-    
-    private bool isFacingRight = false;
+    public Transform groundCheck;
+    public LayerMask whatIsGround;
+
+    private bool isFacingRight = true;
     private bool isGrounded = false;  
-    private bool canDoubleJump = false;  
-    private bool isDashing;  
-    private bool isHanging;  
-    private float hangingTimer;
-    private float maxHangingTime = 1.0f; // Max time allowed to hang
+    private bool canDoubleJump = false;
+    private bool isDashing;
+    private bool isDead = false;
     private Animator animator;
 
-    public float groundCheckRadius = 0.2f; // Radius for ground check
+    public float groundCheckRadius = 0.2f;
     private Rigidbody2D rb;
+
+    public GameObject deathText;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        startPosition = transform.position; // Set initial start position
+        startPosition = transform.position;
         animator = GetComponent<Animator>();
+
+        if (deathText != null)
+            deathText.SetActive(false);
     }
 
     void FixedUpdate()
     {
-        //isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
-        animator.SetFloat("xVelocity", Math.Abs(rb.velocity.x));
+        if (isDead) return;
+        
+        animator.SetFloat("xVelocity", Mathf.Abs(rb.velocity.x));
         animator.SetFloat("yVelocity", rb.velocity.y);
     }
 
     void Update()
     {
+        if (isDead || isDashing) return;
+
         float moveInput = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
 
         FlipSprite();
 
-        if (isDashing) return; // Skip other controls while dashing
-
-        float moveInput = Input.GetAxis("Horizontal");  
-        rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);  
-
-        // Ground check
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
-        
-        if (isGrounded)
-        {
-            canDoubleJump = true;
-            // Reset hanging state when grounded
-            ExitHanging();
-        }
-
-        // Jump and Double Jump
+        // Handle jump input
         if (Input.GetKeyDown(KeyCode.W))
         {
-            if (isGrounded)
-            {
-                Jump();
-            }
-            else if (canDoubleJump)
-            {
-                Jump();
-                canDoubleJump = false;
-            }
-
+            HandleJump();
         }
 
-        // Dash when moving horizontally
-        if (Input.GetKeyDown(KeyCode.LeftShift) && moveInput != 0)
+        // Handle dash input
+        if (Input.GetKeyDown(KeyCode.LeftShift) && Mathf.Abs(moveInput) > 0)
         {
-            StartCoroutine(Dash(moveInput));
+            StartCoroutine(Dash(Mathf.Sign(moveInput)));
         }
 
-        // Check for ledge if falling and not grounded
-        if (!isGrounded && rb.velocity.y < 0 && !isHanging)
-        {
-            CheckForLedge();
-        }
-
-        // Automatically exit hanging after max hanging time
-        if (isHanging)
-        {
-            hangingTimer += Time.deltaTime;
-            if (hangingTimer >= maxHangingTime)
-            {
-                ExitHanging();
-            }
-        }
-
-        // Climb up when hanging
-        if (isHanging && Input.GetKeyDown(KeyCode.W))
-        {
-            ClimbUp();
-        }
-
-        // Reset position if fallen below threshold
+        // Check if player fell below threshold
         if (transform.position.y < fallThreshold)
         {
-            ResetPosition();
+            StartCoroutine(Respawn());
         }
-        
+
         animator.SetBool("isJumping", !isGrounded);
     }
 
-    void Jump()
+    void HandleJump()
     {
-        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-        canDoubleJump = true;
-        isGrounded = false;
+        if (isGrounded)
+        {
+            // Single jump from the ground
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            canDoubleJump = true; // Enable double jump after the first jump
+            isGrounded = false; // Set to false since we're now airborne
+            Debug.Log("Single Jump"); // Log for single jump
+        }
+        else if (canDoubleJump)
+        {
+            // Double jump
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            canDoubleJump = false; // Disable further jumps after the double jump
+            Debug.Log("Double Jump"); // Log for double jump
+        }
     }
 
     IEnumerator Dash(float direction)
     {
+        if (isDashing) yield break;
+
         isDashing = true;
-        float originalGravity = rb.gravityScale;
-        rb.gravityScale = 0; // Temporarily disable gravity during dash
+        rb.gravityScale = 0;
 
         rb.velocity = new Vector2(direction * dashSpeed, 0);
+
         yield return new WaitForSeconds(dashDuration);
 
-        rb.gravityScale = originalGravity; // Restore gravity after dash
+        rb.gravityScale = 1;
         isDashing = false;
     }
 
-    void CheckForLedge()
+    public IEnumerator Respawn()
     {
-        RaycastHit2D wallHit = Physics2D.Raycast(transform.position, Vector2.right * transform.localScale.x, ledgeCheckDistance, whatIsGround);
-        RaycastHit2D ledgeHit = Physics2D.Raycast(ledgeCheck.position, Vector2.up, ledgeCheckDistance, whatIsGround);
+        if (deathText != null)
+            deathText.SetActive(true);
 
-        if (wallHit.collider != null && ledgeHit.collider == null) // If there's a wall but no ledge above
-        {
-            rb.velocity = Vector2.zero; // Stop vertical movement
-            rb.isKinematic = true; // Temporarily disable physics to hang
-            isHanging = true;
-            hangingTimer = 0f; // Reset hanging timer
-        }
-    }
+        yield return new WaitForSeconds(0.5f);
 
-    void ClimbUp()
-    {
-        float ledgeOffsetX = 0.5f; // Offset to adjust climbing distance on X
-        float ledgeOffsetY = 1.2f; // Offset to adjust climbing height on Y
+        rb.velocity = Vector2.zero;
+        rb.isKinematic = true;
 
-        Vector3 climbPosition = new Vector3(transform.position.x + (ledgeOffsetX * transform.localScale.x), 
-                                            transform.position.y + ledgeOffsetY, 
-                                            transform.position.z);
+        transform.position = startPosition;
+        yield return new WaitForFixedUpdate();
 
-        transform.position = climbPosition; // Move to new position at top of ledge
-        ExitHanging(); // Exit hanging state after climbing
-    }
+        rb.isKinematic = false;
+        isDead = false;
 
-    void ExitHanging()
-    {
-        rb.isKinematic = false; // Re-enable physics
-        isHanging = false; 
-        hangingTimer = 0f; // Reset the hanging timer
-    }
-
-    void ResetPosition()
-    {
-        transform.position = startPosition; // Move back to start
-        rb.velocity = Vector2.zero; // Stop any movement
-        rb.isKinematic = false; // Make sure physics is enabled after reset
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        if (groundCheck == null || ledgeCheck == null) return;
+        if (deathText != null)
+            deathText.SetActive(false);
         
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius); // Visualize ground check radius
-        
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(transform.position, transform.position + Vector3.right * transform.localScale.x * ledgeCheckDistance); // Visualize ledge check
-        Gizmos.DrawLine(ledgeCheck.position, ledgeCheck.position + Vector3.up * ledgeCheckDistance); // Visualize ledge check above
-      
+        CheckGroundStatus(); // Ensure ground status is updated after respawn
     }
 
+    void CheckGroundStatus()
+    {
+        bool wasGrounded = isGrounded;
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
 
-    void FlipSprite(){
-        if (isFacingRight && Input.GetAxis("Horizontal") < 0f || !isFacingRight && Input.GetAxis("Horizontal") > 0f)
+        // Reset double jump when player lands
+        if (!wasGrounded && isGrounded)
         {
-            isFacingRight = !isFacingRight;
-            Vector3 ls = transform.localScale;
-            ls.x *= -1f;
-            transform.localScale = ls;
+            canDoubleJump = true;
+            Debug.Log("Landed and Reset Double Jump");
         }
     }
 
@@ -207,8 +147,9 @@ public class Movement : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
-            isGrounded = true;
-            canDoubleJump = false; 
+            isGrounded = true; 
+            canDoubleJump = true; 
+            Debug.Log("Landed on Ground - Double Jump Available");
         }
     }
 
@@ -219,5 +160,20 @@ public class Movement : MonoBehaviour
             isGrounded = false; 
         }
     }
-    
+
+    void FlipSprite()
+    {
+        if (isFacingRight && Input.GetAxis("Horizontal") < 0f || !isFacingRight && Input.GetAxis("Horizontal") > 0f)
+        {
+            isFacingRight = !isFacingRight;
+            Vector3 ls = transform.localScale;
+            ls.x *= -1f;
+            transform.localScale = ls;
+        }
+    }
+
+    public void SetDead(bool dead)
+    {
+        isDead = dead;
+    }
 }

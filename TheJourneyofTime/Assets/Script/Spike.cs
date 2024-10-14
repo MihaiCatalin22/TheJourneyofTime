@@ -1,60 +1,38 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Spike : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Collision detected with: " + collision.gameObject.name);
         if (collision.CompareTag("Player") && gameObject.CompareTag("Deadly"))
         {
-            Rigidbody2D playerRb = collision.GetComponent<Rigidbody2D>();
-            
-            if (playerRb != null)
+            Movement playerMovement = collision.GetComponent<Movement>();
+
+            if (playerMovement != null)
             {
-                // moves players x
-                playerRb.transform.position = new Vector3(playerRb.transform.position.x, playerRb.transform.position.y, -10);
-            
-                // disables player's collider
+                playerMovement.SetDead(true); // Disable player movement
                 collision.GetComponent<Collider2D>().enabled = false;
-
-                // color change
-                StartCoroutine(ChangeColorTemporarily(collision.gameObject));
-
+                StartCoroutine(ChangeColorAndRespawn(playerMovement, collision));
             }
-            
         }
     }
-    private IEnumerator ChangeColorTemporarily(GameObject player)
+
+    private IEnumerator ChangeColorAndRespawn(Movement playerMovement, Collider2D playerCollider)
     {
-        SpriteRenderer spriteRenderer = player.GetComponent<SpriteRenderer>();
+        SpriteRenderer spriteRenderer = playerMovement.GetComponent<SpriteRenderer>();
+        Color originalColor = spriteRenderer.color;
+        spriteRenderer.color = Color.red;
 
-        if (spriteRenderer != null)
-        {
-            // og color
-            Color originalColor = spriteRenderer.color;
+        Rigidbody2D rb = playerMovement.GetComponent<Rigidbody2D>();
+        rb.velocity = new Vector2(rb.velocity.x, -playerMovement.jumpForce);
 
-            // change to red
-            spriteRenderer.color = Color.red;
+        yield return new WaitForSeconds(0.68f);
 
-            // wait a sec
-            yield return new WaitForSeconds(0.2f);
+        spriteRenderer.color = originalColor;
+        playerCollider.enabled = true;
 
-            // back to og color
-            spriteRenderer.color = originalColor;
-        }
+        yield return playerMovement.StartCoroutine(playerMovement.Respawn());
+        playerMovement.SetDead(false); // Re-enable player movement after respawn
     }
 }
