@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement; // Add this to enable scene reloading
 
 public class Spike : MonoBehaviour
 {
@@ -13,26 +14,24 @@ public class Spike : MonoBehaviour
             {
                 playerMovement.SetDead(true); // Disable player movement
                 collision.GetComponent<Collider2D>().enabled = false;
-                StartCoroutine(ChangeColorAndRespawn(playerMovement, collision));
+                
+                // Start the death effect and then reload the scene
+                StartCoroutine(ChangeColorAndReloadScene(playerMovement));
             }
         }
     }
 
-    private IEnumerator ChangeColorAndRespawn(Movement playerMovement, Collider2D playerCollider)
+    private IEnumerator ChangeColorAndReloadScene(Movement playerMovement)
     {
+        // Change color to red to indicate death
         SpriteRenderer spriteRenderer = playerMovement.GetComponent<SpriteRenderer>();
         Color originalColor = spriteRenderer.color;
         spriteRenderer.color = Color.red;
 
-        Rigidbody2D rb = playerMovement.GetComponent<Rigidbody2D>();
-        rb.velocity = new Vector2(rb.velocity.x, -playerMovement.jumpForce);
+        // Wait for a short duration before reloading the scene
+        yield return new WaitForSeconds(1f);
 
-        yield return new WaitForSeconds(0.68f);
-
-        spriteRenderer.color = originalColor;
-        playerCollider.enabled = true;
-
-        yield return playerMovement.StartCoroutine(playerMovement.Respawn());
-        playerMovement.SetDead(false); // Re-enable player movement after respawn
+        // Reload the current scene to restart everything
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

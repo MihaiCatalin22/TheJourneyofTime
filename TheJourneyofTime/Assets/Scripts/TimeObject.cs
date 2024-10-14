@@ -5,38 +5,41 @@ using UnityEngine;
 public class TimeObject : MonoBehaviour
 {
     public bool isRewinding = false;
-    public float rewindDuration = 5f; // Maximum rewind duration in seconds
-    public float stayInPlaceDuration = 2f; // Time to stay in place after rewind ends
-    public float fallStartDelay = 3f; // Time to wait before objects start falling
+    public float rewindDuration = 5f;
+    public float stayInPlaceDuration = 2f;
+    public float rewindCooldown = 5f;
 
-    private bool isPausedAfterRewind = false; // Track whether we are in the stay period
-    List<Vector3> positions;
-    List<Quaternion> rotations;
-    private Rigidbody2D rb; // Rigidbody for controlling physics
+    private bool isPaused = false;
+    private bool canRewind = true;
+    private List<Vector3> positions = new List<Vector3>();
+    private List<Quaternion> rotations = new List<Quaternion>();
+    private Rigidbody2D rb;
+    private Animator animator; // Optional if using an animator
+
+    // Store velocities to resume later
+    private Vector2 savedVelocity;
+    private float savedAngularVelocity;
 
     void Start()
     {
-        positions = new List<Vector3>();
-        rotations = new List<Quaternion>();
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
 
-        rb.isKinematic = true; // Disable physics at the start
-        StartCoroutine(EnableGravityAfterDelay());
-    }
-
-    IEnumerator EnableGravityAfterDelay()
-    {
-        yield return new WaitForSeconds(fallStartDelay); // Wait before enabling gravity
-        rb.isKinematic = false; // Enable physics after the delay
+        if (ManagerTime.instance != null)
+        {
+            ManagerTime.instance.timeObjects.Add(this);
+        }
     }
 
     void Update()
     {
+        if (isPaused) return;
+
         if (isRewinding)
         {
             Rewind();
         }
-        else if (!isPausedAfterRewind)
+        else
         {
             Record();
         }
@@ -44,11 +47,11 @@ public class TimeObject : MonoBehaviour
 
     void Record()
     {
-        // Record only the last 5 seconds of positions
+        // Store position and rotation for rewinding
         if (positions.Count > Mathf.Round(rewindDuration / Time.fixedDeltaTime))
         {
             positions.RemoveAt(positions.Count - 1);
-            rotations.RemoveAt(positions.Count - 1);
+            rotations.RemoveAt(rotations.Count - 1);
         }
 
         positions.Insert(0, transform.position);
@@ -61,7 +64,6 @@ public class TimeObject : MonoBehaviour
         {
             transform.position = positions[0];
             transform.rotation = rotations[0];
-
             positions.RemoveAt(0);
             rotations.RemoveAt(0);
         }
@@ -73,21 +75,72 @@ public class TimeObject : MonoBehaviour
 
     public void StartRewind()
     {
-        isRewinding = true;
-        rb.isKinematic = true; // Disable physics
+        if (canRewind)
+        {
+            isRewinding = true;
+            if (rb != null)
+            {
+                rb.isKinematic = true;
+            }
+        }
     }
 
     public void StopRewind()
     {
         isRewinding = false;
-        StartCoroutine(PauseAfterRewind()); // Pause after rewinding
+        StartCoroutine(RewindCooldown());
+        if (rb != null)
+        {
+            rb.isKinematic = false;
+        }
     }
 
-    IEnumerator PauseAfterRewind()
+    public void PauseTime()
     {
-        isPausedAfterRewind = true;
-        yield return new WaitForSeconds(stayInPlaceDuration); // Stay in place for a few seconds
-        rb.isKinematic = false; // Re-enable physics after the pause
-        isPausedAfterRewind = false;
+        isPaused = true;
+
+        // Stop movement and save velocity if there's a Rigidbody
+        if (rb != null)
+        {
+            savedVelocity = rb.velocity;
+            savedAngularVelocity = rb.angularVelocity;
+            rb.velocity = Vector2.zero;
+            rb.angularVelocity = 0;
+            rb.isKinematic = true; // Freezes the Rigidbody to stop physics
+        }
+
+        // Optionally stop animations
+        if (animator != null)
+        {
+            animator.enabled = false;
+        }
+
+        Debug.Log(gameObject.name + " paused.");
+    }
+
+    public void ResumeTime()
+    {
+        isPaused = false;
+
+        if (rb != null)
+        {
+            rb.isKinematic = false;
+            rb.velocity = savedVelocity;
+            rb.angularVelocity = savedAngularVelocity;
+        }
+
+        if (animator != null)
+        {
+            animator.enabled = true;
+        }
+
+        Debug.Log(gameObject.name + " resumed.");
+    }
+
+    IEnumerator RewindCooldown()
+    {
+        canRewind = false;
+        yield return new WaitForSeconds(rewindCooldown);
+        canRewind = true;
     }
 }

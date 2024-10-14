@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,10 +7,7 @@ public class ManagerTime : MonoBehaviour
 
     public List<TimeObject> timeObjects = new List<TimeObject>();
     private bool isTimeStopped = false;
-    void Start()
-    {
-        Application.targetFrameRate = 60;
-    }
+
     void Awake()
     {
         if (instance == null)
@@ -30,11 +26,11 @@ public class ManagerTime : MonoBehaviour
         {
             if (isTimeStopped)
             {
-                ResumeTime();
+                ResumeTimeForObjects();
             }
             else
             {
-                StopTime();
+                StopTimeForObjects();
             }
         }
 
@@ -64,15 +60,23 @@ public class ManagerTime : MonoBehaviour
         }
     }
 
-    public void StopTime()
+    public void StopTimeForObjects()
     {
-        Time.timeScale = 0f;
         isTimeStopped = true;
+        foreach (TimeObject obj in timeObjects)
+        {
+            obj.PauseTime();
+        }
+        Debug.Log("Time has been stopped.");
     }
 
-    public void ResumeTime()
+    public void ResumeTimeForObjects()
     {
-        Time.timeScale = 1f;
         isTimeStopped = false;
+        foreach (TimeObject obj in timeObjects)
+        {
+            obj.ResumeTime();
+        }
+        Debug.Log("Time has resumed.");
     }
 }
