@@ -5,8 +5,7 @@ using UnityEngine;
 public class TimeObject : MonoBehaviour
 {
     public bool isRewinding = false;
-    public float rewindDuration = 5f;
-    public float stayInPlaceDuration = 2f;
+    public int maxPositions = 500000; // Set a fixed max limit for recorded positions
     public float rewindCooldown = 5f;
 
     private bool isPaused = false;
@@ -14,9 +13,8 @@ public class TimeObject : MonoBehaviour
     private List<Vector3> positions = new List<Vector3>();
     private List<Quaternion> rotations = new List<Quaternion>();
     private Rigidbody2D rb;
-    private Animator animator; // Optional if using an animator
+    private Animator animator;
 
-    // Store velocities to resume later
     private Vector2 savedVelocity;
     private float savedAngularVelocity;
 
@@ -47,8 +45,8 @@ public class TimeObject : MonoBehaviour
 
     void Record()
     {
-        // Store position and rotation for rewinding
-        if (positions.Count > Mathf.Round(rewindDuration / Time.fixedDeltaTime))
+        // Ensure the list keeps a maximum of 'maxPositions' entries
+        if (positions.Count >= maxPositions)
         {
             positions.RemoveAt(positions.Count - 1);
             rotations.RemoveAt(rotations.Count - 1);
@@ -62,6 +60,7 @@ public class TimeObject : MonoBehaviour
     {
         if (positions.Count > 0)
         {
+            // Move to the recorded position and rotation
             transform.position = positions[0];
             transform.rotation = rotations[0];
             positions.RemoveAt(0);
@@ -75,53 +74,25 @@ public class TimeObject : MonoBehaviour
 
     public void StartRewind()
     {
-        if (canRewind)
+        if (!canRewind) return;
+
+        isRewinding = true;
+        if (rb != null)
         {
-            isRewinding = true;
-            if (rb != null)
-            {
-                rb.isKinematic = true;
-            }
+            savedVelocity = rb.velocity;
+            savedAngularVelocity = rb.angularVelocity;
+            rb.isKinematic = true; // Keep it kinematic during rewind
+        }
+
+        if (animator != null)
+        {
+            animator.enabled = false;
         }
     }
 
     public void StopRewind()
     {
         isRewinding = false;
-        StartCoroutine(RewindCooldown());
-        if (rb != null)
-        {
-            rb.isKinematic = false;
-        }
-    }
-
-    public void PauseTime()
-    {
-        isPaused = true;
-
-        // Stop movement and save velocity if there's a Rigidbody
-        if (rb != null)
-        {
-            savedVelocity = rb.velocity;
-            savedAngularVelocity = rb.angularVelocity;
-            rb.velocity = Vector2.zero;
-            rb.angularVelocity = 0;
-            rb.isKinematic = true; // Freezes the Rigidbody to stop physics
-        }
-
-        // Optionally stop animations
-        if (animator != null)
-        {
-            animator.enabled = false;
-        }
-
-        Debug.Log(gameObject.name + " paused.");
-    }
-
-    public void ResumeTime()
-    {
-        isPaused = false;
-
         if (rb != null)
         {
             rb.isKinematic = false;
@@ -134,7 +105,41 @@ public class TimeObject : MonoBehaviour
             animator.enabled = true;
         }
 
-        Debug.Log(gameObject.name + " resumed.");
+        StartCoroutine(RewindCooldown());
+    }
+
+    public void PauseTime()
+    {
+        isPaused = true;
+        if (rb != null)
+        {
+            savedVelocity = rb.velocity;
+            savedAngularVelocity = rb.angularVelocity;
+            rb.isKinematic = true;
+            rb.velocity = Vector2.zero;
+            rb.angularVelocity = 0;
+        }
+
+        if (animator != null)
+        {
+            animator.enabled = false;
+        }
+    }
+
+    public void ResumeTime()
+    {
+        isPaused = false;
+        if (rb != null)
+        {
+            rb.isKinematic = false;
+            rb.velocity = savedVelocity;
+            rb.angularVelocity = savedAngularVelocity;
+        }
+
+        if (animator != null)
+        {
+            animator.enabled = true;
+        }
     }
 
     IEnumerator RewindCooldown()
