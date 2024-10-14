@@ -1,10 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    public float moveSpeed = 5f;  
+    public float moveSpeed = 5f;
+    //public float moveInput;  
     public float jumpForce = 10f;  
     public float dashSpeed = 15f;  
     public float dashDuration = 0.2f;
@@ -16,12 +18,14 @@ public class Movement : MonoBehaviour
     public Transform ledgeCheck; // Position from which to check for ledge above
     public LayerMask whatIsGround; // Layer defining ground surfaces
     
-    private bool isGrounded;  
-    private bool canDoubleJump;  
+    private bool isFacingRight = false;
+    private bool isGrounded = false;  
+    private bool canDoubleJump = false;  
     private bool isDashing;  
     private bool isHanging;  
     private float hangingTimer;
     private float maxHangingTime = 1.0f; // Max time allowed to hang
+    private Animator animator;
 
     public float groundCheckRadius = 0.2f; // Radius for ground check
     private Rigidbody2D rb;
@@ -30,10 +34,23 @@ public class Movement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         startPosition = transform.position; // Set initial start position
+        animator = GetComponent<Animator>();
+    }
+
+    void FixedUpdate()
+    {
+        //isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
+        animator.SetFloat("xVelocity", Math.Abs(rb.velocity.x));
+        animator.SetFloat("yVelocity", rb.velocity.y);
     }
 
     void Update()
     {
+        float moveInput = Input.GetAxis("Horizontal");
+        rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
+
+        FlipSprite();
+
         if (isDashing) return; // Skip other controls while dashing
 
         float moveInput = Input.GetAxis("Horizontal");  
@@ -61,6 +78,7 @@ public class Movement : MonoBehaviour
                 Jump();
                 canDoubleJump = false;
             }
+
         }
 
         // Dash when moving horizontally
@@ -96,11 +114,15 @@ public class Movement : MonoBehaviour
         {
             ResetPosition();
         }
+        
+        animator.SetBool("isJumping", !isGrounded);
     }
 
     void Jump()
     {
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        canDoubleJump = true;
+        isGrounded = false;
     }
 
     IEnumerator Dash(float direction)
@@ -167,5 +189,35 @@ public class Movement : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawLine(transform.position, transform.position + Vector3.right * transform.localScale.x * ledgeCheckDistance); // Visualize ledge check
         Gizmos.DrawLine(ledgeCheck.position, ledgeCheck.position + Vector3.up * ledgeCheckDistance); // Visualize ledge check above
+      
     }
+
+
+    void FlipSprite(){
+        if (isFacingRight && Input.GetAxis("Horizontal") < 0f || !isFacingRight && Input.GetAxis("Horizontal") > 0f)
+        {
+            isFacingRight = !isFacingRight;
+            Vector3 ls = transform.localScale;
+            ls.x *= -1f;
+            transform.localScale = ls;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            isGrounded = true;
+            canDoubleJump = false; 
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            isGrounded = false; 
+        }
+    }
+    
 }
