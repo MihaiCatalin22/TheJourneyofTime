@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +7,12 @@ public class ManagerTime : MonoBehaviour
     public static ManagerTime instance;
 
     public List<TimeObject> timeObjects = new List<TimeObject>();
+    
+    public float stopDuration = 3f; // Duration for which time remains stopped
+    public float cooldownDuration = 5f; // Cooldown period before time can be stopped again
+    
     private bool isTimeStopped = false;
+    private bool isCooldownActive = false; // Tracks if the cooldown is active
 
     void Awake()
     {
@@ -22,42 +28,35 @@ public class ManagerTime : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
+        if (Input.GetKeyDown(KeyCode.T) && !isCooldownActive && !isTimeStopped)
         {
-            if (isTimeStopped)
-            {
-                ResumeTimeForObjects();
-            }
-            else
-            {
-                StopTimeForObjects();
-            }
-        }
-
-        if (Input.GetKey(KeyCode.R))
-        {
-            StartRewind();
-        }
-        else if (Input.GetKeyUp(KeyCode.R))
-        {
-            StopRewind();
+            StartCoroutine(TimeStopRoutine());
         }
     }
 
-    public void StartRewind()
+    private IEnumerator TimeStopRoutine()
     {
-        foreach (TimeObject obj in timeObjects)
-        {
-            obj.StartRewind();
-        }
+        // Stop time for the defined stop duration
+        StopTimeForObjects();
+        yield return new WaitForSeconds(stopDuration);
+
+        // Resume time after the stop duration
+        ResumeTimeForObjects();
+
+        // Start cooldown period
+        StartCoroutine(TimeStopCooldown());
     }
 
-    public void StopRewind()
+    private IEnumerator TimeStopCooldown()
     {
-        foreach (TimeObject obj in timeObjects)
-        {
-            obj.StopRewind();
-        }
+        isCooldownActive = true;
+        Debug.Log("Time Stop Cooldown Active");
+        
+        // Wait for cooldown duration
+        yield return new WaitForSeconds(cooldownDuration);
+        
+        isCooldownActive = false;
+        Debug.Log("Time Stop Ready Again");
     }
 
     public void StopTimeForObjects()
