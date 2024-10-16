@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement; // Import this to enable scene reloading
 public class Movement : MonoBehaviour
 {
     public float moveSpeed = 5f;
-    public float jumpForce = 10f;  
+    public float jumpForce = 3f;  
     public float dashSpeed = 15f;  
     public float dashDuration = 0.2f;
     public float fallThreshold = -10f;
@@ -17,6 +17,7 @@ public class Movement : MonoBehaviour
     private bool isFacingRight = true;
     private bool isGrounded = false;  
     private bool canDoubleJump = false;
+    private bool canDash = true; // Track if the player can dash
     private bool isDashing;
     private bool isDead = false;
     private Animator animator;
@@ -59,7 +60,7 @@ public class Movement : MonoBehaviour
         }
 
         // Handle dash input
-        if (Input.GetKeyDown(KeyCode.LeftShift) && Mathf.Abs(moveInput) > 0)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash && Mathf.Abs(moveInput) > 0)
         {
             StartCoroutine(Dash(Mathf.Sign(moveInput)));
         }
@@ -95,13 +96,15 @@ public class Movement : MonoBehaviour
         if (isDashing) yield break;
 
         isDashing = true;
+        canDash = false;
+        float originalGravity = rb.gravityScale;
         rb.gravityScale = 0;
 
         rb.velocity = new Vector2(direction * dashSpeed, 0);
 
         yield return new WaitForSeconds(dashDuration);
 
-        rb.gravityScale = 1;
+        rb.gravityScale = originalGravity;
         isDashing = false;
     }
 
@@ -124,7 +127,8 @@ public class Movement : MonoBehaviour
         if (!wasGrounded && isGrounded)
         {
             canDoubleJump = true;
-            Debug.Log("Landed and Reset Double Jump");
+            canDash = true; // Reset dash ability when landing
+            Debug.Log("Landed and Reset Double Jump and Dash");
         }
     }
 
@@ -134,7 +138,8 @@ public class Movement : MonoBehaviour
         {
             isGrounded = true; 
             canDoubleJump = true;
-            Debug.Log("Landed on Ground - Double Jump Available");
+            canDash = true; // Reset dash ability when landing
+            Debug.Log("Landed on Ground - Double Jump and Dash Available");
         }
     }
 
