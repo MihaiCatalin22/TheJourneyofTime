@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 7568603792104633088}
   - component: {fileID: 7460049676216667137}
   - component: {fileID: 7793832978987672955}
-  m_Layer: 0
+  - component: {fileID: 7129312475316078816}
+  m_Layer: 6
   m_Name: StoneTilesCrackSolid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -159,4 +160,86 @@ TilemapCollider2D:
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
+  m_UseDelaunayMesh: 0
+--- !u!60 &7129312475316078816
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5672302227244471054}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 12, y: 14}
+    newSize: {x: 12, y: 14}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -2.870449, y: -5.000681}
+      - {x: -2.8741646, y: -4.9948273}
+      - {x: -2.8762684, y: -5.1237774}
+      - {x: -2.9988098, y: -5.125}
+      - {x: -3.0006065, y: -6.6251335}
+      - {x: -2.876276, y: -6.6255436}
+      - {x: -2.8754406, y: -6.7507877}
+      - {x: -2.7517567, y: -6.751049}
+      - {x: -2.750021, y: -6.874134}
+      - {x: -2.624075, y: -6.876522}
+      - {x: -2.6298141, y: -7.0000553}
+      - {x: -2.1245785, y: -7.0000515}
+      - {x: -2.1236668, y: -6.875164}
+      - {x: -1.9971695, y: -6.8749638}
+      - {x: -1.8761768, y: -6.8748436}
+      - {x: -1.8754749, y: -7.001507}
+      - {x: -1.1229782, y: -6.999922}
+      - {x: -1.1229782, y: -6.875309}
+      - {x: -1.0009804, y: -6.87442}
+      - {x: -1.0003338, y: -6.9999332}
+      - {x: -0.749136, y: -7.0018177}
+      - {x: -0.7477894, y: -6.874653}
+      - {x: -0.62721825, y: -6.8753166}
+      - {x: -0.62636375, y: -7.0004845}
+      - {x: 0.12584877, y: -7.001068}
+      - {x: 0.12719917, y: -6.8744125}
+      - {x: 0.25060272, y: -6.875246}
+      - {x: 0.24780846, y: -7.0020676}
+      - {x: 1.0001774, y: -7.0007477}
+      - {x: 1.0008507, y: -6.875635}
+      - {x: 1.1219501, y: -6.8753777}
+      - {x: 1.2493534, y: -6.8746758}
+      - {x: 1.249115, y: -7.002022}
+      - {x: 2.6255112, y: -7}
+      - {x: 3.0017242, y: -6.625}
+      - {x: 3.0124664, y: -5.1182137}
+      - {x: 2.8740234, y: -5.000023}
   m_UseDelaunayMesh: 0

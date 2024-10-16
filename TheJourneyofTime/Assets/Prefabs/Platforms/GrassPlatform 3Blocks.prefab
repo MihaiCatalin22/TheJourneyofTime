@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6940221927633536812}
   - component: {fileID: 4830030808887102117}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GrassPlatform 3Blocks
   m_TagString: Untagged
   m_Icon: {fileID: 0}

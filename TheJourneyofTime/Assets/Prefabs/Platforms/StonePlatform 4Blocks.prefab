@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9119246644354783157}
   - component: {fileID: 3618212673122644123}
   - component: {fileID: 98694267475641160}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: StonePlatform 4Blocks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -307,7 +307,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8452836724493321068}
   - component: {fileID: 4470372359523097985}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: StonePlatform 4Blocks
   m_TagString: Untagged
   m_Icon: {fileID: 0}

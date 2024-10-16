@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4498831148228432188}
   - component: {fileID: 1200951240710345561}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GroundPlatform 3Blocks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 826897613266070403}
   - component: {fileID: 359013929562739320}
   - component: {fileID: 822460423328980536}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GroundPlatform 3Blocks
   m_TagString: Untagged
   m_Icon: {fileID: 0}

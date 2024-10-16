@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 866082190866685710}
   - component: {fileID: 9109233617767469207}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: 'StonePlatform 6Blocks '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 4008984671346491383}
   - component: {fileID: 5234533566957046230}
   - component: {fileID: 4495863617855335519}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: StonePlatform 6Blocks
   m_TagString: Untagged
   m_Icon: {fileID: 0}

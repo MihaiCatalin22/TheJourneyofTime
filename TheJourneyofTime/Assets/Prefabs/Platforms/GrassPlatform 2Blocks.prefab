@@ -257,7 +257,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7233131937832079725}
   - component: {fileID: 56693097510025531}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GrassPlatform 2Blocks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
