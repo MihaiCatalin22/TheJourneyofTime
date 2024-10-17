@@ -4,8 +4,8 @@ using UnityEngine;
 public class UpwardsCollapsingInfinitePlatform : TimeObject
 {
     public float moveSpeed = 2f;
-    public float ceilingYPosition = 20f; // Ensure this goes up to Y = 20
-    public float respawnYPosition = -9f; // Respawn at Y = -9 after reaching Y = 20
+    public float ceilingYPosition = 20f; 
+    public float respawnYPosition = -9f; 
     public float collapseSpeed = 5f;
     public float dropThroughDuration = 0.5f;
 
@@ -17,7 +17,6 @@ public class UpwardsCollapsingInfinitePlatform : TimeObject
     private void Start()
     {
         platformCollider = GetComponent<Collider2D>();
-        // Start the platform at its initial position without offset adjustments
     }
 
     private void Update()
@@ -45,7 +44,6 @@ public class UpwardsCollapsingInfinitePlatform : TimeObject
     private void MoveUpwards()
     {
         transform.localPosition += Vector3.up * moveSpeed * Time.deltaTime;
-        Debug.Log($"Moving Up: Current Y = {transform.localPosition.y}"); // Keep logging to monitor movement
     }
 
     private void CollapseDownwards()
@@ -55,10 +53,8 @@ public class UpwardsCollapsingInfinitePlatform : TimeObject
 
     private void CheckPositionAndRespawn()
     {
-        // Only respawn when the platform reaches or exceeds Y = 20
         if (transform.localPosition.y >= ceilingYPosition && !isRespawning)
         {
-            Debug.Log("Reached Ceiling - Respawning at Bottom");
             StartCoroutine(RespawnAtBottomWithDelay(Random.Range(0.5f, 1.5f)));
         }
     }
@@ -68,11 +64,9 @@ public class UpwardsCollapsingInfinitePlatform : TimeObject
         isRespawning = true;
         yield return new WaitForSeconds(delay);
 
-        // Respawn the platform at the specified Y = -9 position
         transform.localPosition = new Vector3(transform.localPosition.x, respawnYPosition, transform.localPosition.z);
         isRespawning = false;
         isCollapsing = false;
-        Debug.Log($"Respawned at Bottom: Current Y = {transform.localPosition.y}");
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

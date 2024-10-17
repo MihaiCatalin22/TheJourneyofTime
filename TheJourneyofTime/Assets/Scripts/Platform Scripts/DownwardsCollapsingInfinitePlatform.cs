@@ -4,8 +4,8 @@ using UnityEngine;
 public class DownwardsCollapsingInfinitePlatform : TimeObject
 {
     public float moveSpeed = 2f;
-    public float groundYPosition = -9f; // Travel down to Y = -9
-    public float respawnYPosition = 20f; // Respawn at Y = 20
+    public float groundYPosition = -9f;
+    public float respawnYPosition = 20f;
     public float collapseSpeed = 5f;
     public float dropThroughDuration = 0.5f;
     private bool isCollapsing = false;
