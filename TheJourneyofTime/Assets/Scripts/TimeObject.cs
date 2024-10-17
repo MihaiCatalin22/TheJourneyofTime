@@ -5,10 +5,10 @@ using UnityEngine;
 public class TimeObject : MonoBehaviour
 {
     public bool isRewinding = false;
-    public int maxPositions = 500000; // Set a fixed max limit for recorded positions
+    public int maxPositions = 500000;
     public float rewindCooldown = 5f;
 
-    private bool isPaused = false;
+    public bool isPaused = false;
     private bool canRewind = true;
     private List<Vector3> positions = new List<Vector3>();
     private List<Quaternion> rotations = new List<Quaternion>();
@@ -45,7 +45,6 @@ public class TimeObject : MonoBehaviour
 
     void Record()
     {
-        // Ensure the list keeps a maximum of 'maxPositions' entries
         if (positions.Count >= maxPositions)
         {
             positions.RemoveAt(positions.Count - 1);
@@ -60,7 +59,6 @@ public class TimeObject : MonoBehaviour
     {
         if (positions.Count > 0)
         {
-            // Move to the recorded position and rotation
             transform.position = positions[0];
             transform.rotation = rotations[0];
             positions.RemoveAt(0);
@@ -81,7 +79,7 @@ public class TimeObject : MonoBehaviour
         {
             savedVelocity = rb.velocity;
             savedAngularVelocity = rb.angularVelocity;
-            rb.isKinematic = true; // Keep it kinematic during rewind
+            rb.isKinematic = true;
         }
 
         if (animator != null)
