@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Spike : MonoBehaviour
 {
@@ -15,12 +14,12 @@ public class Spike : MonoBehaviour
                 playerMovement.SetDead(true);
                 collision.GetComponent<Collider2D>().enabled = false;
 
-                StartCoroutine(ChangeColorAndReloadScene(playerMovement));
+                StartCoroutine(ChangeColorAndRespawn(playerMovement, collision.gameObject));
             }
         }
     }
 
-    private IEnumerator ChangeColorAndReloadScene(Movement playerMovement)
+    private IEnumerator ChangeColorAndRespawn(Movement playerMovement, GameObject player)
     {
         SpriteRenderer spriteRenderer = playerMovement.GetComponent<SpriteRenderer>();
         Color originalColor = spriteRenderer.color;
@@ -28,6 +27,11 @@ public class Spike : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        CheckpointManager.Instance.RespawnPlayer(player);
+
+        playerMovement.ResetMovementState();
+
+        spriteRenderer.color = originalColor;
+        player.GetComponent<Collider2D>().enabled = true;
     }
 }

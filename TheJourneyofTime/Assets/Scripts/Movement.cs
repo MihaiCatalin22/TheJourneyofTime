@@ -163,4 +163,28 @@ public class Movement : MonoBehaviour
     {
         isDead = dead;
     }
+    public void ResetMovementState()
+    {
+        moveSpeed = 5f;
+        jumpForce = 10f;
+        dashSpeed = 15f;
+        dashDuration = 0.2f;
+        fallThreshold = -10f;
+
+        isDead = false;
+        isGrounded = true;
+        canDoubleJump = false;
+        canDash = true;
+        isDashing = false;
+        
+        rb.velocity = Vector2.zero;
+        rb.gravityScale = 1f;
+
+        if (deathText != null)
+        {
+            deathText.SetActive(false); 
+
+        }
+        animator.SetBool("isJumping", false);
+    }
 }
