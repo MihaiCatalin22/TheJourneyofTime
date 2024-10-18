@@ -14,12 +14,12 @@ public class Spike : MonoBehaviour
                 playerMovement.SetDead(true);
                 collision.GetComponent<Collider2D>().enabled = false;
 
-                StartCoroutine(ChangeColorAndRespawn(playerMovement, collision.gameObject));
+                StartCoroutine(ChangeColorAndRespawn(playerMovement));
             }
         }
     }
 
-    private IEnumerator ChangeColorAndRespawn(Movement playerMovement, GameObject player)
+    private IEnumerator ChangeColorAndRespawn(Movement playerMovement)
     {
         SpriteRenderer spriteRenderer = playerMovement.GetComponent<SpriteRenderer>();
         Color originalColor = spriteRenderer.color;
@@ -27,11 +27,10 @@ public class Spike : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        CheckpointManager.Instance.RespawnPlayer(player);
+        CheckpointManager.Instance.RespawnPlayer();
 
         playerMovement.ResetMovementState();
 
         spriteRenderer.color = originalColor;
-        player.GetComponent<Collider2D>().enabled = true;
     }
 }

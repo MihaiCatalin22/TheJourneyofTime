@@ -5,8 +5,9 @@ public class CheckpointManager : MonoBehaviour
 {
     public static CheckpointManager Instance;
 
-    private Vector3 currentCheckpoint = Vector3.zero; // Initialize to zero as default
+    private Vector3 currentCheckpoint = Vector3.zero;
     private GameObject player;
+    private string currentSceneName;
 
     private void Awake()
     {
@@ -21,6 +22,33 @@ public class CheckpointManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+        currentSceneName = SceneManager.GetActiveScene().name; // Store the current scene name
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    // Callback when the scene finishes loading
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+
+        // If the scene changes (not reloaded), clear the checkpoint
+        if (scene.name != currentSceneName)
+        {
+            ClearCheckpoint();
+            currentSceneName = scene.name;
+        }
+
+        // If a checkpoint exists, move the player to the checkpoint position
+        if (HasCheckpoint() && player != null)
+        {
+            player.transform.position = currentCheckpoint;
+        }
+    }
+
     public void SetCheckpoint(Vector3 checkpointPosition)
     {
         currentCheckpoint = checkpointPosition;
@@ -32,17 +60,16 @@ public class CheckpointManager : MonoBehaviour
         return currentCheckpoint != Vector3.zero; // Returns true if a checkpoint has been set
     }
 
-    public void RespawnPlayer(GameObject player)
+    // Clear the checkpoint, used when transitioning to a new scene
+    public void ClearCheckpoint()
     {
-        if (HasCheckpoint())
-        {
-            player.transform.position = currentCheckpoint;
-            Debug.Log("Player respawned at checkpoint.");
-        }
-        else
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Reload if no checkpoint
-            Debug.Log("No checkpoint set. Reloading scene.");
-        }
+        currentCheckpoint = Vector3.zero;
+        Debug.Log("Checkpoint cleared.");
+    }
+
+    public void RespawnPlayer()
+    {
+        // Reload the scene, which will trigger the respawn
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

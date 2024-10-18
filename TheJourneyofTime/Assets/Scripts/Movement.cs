@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class Movement : MonoBehaviour
@@ -13,6 +12,9 @@ public class Movement : MonoBehaviour
 
     public Transform groundCheck;
     public LayerMask whatIsGround;
+    
+    public float coyoteTimeDuration = 0.2f; // Coyote Time
+    private float coyoteTimeCounter; 
 
     private bool isFacingRight = true;
     private bool isGrounded = false;  
@@ -69,22 +71,26 @@ public class Movement : MonoBehaviour
         }
 
         animator.SetBool("isJumping", !isGrounded);
+
+        if (!isGrounded)
+        {
+            coyoteTimeCounter -= Time.deltaTime;
+        }
     }
 
     void HandleJump()
     {
-        if (isGrounded)
+        if (isGrounded || coyoteTimeCounter > 0f)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             canDoubleJump = true;
             isGrounded = false;
-            Debug.Log("Single Jump");
+            coyoteTimeCounter = 0f;
         }
         else if (canDoubleJump)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             canDoubleJump = false;
-            Debug.Log("Double Jump");
         }
     }
 
@@ -121,11 +127,15 @@ public class Movement : MonoBehaviour
         bool wasGrounded = isGrounded;
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
 
+        if (isGrounded)
+        {
+            coyoteTimeCounter = coyoteTimeDuration;
+        }
+
         if (!wasGrounded && isGrounded)
         {
             canDoubleJump = true;
             canDash = true;
-            Debug.Log("Landed and Reset Double Jump and Dash");
         }
     }
 
@@ -136,7 +146,6 @@ public class Movement : MonoBehaviour
             isGrounded = true; 
             canDoubleJump = true;
             canDash = true;
-            Debug.Log("Landed on Ground - Double Jump and Dash Available");
         }
     }
 
@@ -163,28 +172,25 @@ public class Movement : MonoBehaviour
     {
         isDead = dead;
     }
+
+    // Reset the player's movement state after death or checkpoint
     public void ResetMovementState()
     {
-        moveSpeed = 5f;
-        jumpForce = 10f;
-        dashSpeed = 15f;
-        dashDuration = 0.2f;
-        fallThreshold = -10f;
-
         isDead = false;
-        isGrounded = true;
-        canDoubleJump = false;
         canDash = true;
-        isDashing = false;
-        
-        rb.velocity = Vector2.zero;
-        rb.gravityScale = 1f;
+        canDoubleJump = true;
+        rb.gravityScale = 1f; // Reset gravity
+        rb.velocity = Vector2.zero; // Stop any movement
 
-        if (deathText != null)
+        // Reset color to normal (assuming the death effect changes the color)
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.color = Color.white;
+
+        // Re-enable colliders or any other components that were disabled on death
+        Collider2D playerCollider = GetComponent<Collider2D>();
+        if (playerCollider != null)
         {
-            deathText.SetActive(false); 
-
+            playerCollider.enabled = true;
         }
-        animator.SetBool("isJumping", false);
     }
 }
