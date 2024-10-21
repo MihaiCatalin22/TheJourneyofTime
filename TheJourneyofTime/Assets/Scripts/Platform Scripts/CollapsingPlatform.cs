@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class CollapsingPlatform : MonoBehaviour
 {
-    public float collapseDelay = 3f;
+    public float collapseDelay = 1.5f;
     public float minCollapseSpeed = 3f;
     public float maxCollapseSpeed = 9f;
     public float despawnYThreshold = -10f; 

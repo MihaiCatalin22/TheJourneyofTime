@@ -73,11 +73,5 @@ public class TrappedPlatform : MonoBehaviour
         {
             Spike.SetActive(true);
         }
-
-        // Movement playerMovement = FindObjectOfType<Movement>();
-        // if (playerMovement != null)
-        // {
-        //     playerMovement.SetDead(true);
-        // }
     }
 }

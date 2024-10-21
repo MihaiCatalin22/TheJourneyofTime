@@ -55,7 +55,7 @@ public class UpwardsCollapsingInfinitePlatform : TimeObject
     {
         if (transform.localPosition.y >= ceilingYPosition && !isRespawning)
         {
-            StartCoroutine(RespawnAtBottomWithDelay(Random.Range(0.5f, 1.5f)));
+            StartCoroutine(RespawnAtBottomWithDelay(Random.Range(0.25f, 0.35f)));
         }
     }
 
@@ -87,7 +87,7 @@ public class UpwardsCollapsingInfinitePlatform : TimeObject
 
     private IEnumerator CollapseAfterDelay()
     {
-        yield return new WaitForSeconds(Random.Range(2.5f, 3.5f));
+        yield return new WaitForSeconds(Random.Range(1f, 1.5f));
         isCollapsing = true;
         platformCollider.enabled = false;
     }

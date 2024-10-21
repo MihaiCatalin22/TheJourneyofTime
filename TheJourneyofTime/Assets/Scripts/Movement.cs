@@ -1,28 +1,34 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class Movement : MonoBehaviour
 {
-    public float moveSpeed = 5f;
-    public float jumpForce = 3f;  
-    public float dashSpeed = 15f;  
+    public float moveSpeed = 15f;
+    public float jumpForce = 10f;  
+    public float dashSpeed = 30f;  
     public float dashDuration = 0.2f;
     public float fallThreshold = -10f;
 
     public Transform groundCheck;
+    //public Transform climbCheck;
     public LayerMask whatIsGround;
+    //public LayerMask climbableLayer;
+
+    public float coyoteTimeDuration = 0.2f;
+    private float coyoteTimeCounter; 
 
     private bool isFacingRight = true;
     private bool isGrounded = false;  
     private bool canDoubleJump = false;
-    private bool canDash = true;
+    public bool canDash = true;
     private bool isDashing;
+    //private bool isClimbing = false;
     private bool isDead = false;
     private Animator animator;
 
     public float groundCheckRadius = 0.2f;
+    //public float climbSpeed = 3f; 
     private Rigidbody2D rb;
 
     public GameObject deathText;
@@ -39,7 +45,7 @@ public class Movement : MonoBehaviour
     void FixedUpdate()
     {
         if (isDead) return;
-        
+
         animator.SetFloat("xVelocity", Mathf.Abs(rb.velocity.x));
         animator.SetFloat("yVelocity", rb.velocity.y);
     }
@@ -48,43 +54,54 @@ public class Movement : MonoBehaviour
     {
         if (isDead || isDashing) return;
 
-        float moveInput = Input.GetAxis("Horizontal");
-        rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
+        //HandleClimbing();
 
-        FlipSprite();
-
-        if (Input.GetKeyDown(KeyCode.W))
+        //if (!isClimbing)
         {
-            HandleJump();
-        }
+            float moveInput = Input.GetAxis("Horizontal");
+            rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash && Mathf.Abs(moveInput) > 0)
-        {
-            StartCoroutine(Dash(Mathf.Sign(moveInput)));
-        }
+            FlipSprite();
 
-        if (transform.position.y < fallThreshold)
-        {
-            Die();
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
+            {
+                HandleJump();
+            }
+
+            if (Input.GetKeyDown(KeyCode.LeftShift) && canDash && Mathf.Abs(moveInput) > 0)
+            {
+                StartCoroutine(Dash(Mathf.Sign(moveInput)));
+            }
+
+            if (transform.position.y < fallThreshold)
+            {
+                Die();
+            }
         }
 
         animator.SetBool("isJumping", !isGrounded);
+
+        if (!isGrounded)
+        {
+            coyoteTimeCounter -= Time.deltaTime;
+        }
     }
 
     void HandleJump()
     {
-        if (isGrounded)
+        if (isGrounded || coyoteTimeCounter > 0f)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             canDoubleJump = true;
             isGrounded = false;
-            Debug.Log("Single Jump");
+            coyoteTimeCounter = 0f;
+            Debug.Log("Jumping. Double jump available.");
         }
         else if (canDoubleJump)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             canDoubleJump = false;
-            Debug.Log("Double Jump");
+            Debug.Log("Double jump.");
         }
     }
 
@@ -98,12 +115,44 @@ public class Movement : MonoBehaviour
         rb.gravityScale = 0;
 
         rb.velocity = new Vector2(direction * dashSpeed, 0);
+        Debug.Log("Dashing.");
 
         yield return new WaitForSeconds(dashDuration);
 
         rb.gravityScale = originalGravity;
         isDashing = false;
     }
+
+   // void HandleClimbing()
+   // {
+      //  bool isTouchingClimbable = Physics2D.OverlapCircle(climbCheck.position, groundCheckRadius, climbableLayer);
+      //  Debug.Log($"Climbable Check: {isTouchingClimbable}");
+//
+      //  if (isTouchingClimbable && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space)) && !isClimbing)
+//{
+      //      // Start climbing
+      //      isClimbing = true;
+      //      rb.gravityScale = 0;
+      //      rb.velocity = Vector2.zero;
+      //      Debug.Log("Started climbing.");
+      //  }
+
+      //  if (isClimbing)
+      //  {
+      //      float verticalInput = Input.GetAxis("Vertical");
+      //      float horizontalInput = Input.GetAxis("Horizontal");
+//
+      //      rb.velocity = new Vector2(horizontalInput * moveSpeed, verticalInput * climbSpeed);
+      //      Debug.Log($"Climbing... Vertical: {verticalInput}, Horizontal: {horizontalInput}");
+//
+      //      if (!isTouchingClimbable || Input.GetKeyDown(KeyCode.Space))
+     //       {
+     //           isClimbing = false;
+    //            rb.gravityScale = 1;
+    //            Debug.Log("Stopped climbing.");
+    //        }
+    //    }
+    //}
 
     void Die()
     {
@@ -121,11 +170,15 @@ public class Movement : MonoBehaviour
         bool wasGrounded = isGrounded;
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
 
+        if (isGrounded)
+        {
+            coyoteTimeCounter = coyoteTimeDuration;
+        }
+
         if (!wasGrounded && isGrounded)
         {
             canDoubleJump = true;
             canDash = true;
-            Debug.Log("Landed and Reset Double Jump and Dash");
         }
     }
 
@@ -136,7 +189,6 @@ public class Movement : MonoBehaviour
             isGrounded = true; 
             canDoubleJump = true;
             canDash = true;
-            Debug.Log("Landed on Ground - Double Jump and Dash Available");
         }
     }
 
@@ -163,28 +215,22 @@ public class Movement : MonoBehaviour
     {
         isDead = dead;
     }
+
     public void ResetMovementState()
     {
-        moveSpeed = 5f;
-        jumpForce = 10f;
-        dashSpeed = 15f;
-        dashDuration = 0.2f;
-        fallThreshold = -10f;
-
         isDead = false;
-        isGrounded = true;
-        canDoubleJump = false;
         canDash = true;
-        isDashing = false;
-        
-        rb.velocity = Vector2.zero;
+        canDoubleJump = true;
         rb.gravityScale = 1f;
+        rb.velocity = Vector2.zero;
 
-        if (deathText != null)
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.color = Color.white;
+
+        Collider2D playerCollider = GetComponent<Collider2D>();
+        if (playerCollider != null)
         {
-            deathText.SetActive(false); 
-
+            playerCollider.enabled = true;
         }
-        animator.SetBool("isJumping", false);
     }
 }
