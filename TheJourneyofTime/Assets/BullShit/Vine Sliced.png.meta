@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f49874a7a510d8c4f9deaddfab9e8b53
+guid: 6ce54188d289e844982a515f3f343103
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -43,17 +43,17 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 8
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: 0
+  spriteTessellationDetail: -1
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -110,267 +110,196 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: StoneTilesCrack1_0
+      name: pixil-layer-Layer 2_1
       rect:
         serializedVersion: 2
-        x: 24
-        y: 8
-        width: 8
-        height: 8
+        x: 38
+        y: 642
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a832fc3ed4f27c940a43d8b1b7a26fca
-      internalID: 1536855100
+      spriteID: 2ab9fa66e5d63f94fb0e6c4e67b71d9d
+      internalID: -1820775335
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StoneTilesCrack1_1
+      name: pixil-layer-Layer 2_3
       rect:
         serializedVersion: 2
-        x: 32
-        y: 8
-        width: 8
-        height: 8
+        x: 38
+        y: 610
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3a002984040fcc04b805bd0c86e9ba04
-      internalID: -228964872
+      spriteID: 2e6e2133f4b83e548b9f8a53fb477855
+      internalID: 230976714
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StoneTilesCrack1_2
+      name: pixil-layer-Layer 2_5
       rect:
         serializedVersion: 2
-        x: 40
-        y: 8
-        width: 8
-        height: 8
+        x: 38
+        y: 578
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f9984fa0e2eea374e8a123ab0f9835d8
-      internalID: -563691557
+      spriteID: ffaddecfc53c22d44967d97e4a0e050f
+      internalID: -208981969
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StoneTilesCrack1_3
+      name: pixil-layer-Layer 2_7
       rect:
         serializedVersion: 2
-        x: 48
-        y: 8
-        width: 8
-        height: 8
+        x: 38
+        y: 546
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ec0a9728fcd80b14abe995312491d14a
-      internalID: 907798545
+      spriteID: e046f6b33c28db54a87d3926b16c1c74
+      internalID: 475421220
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StoneTilesCrack1_4
+      name: pixil-layer-Layer 2_9
       rect:
         serializedVersion: 2
-        x: 56
-        y: 8
-        width: 8
-        height: 8
+        x: 38
+        y: 514
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b721b13dd2f27d3438f86efc377ee831
-      internalID: 1548981286
+      spriteID: 0d5e27f31270b4f47b9984cd506216d5
+      internalID: 1627081287
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StoneTilesCrack1_5
+      name: pixil-layer-Layer 2_10
       rect:
         serializedVersion: 2
-        x: 64
-        y: 8
-        width: 8
-        height: 8
+        x: 38
+        y: 482
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2fe0adfb9ff342b4e89195f34258941e
-      internalID: 1016680929
+      spriteID: 7321b010369a2aa41bb99fa983a410ed
+      internalID: 2076341213
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StoneTilesCrack1_6
+      name: pixil-layer-Layer 2_11
       rect:
         serializedVersion: 2
-        x: 24
-        y: 0
-        width: 8
-        height: 8
+        x: 38
+        y: 450
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5a0c349204b9b0b49aa466aca37a4cff
-      internalID: 436848142
+      spriteID: dadedfff890bc214ab40d4bac26298d5
+      internalID: -745436713
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StoneTilesCrack1_7
+      name: pixil-layer-Layer 2_13
       rect:
         serializedVersion: 2
-        x: 32
-        y: 0
-        width: 8
-        height: 8
+        x: 38
+        y: 418
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d4e525e51901d5c4cab6ffb4c28d8b11
-      internalID: 297587336
+      spriteID: cad1f24bf4c845d4395be784a62907f8
+      internalID: 1402080542
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StoneTilesCrack1_8
+      name: pixil-layer-Layer 2_14
       rect:
         serializedVersion: 2
-        x: 40
-        y: 0
-        width: 8
-        height: 8
+        x: 38
+        y: 386
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ac0fd7a4d5df927418ae8096ae8fbdab
-      internalID: -960409472
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: StoneTilesCrack1_9
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 0
-        width: 8
-        height: 8
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: dbb62415d16300f4e95a879554c84b10
-      internalID: 355869927
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: StoneTilesCrack1_10
-      rect:
-        serializedVersion: 2
-        x: 56
-        y: 0
-        width: 8
-        height: 8
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ba47130c1944dd14ba394e3d51665ad3
-      internalID: 1192950332
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: StoneTilesCrack1_11
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 0
-        width: 8
-        height: 8
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: cb807969d1c22fc48ba467c8f9b3e5c8
-      internalID: 94782014
+      spriteID: 3e052d2def82df441b670564c67b033d
+      internalID: 2023339752
       vertices: []
       indices: 
       edges: []
       weights: []
     outline: []
-    physicsShape:
-    - - {x: -24, y: -38}
-      - {x: -26, y: -41}
-      - {x: -26, y: -53}
-      - {x: -23, y: -56}
-      - {x: 23, y: -56}
-      - {x: 26, y: -53}
-      - {x: 26, y: -41}
-      - {x: 24, y: -38}
+    physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
     internalID: 1537655665
@@ -380,18 +309,21 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      StoneTilesCrack1_0: 1536855100
-      StoneTilesCrack1_1: -228964872
-      StoneTilesCrack1_10: 1192950332
-      StoneTilesCrack1_11: 94782014
-      StoneTilesCrack1_2: -563691557
-      StoneTilesCrack1_3: 907798545
-      StoneTilesCrack1_4: 1548981286
-      StoneTilesCrack1_5: 1016680929
-      StoneTilesCrack1_6: 436848142
-      StoneTilesCrack1_7: 297587336
-      StoneTilesCrack1_8: -960409472
-      StoneTilesCrack1_9: 355869927
+      pixil-layer-Layer 2_0: 242070334
+      pixil-layer-Layer 2_1: -1820775335
+      pixil-layer-Layer 2_10: 2076341213
+      pixil-layer-Layer 2_11: -745436713
+      pixil-layer-Layer 2_12: -367096865
+      pixil-layer-Layer 2_13: 1402080542
+      pixil-layer-Layer 2_14: 2023339752
+      pixil-layer-Layer 2_2: 1015968655
+      pixil-layer-Layer 2_3: 230976714
+      pixil-layer-Layer 2_4: -136106366
+      pixil-layer-Layer 2_5: -208981969
+      pixil-layer-Layer 2_6: -2010003201
+      pixil-layer-Layer 2_7: 475421220
+      pixil-layer-Layer 2_8: 2143159553
+      pixil-layer-Layer 2_9: 1627081287
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
