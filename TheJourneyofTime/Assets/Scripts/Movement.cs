@@ -1,12 +1,12 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement; // Import this to enable scene reloading
+using UnityEngine.SceneManagement;
 
 public class Movement : MonoBehaviour
 {
     public float moveSpeed = 5f;
-    public float jumpForce = 10f;  
+    public float jumpForce = 3f;  
     public float dashSpeed = 15f;  
     public float dashDuration = 0.2f;
     public float fallThreshold = -10f;
@@ -17,6 +17,7 @@ public class Movement : MonoBehaviour
     private bool isFacingRight = true;
     private bool isGrounded = false;  
     private bool canDoubleJump = false;
+    private bool canDash = true;
     private bool isDashing;
     private bool isDead = false;
     private Animator animator;
@@ -52,19 +53,16 @@ public class Movement : MonoBehaviour
 
         FlipSprite();
 
-        // Handle jump input
         if (Input.GetKeyDown(KeyCode.W))
         {
             HandleJump();
         }
 
-        // Handle dash input
-        if (Input.GetKeyDown(KeyCode.LeftShift) && Mathf.Abs(moveInput) > 0)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash && Mathf.Abs(moveInput) > 0)
         {
             StartCoroutine(Dash(Mathf.Sign(moveInput)));
         }
 
-        // Check if player fell below threshold
         if (transform.position.y < fallThreshold)
         {
             Die();
@@ -95,13 +93,15 @@ public class Movement : MonoBehaviour
         if (isDashing) yield break;
 
         isDashing = true;
+        canDash = false;
+        float originalGravity = rb.gravityScale;
         rb.gravityScale = 0;
 
         rb.velocity = new Vector2(direction * dashSpeed, 0);
 
         yield return new WaitForSeconds(dashDuration);
 
-        rb.gravityScale = 1;
+        rb.gravityScale = originalGravity;
         isDashing = false;
     }
 
@@ -112,8 +112,8 @@ public class Movement : MonoBehaviour
             deathText.SetActive(true);
         }
 
-        isDead = true; // Set this to prevent any further input or actions
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Reload the current scene
+        isDead = true;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     void CheckGroundStatus()
@@ -124,7 +124,8 @@ public class Movement : MonoBehaviour
         if (!wasGrounded && isGrounded)
         {
             canDoubleJump = true;
-            Debug.Log("Landed and Reset Double Jump");
+            canDash = true;
+            Debug.Log("Landed and Reset Double Jump and Dash");
         }
     }
 
@@ -134,7 +135,8 @@ public class Movement : MonoBehaviour
         {
             isGrounded = true; 
             canDoubleJump = true;
-            Debug.Log("Landed on Ground - Double Jump Available");
+            canDash = true;
+            Debug.Log("Landed on Ground - Double Jump and Dash Available");
         }
     }
 
@@ -160,5 +162,29 @@ public class Movement : MonoBehaviour
     public void SetDead(bool dead)
     {
         isDead = dead;
+    }
+    public void ResetMovementState()
+    {
+        moveSpeed = 5f;
+        jumpForce = 10f;
+        dashSpeed = 15f;
+        dashDuration = 0.2f;
+        fallThreshold = -10f;
+
+        isDead = false;
+        isGrounded = true;
+        canDoubleJump = false;
+        canDash = true;
+        isDashing = false;
+        
+        rb.velocity = Vector2.zero;
+        rb.gravityScale = 1f;
+
+        if (deathText != null)
+        {
+            deathText.SetActive(false); 
+
+        }
+        animator.SetBool("isJumping", false);
     }
 }

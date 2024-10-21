@@ -8,10 +8,10 @@ public class ManagerTime : MonoBehaviour
 
     public List<TimeObject> timeObjects = new List<TimeObject>();
 
-    public float stopDuration = 3f; // Duration for which time remains stopped
-    public float stopCooldownDuration = 5f; // Cooldown period before time stop can be reused
-    public float rewindDuration = 10f; // Maximum rewind duration
-    public float rewindCooldownDuration = 5f; // Cooldown period before rewind can be reused
+    public float stopDuration = 3f;
+    public float stopCooldownDuration = 5f;
+    public float rewindDuration = 10f;
+    public float rewindCooldownDuration = 5f;
 
     private bool isTimeStopped = false;
     private bool isRewinding = false;
@@ -32,13 +32,11 @@ public class ManagerTime : MonoBehaviour
 
     void Update()
     {
-        // Handle time stop activation
         if (Input.GetKeyDown(KeyCode.T) && !isStopCooldownActive && !isTimeStopped)
         {
             StartCoroutine(TimeStopRoutine());
         }
 
-        // Handle time rewind activation
         if (Input.GetKeyDown(KeyCode.R) && !isRewindCooldownActive && !isRewinding)
         {
             StartCoroutine(TimeRewindRoutine());
