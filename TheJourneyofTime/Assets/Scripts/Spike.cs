@@ -25,7 +25,7 @@ public class Spike : MonoBehaviour
         Color originalColor = spriteRenderer.color;
         spriteRenderer.color = Color.red;
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.4f);
 
         CheckpointManager.Instance.RespawnPlayer();
 

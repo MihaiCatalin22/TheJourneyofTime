@@ -4,9 +4,9 @@ using UnityEngine.SceneManagement;
 
 public class Movement : MonoBehaviour
 {
-    public float moveSpeed = 5f;
-    public float jumpForce = 3f;  
-    public float dashSpeed = 15f;  
+    public float moveSpeed = 15f;
+    public float jumpForce = 10f;  
+    public float dashSpeed = 30f;  
     public float dashDuration = 0.2f;
     public float fallThreshold = -10f;
 
