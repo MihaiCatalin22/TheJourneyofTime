@@ -9,6 +9,7 @@ public class TutorialToStart : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            CheckpointManager.Instance.ClearCheckpoint(); 
             LoadNextScene();
         }
     }
