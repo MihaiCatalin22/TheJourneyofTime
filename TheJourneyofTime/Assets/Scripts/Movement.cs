@@ -11,9 +11,11 @@ public class Movement : MonoBehaviour
     public float fallThreshold = -10f;
 
     public Transform groundCheck;
+    //public Transform climbCheck;
     public LayerMask whatIsGround;
-    
-    public float coyoteTimeDuration = 0.2f; // Coyote Time
+    //public LayerMask climbableLayer;
+
+    public float coyoteTimeDuration = 0.2f;
     private float coyoteTimeCounter; 
 
     private bool isFacingRight = true;
@@ -21,10 +23,12 @@ public class Movement : MonoBehaviour
     private bool canDoubleJump = false;
     public bool canDash = true;
     private bool isDashing;
+    //private bool isClimbing = false;
     private bool isDead = false;
     private Animator animator;
 
     public float groundCheckRadius = 0.2f;
+    //public float climbSpeed = 3f; 
     private Rigidbody2D rb;
 
     public GameObject deathText;
@@ -41,7 +45,7 @@ public class Movement : MonoBehaviour
     void FixedUpdate()
     {
         if (isDead) return;
-        
+
         animator.SetFloat("xVelocity", Mathf.Abs(rb.velocity.x));
         animator.SetFloat("yVelocity", rb.velocity.y);
     }
@@ -50,24 +54,29 @@ public class Movement : MonoBehaviour
     {
         if (isDead || isDashing) return;
 
-        float moveInput = Input.GetAxis("Horizontal");
-        rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
+        //HandleClimbing();
 
-        FlipSprite();
-
-        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
+        //if (!isClimbing)
         {
-            HandleJump();
-        }
+            float moveInput = Input.GetAxis("Horizontal");
+            rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash && Mathf.Abs(moveInput) > 0)
-        {
-            StartCoroutine(Dash(Mathf.Sign(moveInput)));
-        }
+            FlipSprite();
 
-        if (transform.position.y < fallThreshold)
-        {
-            Die();
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
+            {
+                HandleJump();
+            }
+
+            if (Input.GetKeyDown(KeyCode.LeftShift) && canDash && Mathf.Abs(moveInput) > 0)
+            {
+                StartCoroutine(Dash(Mathf.Sign(moveInput)));
+            }
+
+            if (transform.position.y < fallThreshold)
+            {
+                Die();
+            }
         }
 
         animator.SetBool("isJumping", !isGrounded);
@@ -86,11 +95,13 @@ public class Movement : MonoBehaviour
             canDoubleJump = true;
             isGrounded = false;
             coyoteTimeCounter = 0f;
+            Debug.Log("Jumping. Double jump available.");
         }
         else if (canDoubleJump)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             canDoubleJump = false;
+            Debug.Log("Double jump.");
         }
     }
 
@@ -104,12 +115,44 @@ public class Movement : MonoBehaviour
         rb.gravityScale = 0;
 
         rb.velocity = new Vector2(direction * dashSpeed, 0);
+        Debug.Log("Dashing.");
 
         yield return new WaitForSeconds(dashDuration);
 
         rb.gravityScale = originalGravity;
         isDashing = false;
     }
+
+   // void HandleClimbing()
+   // {
+      //  bool isTouchingClimbable = Physics2D.OverlapCircle(climbCheck.position, groundCheckRadius, climbableLayer);
+      //  Debug.Log($"Climbable Check: {isTouchingClimbable}");
+//
+      //  if (isTouchingClimbable && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space)) && !isClimbing)
+//{
+      //      // Start climbing
+      //      isClimbing = true;
+      //      rb.gravityScale = 0;
+      //      rb.velocity = Vector2.zero;
+      //      Debug.Log("Started climbing.");
+      //  }
+
+      //  if (isClimbing)
+      //  {
+      //      float verticalInput = Input.GetAxis("Vertical");
+      //      float horizontalInput = Input.GetAxis("Horizontal");
+//
+      //      rb.velocity = new Vector2(horizontalInput * moveSpeed, verticalInput * climbSpeed);
+      //      Debug.Log($"Climbing... Vertical: {verticalInput}, Horizontal: {horizontalInput}");
+//
+      //      if (!isTouchingClimbable || Input.GetKeyDown(KeyCode.Space))
+     //       {
+     //           isClimbing = false;
+    //            rb.gravityScale = 1;
+    //            Debug.Log("Stopped climbing.");
+    //        }
+    //    }
+    //}
 
     void Die()
     {
@@ -173,20 +216,17 @@ public class Movement : MonoBehaviour
         isDead = dead;
     }
 
-    // Reset the player's movement state after death or checkpoint
     public void ResetMovementState()
     {
         isDead = false;
         canDash = true;
         canDoubleJump = true;
-        rb.gravityScale = 1f; // Reset gravity
-        rb.velocity = Vector2.zero; // Stop any movement
+        rb.gravityScale = 1f;
+        rb.velocity = Vector2.zero;
 
-        // Reset color to normal (assuming the death effect changes the color)
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.color = Color.white;
 
-        // Re-enable colliders or any other components that were disabled on death
         Collider2D playerCollider = GetComponent<Collider2D>();
         if (playerCollider != null)
         {

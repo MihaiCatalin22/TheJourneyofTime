@@ -14,7 +14,7 @@ public class CheckpointManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Keep this object across scenes
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -25,24 +25,21 @@ public class CheckpointManager : MonoBehaviour
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        currentSceneName = SceneManager.GetActiveScene().name; // Store the current scene name
+        currentSceneName = SceneManager.GetActiveScene().name;
 
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    // Callback when the scene finishes loading
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         player = GameObject.FindGameObjectWithTag("Player");
 
-        // If the scene changes (not reloaded), clear the checkpoint
         if (scene.name != currentSceneName)
         {
             ClearCheckpoint();
             currentSceneName = scene.name;
         }
 
-        // If a checkpoint exists, move the player to the checkpoint position
         if (HasCheckpoint() && player != null)
         {
             player.transform.position = currentCheckpoint;
@@ -57,10 +54,9 @@ public class CheckpointManager : MonoBehaviour
 
     public bool HasCheckpoint()
     {
-        return currentCheckpoint != Vector3.zero; // Returns true if a checkpoint has been set
+        return currentCheckpoint != Vector3.zero;
     }
 
-    // Clear the checkpoint, used when transitioning to a new scene
     public void ClearCheckpoint()
     {
         currentCheckpoint = Vector3.zero;
@@ -69,7 +65,6 @@ public class CheckpointManager : MonoBehaviour
 
     public void RespawnPlayer()
     {
-        // Reload the scene, which will trigger the respawn
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
