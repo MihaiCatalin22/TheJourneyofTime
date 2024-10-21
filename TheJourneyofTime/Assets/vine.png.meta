@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f49874a7a510d8c4f9deaddfab9e8b53
+guid: 9b2ab2bdef5402f4ca4b12c3cbf5d1af
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -34,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -43,17 +43,17 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 8
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: 0
+  spriteTessellationDetail: -1
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -110,288 +110,236 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: StoneTilesCrack1_0
+      name: vine_0
       rect:
         serializedVersion: 2
-        x: 24
-        y: 8
-        width: 8
-        height: 8
+        x: 0
+        y: 4311.9
+        width: 512
+        height: 479.1
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a832fc3ed4f27c940a43d8b1b7a26fca
-      internalID: 1536855100
+      spriteID: 52bcd076b1e49fd4790a2dd277edfe7c
+      internalID: -654397290
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StoneTilesCrack1_1
+      name: vine_1
       rect:
         serializedVersion: 2
-        x: 32
-        y: 8
-        width: 8
-        height: 8
+        x: 0
+        y: 3832.9
+        width: 512
+        height: 479.1
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3a002984040fcc04b805bd0c86e9ba04
-      internalID: -228964872
+      spriteID: 42c68a60ed322b542b34ae4e0e184cff
+      internalID: 1844524944
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StoneTilesCrack1_2
+      name: vine_2
       rect:
         serializedVersion: 2
-        x: 40
-        y: 8
-        width: 8
-        height: 8
+        x: 0
+        y: 3353.9
+        width: 512
+        height: 479.1
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f9984fa0e2eea374e8a123ab0f9835d8
-      internalID: -563691557
+      spriteID: 367ce40663c597e43b887e6f15be034d
+      internalID: 1623523879
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StoneTilesCrack1_3
+      name: vine_3
       rect:
         serializedVersion: 2
-        x: 48
-        y: 8
-        width: 8
-        height: 8
+        x: 0
+        y: 2874.9
+        width: 512
+        height: 479.1
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ec0a9728fcd80b14abe995312491d14a
-      internalID: 907798545
+      spriteID: bd304b02880debd4681ca10210f56bb8
+      internalID: -931354936
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StoneTilesCrack1_4
+      name: vine_4
       rect:
         serializedVersion: 2
-        x: 56
-        y: 8
-        width: 8
-        height: 8
+        x: 0
+        y: 2395.9
+        width: 512
+        height: 479.1
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b721b13dd2f27d3438f86efc377ee831
-      internalID: 1548981286
+      spriteID: 89ed8540e24a45240a4bf78ebcfc3f0a
+      internalID: -1986984211
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StoneTilesCrack1_5
+      name: vine_5
       rect:
         serializedVersion: 2
-        x: 64
-        y: 8
-        width: 8
-        height: 8
+        x: 0
+        y: 1916.9
+        width: 512
+        height: 479.1
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2fe0adfb9ff342b4e89195f34258941e
-      internalID: 1016680929
+      spriteID: 887eaffa6d4a03949b52aa14767a24f8
+      internalID: -2026331660
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StoneTilesCrack1_6
+      name: vine_6
       rect:
         serializedVersion: 2
-        x: 24
-        y: 0
-        width: 8
-        height: 8
+        x: 0
+        y: 1437.9
+        width: 512
+        height: 479.1
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5a0c349204b9b0b49aa466aca37a4cff
-      internalID: 436848142
+      spriteID: fb4a4c3e963b26849ad5c42b3a538711
+      internalID: 705275868
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StoneTilesCrack1_7
+      name: vine_7
       rect:
         serializedVersion: 2
-        x: 32
-        y: 0
-        width: 8
-        height: 8
+        x: 0
+        y: 958.9
+        width: 512
+        height: 479.1
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d4e525e51901d5c4cab6ffb4c28d8b11
-      internalID: 297587336
+      spriteID: 249d430bbd8151e488f448251cd012dc
+      internalID: -73641088
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StoneTilesCrack1_8
+      name: vine_8
       rect:
         serializedVersion: 2
-        x: 40
-        y: 0
-        width: 8
-        height: 8
+        x: 0
+        y: 479.9
+        width: 512
+        height: 479.1
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ac0fd7a4d5df927418ae8096ae8fbdab
-      internalID: -960409472
+      spriteID: 72e6297155aa10747826a5b142889446
+      internalID: 1744131385
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: StoneTilesCrack1_9
+      name: vine_9
       rect:
         serializedVersion: 2
-        x: 48
-        y: 0
-        width: 8
-        height: 8
+        x: 0
+        y: 0.8999939
+        width: 512
+        height: 479.1
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dbb62415d16300f4e95a879554c84b10
-      internalID: 355869927
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: StoneTilesCrack1_10
-      rect:
-        serializedVersion: 2
-        x: 56
-        y: 0
-        width: 8
-        height: 8
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ba47130c1944dd14ba394e3d51665ad3
-      internalID: 1192950332
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: StoneTilesCrack1_11
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 0
-        width: 8
-        height: 8
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: cb807969d1c22fc48ba467c8f9b3e5c8
-      internalID: 94782014
+      spriteID: 9e30d66d59dc5c84faa398610e420dc5
+      internalID: -1781563197
       vertices: []
       indices: 
       edges: []
       weights: []
     outline: []
-    physicsShape:
-    - - {x: -24, y: -38}
-      - {x: -26, y: -41}
-      - {x: -26, y: -53}
-      - {x: -23, y: -56}
-      - {x: 23, y: -56}
-      - {x: 26, y: -53}
-      - {x: 26, y: -41}
-      - {x: 24, y: -38}
+    physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-    internalID: 1537655665
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      StoneTilesCrack1_0: 1536855100
-      StoneTilesCrack1_1: -228964872
-      StoneTilesCrack1_10: 1192950332
-      StoneTilesCrack1_11: 94782014
-      StoneTilesCrack1_2: -563691557
-      StoneTilesCrack1_3: 907798545
-      StoneTilesCrack1_4: 1548981286
-      StoneTilesCrack1_5: 1016680929
-      StoneTilesCrack1_6: 436848142
-      StoneTilesCrack1_7: 297587336
-      StoneTilesCrack1_8: -960409472
-      StoneTilesCrack1_9: 355869927
+      vine_0: -654397290
+      vine_1: 1844524944
+      vine_2: 1623523879
+      vine_3: -931354936
+      vine_4: -1986984211
+      vine_5: -2026331660
+      vine_6: 705275868
+      vine_7: -73641088
+      vine_8: 1744131385
+      vine_9: -1781563197
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
