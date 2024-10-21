@@ -87,7 +87,7 @@ public class UpwardsCollapsingInfinitePlatform : TimeObject
 
     private IEnumerator CollapseAfterDelay()
     {
-        yield return new WaitForSeconds(Random.Range(2.5f, 3.5f));
+        yield return new WaitForSeconds(Random.Range(1f, 1.5f));
         isCollapsing = true;
         platformCollider.enabled = false;
     }

@@ -19,7 +19,7 @@ public class Movement : MonoBehaviour
     private bool isFacingRight = true;
     private bool isGrounded = false;  
     private bool canDoubleJump = false;
-    private bool canDash = true;
+    public bool canDash = true;
     private bool isDashing;
     private bool isDead = false;
     private Animator animator;
@@ -55,7 +55,7 @@ public class Movement : MonoBehaviour
 
         FlipSprite();
 
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
         {
             HandleJump();
         }

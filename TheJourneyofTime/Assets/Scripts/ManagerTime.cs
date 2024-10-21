@@ -13,10 +13,10 @@ public class ManagerTime : MonoBehaviour
     public float rewindDuration = 10f;
     public float rewindCooldownDuration = 5f;
 
-    private bool isTimeStopped = false;
-    private bool isRewinding = false;
-    private bool isStopCooldownActive = false;
-    private bool isRewindCooldownActive = false;
+    public bool isTimeStopped = false;
+    public bool isRewinding = false;
+    public bool isStopCooldownActive = false;
+    public bool isRewindCooldownActive = false;
 
     void Awake()
     {
@@ -32,12 +32,12 @@ public class ManagerTime : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T) && !isStopCooldownActive && !isTimeStopped)
+        if (Input.GetKeyDown(KeyCode.Q) && !isStopCooldownActive && !isTimeStopped)
         {
             StartCoroutine(TimeStopRoutine());
         }
 
-        if (Input.GetKeyDown(KeyCode.R) && !isRewindCooldownActive && !isRewinding)
+        if (Input.GetKeyDown(KeyCode.E) && !isRewindCooldownActive && !isRewinding)
         {
             StartCoroutine(TimeRewindRoutine());
         }

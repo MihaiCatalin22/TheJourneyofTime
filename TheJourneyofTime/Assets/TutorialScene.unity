@@ -2504,7 +2504,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Jump! (W)
+  m_text: Jump! (W/Space)
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3947,12 +3947,12 @@ MonoBehaviour:
     Use the A/D keys to move around.
 
     Use
-    the W key to jump. Tap W twice to double jump.
+    the W/Space key to jump. Tap W/Space twice to double jump.
 
-    Use the Left Shift key to
-    Dash.
+    Use the Left
+    Shift key to Dash.
 
-    Use the T key to stop time. Use the R key to rewind time.
+    Use the Q key to stop time. Use the E key to rewind time.
 
     Experiment
     in this level! Go ahead and try out the mechanics.'
@@ -5097,6 +5097,10 @@ MonoBehaviour:
   stopCooldownDuration: 5
   rewindDuration: 10
   rewindCooldownDuration: 5
+  isTimeStopped: 0
+  isRewinding: 0
+  isStopCooldownActive: 0
+  isRewindCooldownActive: 0
 --- !u!4 &886323852 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4606475812732902357, guid: 4040c5fb83d00fd478e5d865762153e5, type: 3}
@@ -21212,7 +21216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f2575f2eed49c3468b4af3c5815bea3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collapseDelay: 3
+  collapseDelay: 1.5
   minCollapseSpeed: 3
   maxCollapseSpeed: 9
   despawnYThreshold: -10
@@ -22466,7 +22470,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Double Jump! (W + W)
+  m_text: Double Jump! (W/Space + W/Space)
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -27153,7 +27157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f2575f2eed49c3468b4af3c5815bea3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collapseDelay: 3
+  collapseDelay: 1.5
   minCollapseSpeed: 3
   maxCollapseSpeed: 9
   despawnYThreshold: -5
