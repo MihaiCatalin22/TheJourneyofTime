@@ -55,7 +55,7 @@ public class UpwardsCollapsingInfinitePlatform : TimeObject
     {
         if (transform.localPosition.y >= ceilingYPosition && !isRespawning)
         {
-            StartCoroutine(RespawnAtBottomWithDelay(Random.Range(0.5f, 1.5f)));
+            StartCoroutine(RespawnAtBottomWithDelay(Random.Range(0.25f, 0.35f)));
         }
     }
 
