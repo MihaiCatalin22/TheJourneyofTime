@@ -31,6 +31,11 @@ public class Movement : MonoBehaviour
     public float climbSpeed = 8f; 
     private Rigidbody2D rb;
 
+    private bool slipperyMode = false;        // Track if on slippery platform
+    private float slipperyFactor = 1f;        // Control how much input is reduced on slippery surface
+    private float slidingMomentum = 0f;       // Momentum added when sliding
+    public float slideDecayRate = 0.98f;      // Rate at which sliding slows down (close to 1 for slow decay)
+
     public GameObject deathText;
 
     void Start()
@@ -58,9 +63,7 @@ public class Movement : MonoBehaviour
 
         if (!isClimbing)
         {
-            float moveInput = Input.GetAxis("Horizontal");
-            rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
-
+            HandleMovement();
             FlipSprite();
 
             if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
@@ -68,9 +71,9 @@ public class Movement : MonoBehaviour
                 HandleJump();
             }
 
-            if (Input.GetKeyDown(KeyCode.LeftShift) && canDash && Mathf.Abs(moveInput) > 0)
+            if (Input.GetKeyDown(KeyCode.LeftShift) && canDash && Mathf.Abs(Input.GetAxis("Horizontal")) > 0)
             {
-                StartCoroutine(Dash(Mathf.Sign(moveInput)));
+                StartCoroutine(Dash(Mathf.Sign(Input.GetAxis("Horizontal"))));
             }
 
             if (transform.position.y < fallThreshold)
@@ -86,39 +89,72 @@ public class Movement : MonoBehaviour
         }
     }
 
-    void HandleClimbing()
-{
-    bool isTouchingClimbable = Physics2D.OverlapCircle(climbCheck.position, groundCheckRadius, climbableLayer);
-    Debug.Log($"Climbable Check: {isTouchingClimbable}");
-
-    if (isTouchingClimbable && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space)) && !isClimbing)
+    void HandleMovement()
     {
-        isClimbing = true;
-        rb.gravityScale = 0;
-        rb.velocity = Vector2.zero;
-        Debug.Log("Started climbing.");
+        float moveInput = Input.GetAxis("Horizontal");
 
-        canDoubleJump = true;
-        canDash = true;
-        Debug.Log("Dash and Double Jump Reset.");
-    }
-
-    if (isClimbing)
-    {
-        float verticalInput = Input.GetAxis("Vertical");
-        float horizontalInput = Input.GetAxis("Horizontal");
-
-        rb.velocity = new Vector2(horizontalInput * moveSpeed, verticalInput * climbSpeed);
-        Debug.Log($"Climbing... Vertical: {verticalInput}, Horizontal: {horizontalInput}");
-
-        if (!isTouchingClimbable || Input.GetKeyDown(KeyCode.Space))
+        if (slipperyMode)
         {
-            isClimbing = false;
-            rb.gravityScale = 1;
-            Debug.Log("Stopped climbing.");
+            if (Mathf.Abs(moveInput) > 0.1f)
+            {
+                // Adjust sliding momentum based on input and slippery factor
+                slidingMomentum = moveInput * moveSpeed * slipperyFactor;
+                rb.velocity = new Vector2(slidingMomentum, rb.velocity.y);
+            }
+            else
+            {
+                // Apply slide decay to gradually slow down momentum when no input is given
+                slidingMomentum *= slideDecayRate;
+                rb.velocity = new Vector2(slidingMomentum, rb.velocity.y);
+            }
+        }
+        else
+        {
+            // Normal movement without sliding
+            rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
         }
     }
-}
+
+    // Called by the SlipperyPlatform script to enable/disable slippery mode
+    public void SetSlippery(bool isSlippery, float factor)
+    {
+        slipperyMode = isSlippery;
+        slipperyFactor = factor;
+    }
+
+    void HandleClimbing()
+    {
+        bool isTouchingClimbable = Physics2D.OverlapCircle(climbCheck.position, groundCheckRadius, climbableLayer);
+        Debug.Log($"Climbable Check: {isTouchingClimbable}");
+
+        if (isTouchingClimbable && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space)) && !isClimbing)
+        {
+            isClimbing = true;
+            rb.gravityScale = 0;
+            rb.velocity = Vector2.zero;
+            Debug.Log("Started climbing.");
+
+            canDoubleJump = true;
+            canDash = true;
+            Debug.Log("Dash and Double Jump Reset.");
+        }
+
+        if (isClimbing)
+        {
+            float verticalInput = Input.GetAxis("Vertical");
+            float horizontalInput = Input.GetAxis("Horizontal");
+
+            rb.velocity = new Vector2(horizontalInput * moveSpeed, verticalInput * climbSpeed);
+            Debug.Log($"Climbing... Vertical: {verticalInput}, Horizontal: {horizontalInput}");
+
+            if (!isTouchingClimbable || Input.GetKeyDown(KeyCode.Space))
+            {
+                isClimbing = false;
+                rb.gravityScale = 1;
+                Debug.Log("Stopped climbing.");
+            }
+        }
+    }
 
     void HandleJump()
     {

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class FastCollapsingPlatform : MonoBehaviour
 {
@@ -6,6 +7,7 @@ public class FastCollapsingPlatform : MonoBehaviour
     public float maxCollapseSpeed = 7f;
     public float detectionRadius = 10f;
     public float despawnYThreshold = -10f;
+    public float colliderDisableDelay = 0.3f; // Delay before disabling collider
 
     private bool isCollapsing = false;
     private bool isDespawned = false;
@@ -74,8 +76,15 @@ public class FastCollapsingPlatform : MonoBehaviour
     {
         if (other.CompareTag("Player") && !isCollapsing)
         {
-            isCollapsing = true;
-            platformCollider.enabled = false;
+            StartCoroutine(StartCollapse());
         }
+    }
+
+    private IEnumerator StartCollapse()
+    {
+        isCollapsing = true;
+
+        yield return new WaitForSeconds(colliderDisableDelay);
+        platformCollider.enabled = false;
     }
 }
