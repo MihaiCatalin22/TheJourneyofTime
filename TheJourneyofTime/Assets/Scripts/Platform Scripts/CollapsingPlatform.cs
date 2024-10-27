@@ -7,7 +7,7 @@ public class CollapsingPlatform : MonoBehaviour
     public float minCollapseSpeed = 3f;
     public float maxCollapseSpeed = 9f;
     public float despawnYThreshold = -10f; 
-
+    public float colliderDisableDelay = 0.5f;
     private bool isCollapsing = false;
     private bool isDespawned = false;
     private float collapseSpeed;
@@ -83,6 +83,7 @@ public class CollapsingPlatform : MonoBehaviour
     {
         yield return new WaitForSeconds(collapseDelay);
         isCollapsing = true;
+        yield return new WaitForSeconds(colliderDisableDelay);
         platformCollider.enabled = false;
     }
 }
