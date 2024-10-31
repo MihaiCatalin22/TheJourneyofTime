@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Waterfall_RSides_Animation
   m_EditorClassIdentifier: 
   m_AnimatedSprites:
-  - {fileID: 56885724, guid: 8d6ba8c842333e3418e7e041b2dd77f0, type: 3}
+  - {fileID: 1425962920, guid: 8d6ba8c842333e3418e7e041b2dd77f0, type: 3}
   - {fileID: -277820942, guid: 8d6ba8c842333e3418e7e041b2dd77f0, type: 3}
-  - {fileID: -1031145277, guid: 8d6ba8c842333e3418e7e041b2dd77f0, type: 3}
-  - {fileID: 1949176224, guid: 8d6ba8c842333e3418e7e041b2dd77f0, type: 3}
+  - {fileID: 1531456021, guid: 8d6ba8c842333e3418e7e041b2dd77f0, type: 3}
+  - {fileID: 1061587695, guid: 8d6ba8c842333e3418e7e041b2dd77f0, type: 3}
+  - {fileID: 726517144, guid: 8d6ba8c842333e3418e7e041b2dd77f0, type: 3}
   m_MinSpeed: 1
   m_MaxSpeed: 1
   m_AnimationStartTime: 0
