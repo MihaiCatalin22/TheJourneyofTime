@@ -7,7 +7,7 @@ public class FastCollapsingPlatform : MonoBehaviour
     public float maxCollapseSpeed = 7f;
     public float detectionRadius = 10f;
     public float despawnYThreshold = -10f;
-    public float colliderDisableDelay = 0.3f; // Delay before disabling collider
+    public float colliderDisableDelay = 2f; // Delay before disabling collider
 
     private bool isCollapsing = false;
     private bool isDespawned = false;

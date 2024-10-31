@@ -130,7 +130,7 @@ public class Movement : MonoBehaviour
         if (isTouchingClimbable && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space)) && !isClimbing)
         {
             isClimbing = true;
-            rb.gravityScale = 0;
+           // rb.gravityScale = 0;
             rb.velocity = Vector2.zero;
             Debug.Log("Started climbing.");
 
@@ -150,7 +150,7 @@ public class Movement : MonoBehaviour
             if (!isTouchingClimbable || Input.GetKeyDown(KeyCode.Space))
             {
                 isClimbing = false;
-                rb.gravityScale = 1;
+                // rb.gravityScale = 1;
                 Debug.Log("Stopped climbing.");
             }
         }
