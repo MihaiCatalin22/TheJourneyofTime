@@ -13,16 +13,13 @@ MonoBehaviour:
   m_Name: Waterfall_Middle_Animation
   m_EditorClassIdentifier: 
   m_AnimatedSprites:
-  - {fileID: 1425962920, guid: 8d6ba8c842333e3418e7e041b2dd77f0, type: 3}
-  - {fileID: 737768259, guid: 8d6ba8c842333e3418e7e041b2dd77f0, type: 3}
-  - {fileID: -1357113601, guid: 8d6ba8c842333e3418e7e041b2dd77f0, type: 3}
   - {fileID: -1252355784, guid: 8d6ba8c842333e3418e7e041b2dd77f0, type: 3}
-  - {fileID: 692304263, guid: 8d6ba8c842333e3418e7e041b2dd77f0, type: 3}
+  - {fileID: -1704304973, guid: 8d6ba8c842333e3418e7e041b2dd77f0, type: 3}
+  - {fileID: 1971842356, guid: 8d6ba8c842333e3418e7e041b2dd77f0, type: 3}
+  - {fileID: -2073973917, guid: 8d6ba8c842333e3418e7e041b2dd77f0, type: 3}
   - {fileID: -1060241911, guid: 8d6ba8c842333e3418e7e041b2dd77f0, type: 3}
-  - {fileID: 1531456021, guid: 8d6ba8c842333e3418e7e041b2dd77f0, type: 3}
-  - {fileID: 294699852, guid: 8d6ba8c842333e3418e7e041b2dd77f0, type: 3}
-  m_MinSpeed: 1
-  m_MaxSpeed: 1
+  m_MinSpeed: 5
+  m_MaxSpeed: 5
   m_AnimationStartTime: 0
   m_AnimationStartFrame: 0
   m_TileColliderType: 0
