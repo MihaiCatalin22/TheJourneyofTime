@@ -3,10 +3,12 @@ using UnityEngine;
 
 public class ProximityTriggeredFall : MonoBehaviour
 {
-    public float fallDelay = 0.2f; // Delay before falling after player detection
+    public float fallDelay = 0.2f;
     private bool isFalling = false;
     private Rigidbody2D rb;
     private TimeObject timeObject;
+
+    public FallingSpikeSound fallingSpikeSound;
 
     private void Start()
     {
@@ -15,7 +17,7 @@ public class ProximityTriggeredFall : MonoBehaviour
         {
             Debug.LogError("No Rigidbody2D found on " + gameObject.name);
         }
-        rb.isKinematic = true; // Start as kinematic to prevent immediate falling
+        rb.isKinematic = true;
 
         timeObject = GetComponent<TimeObject>();
         if (timeObject == null)
@@ -26,7 +28,6 @@ public class ProximityTriggeredFall : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Ensure we detect only the player and avoid any impact on player health or movement
         if (other.CompareTag("Player") && !isFalling)
         {
             Debug.Log("Player detected. Starting fall delay.");
@@ -48,8 +49,13 @@ public class ProximityTriggeredFall : MonoBehaviour
     {
         if (isFalling) return;
         isFalling = true;
-        rb.isKinematic = false; // Enable physics for falling
-        rb.gravityScale = 1; // Set gravity scale for falling speed
+        rb.isKinematic = false;
+        rb.gravityScale = 1;
         Debug.Log("Trap falling!");
+
+        if (fallingSpikeSound != null)
+        {
+            fallingSpikeSound.PlayFallingSound();
+        }
     }
 }
