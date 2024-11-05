@@ -2,6 +2,13 @@ using UnityEngine;
 
 public class RockImpact : MonoBehaviour
 {
+    private RockImpactSound impactSoundScript;
+
+    private void Start()
+    {
+        impactSoundScript = GetComponent<RockImpactSound>();
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         BridgeSegment segment = other.GetComponent<BridgeSegment>();
@@ -11,16 +18,28 @@ public class RockImpact : MonoBehaviour
         {
             segment.TakeHit();
 
+            if (impactSoundScript != null)
+            {
+                impactSoundScript.PlayImpactSound();
+                Debug.Log("Playing Rock Impact Sound on Bridge Segment");
+            }
+
             if (rockScript != null)
             {
-                rockScript.ResetPosition();  // Reset the rock instead of destroying it
+                rockScript.ResetPosition();
             }
         }
         else
         {
+            if (impactSoundScript != null)
+            {
+                impactSoundScript.PlayImpactSound();
+                Debug.Log("Playing Rock Impact Sound on Other Object");
+            }
+
             if (rockScript != null)
             {
-                rockScript.ResetPosition();  // Reset even if it collides with other objects
+                rockScript.ResetPosition();
             }
         }
     }
