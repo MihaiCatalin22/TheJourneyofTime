@@ -9,8 +9,8 @@ public class HUDManager : MonoBehaviour
     public Color unavailableColor = Color.gray; // Color when dash is unavailable
 
     [Header("Time Manipulation")]
-    public Image timeStopTimer; // Circular clock for time stop
-    public Image timeRewindTimer; // Circular clock for time rewind
+    public Slider timeStopTimer; // Circular clock for time stop
+    public Slider timeRewindTimer; // Circular clock for time rewind
 
     private Movement playerMovement;
     private ManagerTime timeManager;
@@ -34,47 +34,64 @@ public class HUDManager : MonoBehaviour
         UpdateTimeRewindTimer();
     }
 
+    // private void UpdateDashIcon()
+    // {
+    //     if (playerMovement.canDash)
+    //     {
+    //         dashIcon.color = availableColor; // Set color to show availability
+    //     }
+    //     else
+    //     {
+    //         dashIcon.color = unavailableColor; // Grayed out when unavailable
+    //     }
+    // }
     private void UpdateDashIcon()
+{
+    if (playerMovement != null && dashIcon != null)
     {
-        if (playerMovement.canDash)
-        {
-            dashIcon.color = availableColor; // Set color to show availability
-        }
-        else
-        {
-            dashIcon.color = unavailableColor; // Grayed out when unavailable
-        }
+        dashIcon.color = playerMovement.canDash ? availableColor : unavailableColor;
     }
+}
 
     private void UpdateTimeStopTimer()
     {
-        if (timeManager.isTimeStopped)
-        {
-            timeStopTimer.fillAmount = timeManager.stopDuration / timeManager.stopCooldownDuration;
-        }
-        else if (timeManager.isStopCooldownActive)
-        {
-            timeStopTimer.fillAmount = (timeManager.stopCooldownDuration - Mathf.Max(0, timeManager.stopCooldownDuration)) / timeManager.stopCooldownDuration;
-        }
-        else
-        {
-            timeStopTimer.fillAmount = 1f; // Timer full when ready
-        }
+        timeStopTimer.value = timeManager.GetTimeStopFillAmount();
     }
 
+    // private void UpdateTimeStopTimer()
+    // {
+    //     if (timeManager.isTimeStopped)
+    //     {
+    //         timeStopTimer.fillAmount = timeManager.stopDuration / timeManager.stopCooldownDuration;
+    //     }
+    //     else if (timeManager.isStopCooldownActive)
+    //     {
+    //         timeStopTimer.fillAmount = (timeManager.stopCooldownDuration - Mathf.Max(0, timeManager.stopCooldownDuration)) / timeManager.stopCooldownDuration;
+    //     }
+    //     else
+    //     {
+    //         timeStopTimer.fillAmount = 1f; // Timer full when ready
+    //     }
+    // }
+    
     private void UpdateTimeRewindTimer()
     {
-        if (timeManager.isRewinding)
-        {
-            timeRewindTimer.fillAmount = timeManager.rewindDuration / timeManager.rewindCooldownDuration;
-        }
-        else if (timeManager.isRewindCooldownActive)
-        {
-            timeRewindTimer.fillAmount = (timeManager.rewindCooldownDuration - Mathf.Max(0, timeManager.rewindCooldownDuration)) / timeManager.rewindCooldownDuration;
-        }
-        else
-        {
-            timeRewindTimer.fillAmount = 1f; // Timer full when ready
-        }
+        timeRewindTimer.value = timeManager.GetRewindFillAmount();
     }
+
+    // private void UpdateTimeRewindTimer()
+    // {
+    //     if (timeManager.isRewinding)
+    //     {
+    //         timeRewindTimer.fillAmount = timeManager.rewindDuration / timeManager.rewindCooldownDuration;
+    //     }
+    //     else if (timeManager.isRewindCooldownActive)
+    //     {
+    //         timeRewindTimer.fillAmount = (timeManager.rewindCooldownDuration - Mathf.Max(0, timeManager.rewindCooldownDuration)) / timeManager.rewindCooldownDuration;
+    //     }
+    //     else
+    //     {
+    //         timeRewindTimer.fillAmount = 1f; // Timer full when ready
+    //     }
+    // }
 }
