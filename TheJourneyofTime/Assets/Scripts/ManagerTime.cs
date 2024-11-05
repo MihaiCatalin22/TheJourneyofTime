@@ -18,6 +18,10 @@ public class ManagerTime : MonoBehaviour
     public bool isStopCooldownActive = false;
     public bool isRewindCooldownActive = false;
 
+    // Sound References
+    public TimeStopSound timeStopSound;
+    public TimeRewindSound timeRewindSound;
+
     void Awake()
     {
         if (instance == null)
@@ -45,6 +49,12 @@ public class ManagerTime : MonoBehaviour
 
     private IEnumerator TimeStopRoutine()
     {
+        if (timeStopSound != null)
+        {
+            timeStopSound.PlayTimeStopSound();
+            Debug.Log("Playing Time Stop Sound");  // Debug for Time Stop Sound
+        }
+
         StopTimeForObjects();
         yield return new WaitForSeconds(stopDuration);
         ResumeTimeForObjects();
@@ -62,6 +72,12 @@ public class ManagerTime : MonoBehaviour
 
     private IEnumerator TimeRewindRoutine()
     {
+        if (timeRewindSound != null)
+        {
+            timeRewindSound.StartRewindSound();
+            Debug.Log("Playing Time Rewind Sound");  // Debug for Time Rewind Sound
+        }
+
         isRewinding = true;
         StartRewind();
         yield return new WaitForSeconds(rewindDuration);
@@ -74,7 +90,12 @@ public class ManagerTime : MonoBehaviour
         {
             obj.StartRewind();
         }
-        Debug.Log("Rewinding Time");
+        Debug.Log("Rewinding Time - Triggering Rewind Sound");  // Debugging
+        
+        if (timeRewindSound != null)
+        {
+            timeRewindSound.StartRewindSound();
+        }
     }
 
     private void StopRewind()
@@ -84,8 +105,12 @@ public class ManagerTime : MonoBehaviour
         {
             obj.StopRewind();
         }
-        Debug.Log("Stopped Rewinding Time");
-        StartCoroutine(TimeRewindCooldown());
+        Debug.Log("Stopped Rewinding Time - Stopping Rewind Sound");  // Debugging
+        
+        if (timeRewindSound != null)
+        {
+            timeRewindSound.StopRewindSound();
+        }
     }
 
     private IEnumerator TimeRewindCooldown()
@@ -104,7 +129,12 @@ public class ManagerTime : MonoBehaviour
         {
             obj.PauseTime();
         }
-        Debug.Log("Time has been stopped.");
+        Debug.Log("Time Stopped - Playing Time Stop Sound");  // Debugging
+
+        if (timeStopSound != null)
+        {
+            timeStopSound.PlayTimeStopSound();
+        }
     }
 
     public void ResumeTimeForObjects()
@@ -114,6 +144,11 @@ public class ManagerTime : MonoBehaviour
         {
             obj.ResumeTime();
         }
-        Debug.Log("Time has resumed.");
+        Debug.Log("Time Resumed - Stopping Time Stop Sound");  // Debugging
+
+        if (timeStopSound != null)
+        {
+            timeStopSound.StopTimeStopSound();
+        }
     }
 }

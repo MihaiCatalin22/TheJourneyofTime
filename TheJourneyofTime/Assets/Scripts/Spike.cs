@@ -11,6 +11,12 @@ public class Spike : MonoBehaviour
 
             if (playerMovement != null)
             {
+                if (playerMovement.damageSound != null)
+                {
+                    playerMovement.damageSound.PlayDamageSound();
+                    Debug.Log("Playing Damage Sound");
+                }
+
                 playerMovement.SetDead(true);
                 collision.GetComponent<Collider2D>().enabled = false;
 
