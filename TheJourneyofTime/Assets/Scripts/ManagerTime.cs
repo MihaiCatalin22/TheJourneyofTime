@@ -49,14 +49,6 @@ public class ManagerTime : MonoBehaviour
         }
     }
 
-    // private IEnumerator TimeStopRoutine()
-    // {
-    //     StopTimeForObjects();
-    //     yield return new WaitForSeconds(stopDuration);
-    //     ResumeTimeForObjects();
-    //     StartCoroutine(TimeStopCooldown());
-    // }
-
     private IEnumerator TimeStopRoutine()
     {
         isTimeStopped = true;
@@ -77,14 +69,6 @@ public class ManagerTime : MonoBehaviour
         StartCoroutine(TimeStopCooldown());
     }
 
-    // private IEnumerator TimeStopCooldown()
-    // {
-    //     isStopCooldownActive = true;
-    //     Debug.Log("Time Stop Cooldown Active");
-    //     yield return new WaitForSeconds(stopCooldownDuration);
-    //     isStopCooldownActive = false;
-    //     Debug.Log("Time Stop Ready Again");
-    // }
     private IEnumerator TimeStopCooldown()
     {
         isStopCooldownActive = true;
@@ -111,13 +95,6 @@ public class ManagerTime : MonoBehaviour
             return 1f;
     }
 
-    // private IEnumerator TimeRewindRoutine()
-    // {
-    //     isRewinding = true;
-    //     StartRewind();
-    //     yield return new WaitForSeconds(rewindDuration);
-    //     StopRewind();
-    // }
     private IEnumerator TimeRewindRoutine()
     {
         isRewinding = true;
@@ -154,15 +131,6 @@ public class ManagerTime : MonoBehaviour
         StartCoroutine(TimeRewindCooldown());
     }
 
-    // private IEnumerator TimeRewindCooldown()
-    // {
-    //     isRewindCooldownActive = true;
-    //     Debug.Log("Time Rewind Cooldown Active");
-    //     yield return new WaitForSeconds(rewindCooldownDuration);
-    //     isRewindCooldownActive = false;
-    //     Debug.Log("Time Rewind Ready Again");
-    // }
-
     private IEnumerator TimeRewindCooldown()
     {
         isRewindCooldownActive = true;
@@ -187,15 +155,6 @@ public class ManagerTime : MonoBehaviour
             return 1f;
     }
 
-    // public void StopTimeForObjects()
-    // {
-    //     isTimeStopped = true;
-    //     foreach (TimeObject obj in timeObjects)
-    //     {
-    //         obj.PauseTime();
-    //     }
-    //     Debug.Log("Time has been stopped.");
-    // }
     public void StopTimeForObjects()
     {
         foreach (TimeObject obj in timeObjects)
@@ -205,15 +164,6 @@ public class ManagerTime : MonoBehaviour
         Debug.Log("Time has been stopped.");
     }
     
-    // public void ResumeTimeForObjects()
-    // {
-    //     isTimeStopped = false;
-    //     foreach (TimeObject obj in timeObjects)
-    //     {
-    //         obj.ResumeTime();
-    //     }
-    //     Debug.Log("Time has resumed.");
-    // }
     public void ResumeTimeForObjects()
     {
         foreach (TimeObject obj in timeObjects)

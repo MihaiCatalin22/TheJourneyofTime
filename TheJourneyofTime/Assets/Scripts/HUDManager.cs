@@ -34,17 +34,6 @@ public class HUDManager : MonoBehaviour
         UpdateTimeRewindTimer();
     }
 
-    // private void UpdateDashIcon()
-    // {
-    //     if (playerMovement.canDash)
-    //     {
-    //         dashIcon.color = availableColor; // Set color to show availability
-    //     }
-    //     else
-    //     {
-    //         dashIcon.color = unavailableColor; // Grayed out when unavailable
-    //     }
-    // }
     private void UpdateDashIcon()
 {
     if (playerMovement != null && dashIcon != null)
@@ -58,40 +47,10 @@ public class HUDManager : MonoBehaviour
         timeStopTimer.value = timeManager.GetTimeStopFillAmount();
     }
 
-    // private void UpdateTimeStopTimer()
-    // {
-    //     if (timeManager.isTimeStopped)
-    //     {
-    //         timeStopTimer.fillAmount = timeManager.stopDuration / timeManager.stopCooldownDuration;
-    //     }
-    //     else if (timeManager.isStopCooldownActive)
-    //     {
-    //         timeStopTimer.fillAmount = (timeManager.stopCooldownDuration - Mathf.Max(0, timeManager.stopCooldownDuration)) / timeManager.stopCooldownDuration;
-    //     }
-    //     else
-    //     {
-    //         timeStopTimer.fillAmount = 1f; // Timer full when ready
-    //     }
-    // }
-    
+
     private void UpdateTimeRewindTimer()
     {
         timeRewindTimer.value = timeManager.GetRewindFillAmount();
     }
 
-    // private void UpdateTimeRewindTimer()
-    // {
-    //     if (timeManager.isRewinding)
-    //     {
-    //         timeRewindTimer.fillAmount = timeManager.rewindDuration / timeManager.rewindCooldownDuration;
-    //     }
-    //     else if (timeManager.isRewindCooldownActive)
-    //     {
-    //         timeRewindTimer.fillAmount = (timeManager.rewindCooldownDuration - Mathf.Max(0, timeManager.rewindCooldownDuration)) / timeManager.rewindCooldownDuration;
-    //     }
-    //     else
-    //     {
-    //         timeRewindTimer.fillAmount = 1f; // Timer full when ready
-    //     }
-    // }
 }
