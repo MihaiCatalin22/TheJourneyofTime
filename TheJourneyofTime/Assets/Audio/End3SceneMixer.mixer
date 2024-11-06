@@ -288,6 +288,20 @@ AudioMixerEffectController:
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
   m_Bypass: 0
+--- !u!244 &-1930790383431818332
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 812d748528a0fee4b87271e7ff6c7650
+  m_EffectName: Attenuation
+  m_MixLevel: f0a20e9d40dfc4c40b8de517ac6d7555
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!244 &-1488966971805951933
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
@@ -335,6 +349,25 @@ AudioMixerEffectController:
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
   m_Bypass: 0
+--- !u!243 &-91536306959222309
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Trapped Platform
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: 7864851096087dd4a851bfd2bcb83c6f
+  m_Children: []
+  m_Volume: 38f0676d4392c5d40a1e1b527b5dbbe0
+  m_Pitch: d669b161dcd662444a9e1a09be098944
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: -1930790383431818332}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
 --- !u!241 &24100000
 AudioMixerController:
   m_ObjectHideFlags: 0
@@ -369,6 +402,7 @@ AudioMixerController:
     - 9dd3c08d2d66f504092b850de7f42994
     - 03f32bc7c674ed742949ed15e8859a58
     - 4977dc17e57eaf4478ac053b664ea416
+    - 7864851096087dd4a851bfd2bcb83c6f
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: 24500006}
@@ -397,6 +431,7 @@ AudioMixerGroupController:
   - {fileID: -8957801278714295083}
   - {fileID: -2949558202041783474}
   - {fileID: -4810420646976162267}
+  - {fileID: -91536306959222309}
   m_Volume: 53976687b7338b34bae01360b27b8d93
   m_Pitch: 527a120379e07a343b857e2c41c25a24
   m_Send: 00000000000000000000000000000000
@@ -431,14 +466,17 @@ AudioMixerSnapshotController:
   m_SnapshotID: b74601b3671304941b871e11dd023521
   m_FloatValues:
     7bacd79031b282a408b3cfc8935c6bd0: -16.035946
-    e7388152831df73489afbec266abdcc4: 2.850226
+    387b0cd10d20f554e9b85d187add43cf: 0.93
+    e7388152831df73489afbec266abdcc4: -19.928473
     6769fea393826a941af0b2c95ab5ec39: -29.519157
+    1d76aa5836fe46b439d27fc4cc85baa8: -23.43374
     4b8249391faaeb64e995ea0794c2f810: -29.519157
     f50e8349ddc5a314bb7a93addb69bdb4: -19.928473
     b40bc0b97b0a94040a4f563db6c371b5: -20.610773
     95d61c5acd40cc14696a1ad42252e495: -26.404226
     716b33ba07aedf641b5e5123ca53be53: -14.816608
     296ed1bb301922d4a9f839434b475a07: -17.938717
+    38f0676d4392c5d40a1e1b527b5dbbe0: -17.938717
     31e6f0cd69c04774082bb2ae32402456: -24.900742
     690d213e7dbe2754bbbb81a0812369f9: -21.302507
     7fa26fbed74666445bfc725801dafe53: -17.29471

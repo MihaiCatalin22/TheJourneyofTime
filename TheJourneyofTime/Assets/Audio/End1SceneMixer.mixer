@@ -66,6 +66,20 @@ AudioMixerGroupController:
   m_Mute: 0
   m_Solo: 0
   m_BypassEffects: 0
+--- !u!244 &-7018445272788948072
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 63254c6af2731654ebec85e5354d7209
+  m_EffectName: Attenuation
+  m_MixLevel: 9b4c0cdbc00e0964d80aa31473152336
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!244 &-6354290805035913288
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
@@ -259,6 +273,25 @@ AudioMixerGroupController:
   m_Mute: 0
   m_Solo: 0
   m_BypassEffects: 0
+--- !u!243 &-138342399276169091
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: TrappedPlatform
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: 7ef88876d8fbedc4283a65f6c01ebbc6
+  m_Children: []
+  m_Volume: d23464b167591444a9434174882638d9
+  m_Pitch: 3e5cadbb66847644b923b73f4adeded4
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: -7018445272788948072}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
 --- !u!241 &24100000
 AudioMixerController:
   m_ObjectHideFlags: 0
@@ -291,6 +324,7 @@ AudioMixerController:
     - 770d1f4c192622b4d88de66f3281a992
     - 57374508c84760843be92aed189ca8e5
     - c16409a5363e7f448b50591d425445aa
+    - 7ef88876d8fbedc4283a65f6c01ebbc6
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: 24500006}
@@ -317,6 +351,7 @@ AudioMixerGroupController:
   - {fileID: -8120031098089376130}
   - {fileID: -287685953123912763}
   - {fileID: -4344733490300466001}
+  - {fileID: -138342399276169091}
   m_Volume: 47116f2e407802b4ea21ff25e0586158
   m_Pitch: 8304758200051b94882e15b444ca97fb
   m_Send: 00000000000000000000000000000000
@@ -350,6 +385,7 @@ AudioMixerSnapshotController:
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: da0d3a68e225e0142a0400bd48ff33a8
   m_FloatValues:
+    d23464b167591444a9434174882638d9: -19.255655
     362aafd1b92a6e8458ce9ce2a6a81b2a: -29.519157
     dc8bb052d0af65f459fd1abf5e7840c5: -26.404226
     6ecdf3b4254a4b449b5568f0aa5da803: -19.928473
