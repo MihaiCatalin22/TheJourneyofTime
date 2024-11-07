@@ -307,7 +307,6 @@ GameObject:
   - component: {fileID: 5580633583406680127}
   - component: {fileID: 6827102054095301469}
   - component: {fileID: 6177216348847003890}
-  - component: {fileID: 6250457497805174323}
   - component: {fileID: 4824965999031483623}
   - component: {fileID: 1093299296923220243}
   - component: {fileID: 7897174062874673256}
@@ -580,8 +579,8 @@ MonoBehaviour:
   isRewinding: 0
   isStopCooldownActive: 0
   isRewindCooldownActive: 0
+  activeAudioSources: []
   timeStopSound: {fileID: 0}
-  timeRewindSound: {fileID: 0}
 --- !u!114 &2957167791098863353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -649,21 +648,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b01b76e6b13925c4abebb26109226e0c, type: 3}
   landingAudioSource: {fileID: 0}
   landingMixerGroup: {fileID: 8284036467049238702, guid: 20f0c2b293081c54bbcd409b18d8623c, type: 2}
---- !u!114 &6250457497805174323
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2369380945830677075}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c84d99187b1f8f468d8faedd2d44ab5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeRewindClip: {fileID: 8300000, guid: 71ef349e5197dd140b0dcfd756795058, type: 3}
-  timeRewindAudioSource: {fileID: 0}
-  timeRewindMixerGroup: {fileID: -6981435670271749854, guid: 20f0c2b293081c54bbcd409b18d8623c, type: 2}
 --- !u!114 &4824965999031483623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -677,6 +661,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeStopClip: {fileID: 8300000, guid: 4effb3b450fc8d74ba17548eabddb6c9, type: 3}
+  timeRestartClip: {fileID: 0}
   timeStopAudioSource: {fileID: 0}
   timeStopMixerGroup: {fileID: -5552158867086859291, guid: 20f0c2b293081c54bbcd409b18d8623c, type: 2}
 --- !u!114 &1093299296923220243
@@ -707,6 +692,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vineClip: {fileID: 8300000, guid: a209b945456436540bd8e4329d6ac3a3, type: 3}
+  reverseVineClip: {fileID: 0}
   vineAudioSource: {fileID: 0}
   vineMixerGroup: {fileID: 7835984882378998975, guid: 20f0c2b293081c54bbcd409b18d8623c, type: 2}
 --- !u!1 &4896697239920208084
