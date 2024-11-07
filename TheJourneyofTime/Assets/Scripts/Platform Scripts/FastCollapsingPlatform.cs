@@ -7,7 +7,7 @@ public class FastCollapsingPlatform : MonoBehaviour
     public float maxCollapseSpeed = 7f;
     public float detectionRadius = 10f;
     public float despawnYThreshold = -10f;
-    public float colliderDisableDelay = 0.3f; // Delay before disabling collider
+    public float colliderDisableDelay = 2f;
 
     private bool isCollapsing = false;
     private bool isDespawned = false;
@@ -15,12 +15,22 @@ public class FastCollapsingPlatform : MonoBehaviour
     private Collider2D platformCollider;
     private TimeObject timeObject;
     private Renderer platformRenderer;
+    
+    // Reference to FastCollapsingPlatformSound
+    private FastCollapsingPlatformSound fastCollapseSound;
 
     private void Start()
     {
         platformCollider = GetComponent<Collider2D>();
         platformRenderer = GetComponent<Renderer>();
         collapseSpeed = Random.Range(minCollapseSpeed, maxCollapseSpeed);
+
+        // Get reference to the sound script
+        fastCollapseSound = GetComponent<FastCollapsingPlatformSound>();
+        if (fastCollapseSound == null)
+        {
+            Debug.LogError("FastCollapsingPlatformSound component is missing from this GameObject.");
+        }
 
         timeObject = GetComponent<TimeObject>();
         if (timeObject == null)
@@ -83,6 +93,13 @@ public class FastCollapsingPlatform : MonoBehaviour
     private IEnumerator StartCollapse()
     {
         isCollapsing = true;
+
+        // Play the fast collapsing sound
+        if (fastCollapseSound != null)
+        {
+            fastCollapseSound.PlayFastCollapsingSound();
+            Debug.Log("Playing Fast Collapsing Platform Sound"); // Debugging
+        }
 
         yield return new WaitForSeconds(colliderDisableDelay);
         platformCollider.enabled = false;

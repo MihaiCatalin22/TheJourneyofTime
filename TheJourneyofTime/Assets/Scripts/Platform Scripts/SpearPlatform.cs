@@ -12,6 +12,8 @@ public class SpearPlatform : MonoBehaviour
     private SpriteRenderer[] spearRenderers;
     private Collider2D[] spearColliders;
 
+    private SpearSounds spearSounds;
+
     private void Start()
     {
         if (spear == null)
@@ -21,9 +23,15 @@ public class SpearPlatform : MonoBehaviour
         }
 
         spearStartPosition = spear.transform.localPosition;
-
         spearRenderers = spear.GetComponentsInChildren<SpriteRenderer>();
         spearColliders = spear.GetComponentsInChildren<Collider2D>();
+
+        // Find the SpearPlatformSound component
+        spearSounds = GetComponent<SpearSounds>();
+        if (spearSounds == null)
+        {
+            Debug.LogError("SpearSounds component is missing on this GameObject.");
+        }
 
         StartCoroutine(SpearAttackRoutine());
     }
@@ -34,11 +42,19 @@ public class SpearPlatform : MonoBehaviour
         {
             yield return new WaitForSeconds(spearInterval);
 
+            // Activate spear visuals and colliders
             SetSpearState(true);
+
+            // Play spear going out sound
+            if (spearSounds != null)
+            {
+                spearSounds.PlaySpearOutSound();
+            }
 
             float startY = spearStartPosition.y;
             float endY = startY + spearMoveDistance;
 
+            // Move spear up
             while (spear.transform.localPosition.y < endY)
             {
                 spear.transform.localPosition += Vector3.up * spearSpeed * Time.deltaTime;
@@ -46,14 +62,22 @@ public class SpearPlatform : MonoBehaviour
             }
 
             yield return new WaitForSeconds(0.5f);
+
+            // Play spear going in sound
+            if (spearSounds != null)
+            {
+                spearSounds.PlaySpearInSound();
+            }
+
+            // Deactivate spear visuals and colliders
             SetSpearState(false);
+
+            // Move spear down
             while (spear.transform.localPosition.y > startY)
             {
                 spear.transform.localPosition -= Vector3.up * spearSpeed * Time.deltaTime;
                 yield return null;
             }
-
-            
         }
     }
 
