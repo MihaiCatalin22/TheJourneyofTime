@@ -7,19 +7,29 @@ public class CollapsingPlatform : MonoBehaviour
     public float minCollapseSpeed = 3f;
     public float maxCollapseSpeed = 9f;
     public float despawnYThreshold = -10f; 
-    public float colliderDisableDelay = 0.5f;
+    public float colliderDisableDelay = 2f;
     private bool isCollapsing = false;
     private bool isDespawned = false;
     private float collapseSpeed;
     private Collider2D platformCollider;
     private TimeObject timeObject;
     private Renderer platformRenderer;
+    
+    // Reference to CollapsingPlatformSound
+    private CollapsingPlatformSound collapseSound;
 
     private void Start()
     {
         platformCollider = GetComponent<Collider2D>();
         platformRenderer = GetComponent<Renderer>();
         collapseSpeed = Random.Range(minCollapseSpeed, maxCollapseSpeed);
+
+        // Get reference to the sound script
+        collapseSound = GetComponent<CollapsingPlatformSound>();
+        if (collapseSound == null)
+        {
+            Debug.LogError("CollapsingPlatformSound component is missing from this GameObject.");
+        }
 
         timeObject = GetComponent<TimeObject>();
         if (timeObject == null)
@@ -83,6 +93,14 @@ public class CollapsingPlatform : MonoBehaviour
     {
         yield return new WaitForSeconds(collapseDelay);
         isCollapsing = true;
+        
+        // Play the collapse sound
+        if (collapseSound != null)
+        {
+            collapseSound.PlayCollapseSound();
+            Debug.Log("Playing Collapsing Platform Sound"); // Debugging
+        }
+        
         yield return new WaitForSeconds(colliderDisableDelay);
         platformCollider.enabled = false;
     }
