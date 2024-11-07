@@ -22,6 +22,11 @@ public class ManagerTime : MonoBehaviour
     public TimeStopSound timeStopSound;
     public TimeRewindSound timeRewindSound;
 
+    private float currentStopTimer;
+    private float currentCooldownTimer;
+    private float currentRewindTimer;
+    private float currentRewindCooldownTimer;
+
     void Awake()
     {
         if (instance == null)
@@ -30,6 +35,7 @@ public class ManagerTime : MonoBehaviour
         }
         else
         {
+            Debug.Log("Destroying duplicate ManagerTime instance: " + gameObject.name);
             Destroy(gameObject);
         }
     }
@@ -49,25 +55,54 @@ public class ManagerTime : MonoBehaviour
 
     private IEnumerator TimeStopRoutine()
     {
+        isTimeStopped = true;
         if (timeStopSound != null)
         {
             timeStopSound.PlayTimeStopSound();
-            Debug.Log("Playing Time Stop Sound");  // Debug for Time Stop Sound
+            Debug.Log("Playing Time Stop Sound");
         }
 
         StopTimeForObjects();
-        yield return new WaitForSeconds(stopDuration);
+        currentStopTimer = stopDuration;
+
+        // Decrease time stop bar while active
+        while (currentStopTimer > 0)
+        {
+            currentStopTimer -= Time.deltaTime;
+            yield return null;
+        }
+
         ResumeTimeForObjects();
+        isTimeStopped = false;
+
+        // Start cooldown
         StartCoroutine(TimeStopCooldown());
     }
 
     private IEnumerator TimeStopCooldown()
     {
         isStopCooldownActive = true;
-        Debug.Log("Time Stop Cooldown Active");
-        yield return new WaitForSeconds(stopCooldownDuration);
+        currentCooldownTimer = 0; // Reset cooldown timer
+
+        // Increment cooldown timer to recharge bar
+        while (currentCooldownTimer < stopCooldownDuration)
+        {
+            currentCooldownTimer += Time.deltaTime;
+            yield return null;
+        }
+
         isStopCooldownActive = false;
         Debug.Log("Time Stop Ready Again");
+    }
+
+    public float GetTimeStopFillAmount()
+    {
+        if (isTimeStopped)
+            return currentStopTimer / stopDuration;
+        else if (isStopCooldownActive)
+            return currentCooldownTimer / stopCooldownDuration;
+        else
+            return 1f;
     }
 
     private IEnumerator TimeRewindRoutine()
@@ -79,9 +114,27 @@ public class ManagerTime : MonoBehaviour
         }
 
         isRewinding = true;
+        currentRewindTimer = rewindDuration;
+
+        if (timeRewindSound != null)
+        {
+            timeRewindSound.StartRewindSound();
+            Debug.Log("Playing Time Rewind Sound");
+        }
+
         StartRewind();
-        yield return new WaitForSeconds(rewindDuration);
+
+        // Decrease rewind timer while active
+        while (currentRewindTimer > 0)
+        {
+            currentRewindTimer -= Time.deltaTime;
+            yield return null;
+        }
+
         StopRewind();
+        isRewinding = false;
+
+        StartCoroutine(TimeRewindCooldown());
     }
 
     private void StartRewind()
@@ -90,8 +143,8 @@ public class ManagerTime : MonoBehaviour
         {
             obj.StartRewind();
         }
-        Debug.Log("Rewinding Time - Triggering Rewind Sound");  // Debugging
-        
+        Debug.Log("Rewinding Time - Triggering Rewind Sound");
+
         if (timeRewindSound != null)
         {
             timeRewindSound.StartRewindSound();
@@ -100,13 +153,12 @@ public class ManagerTime : MonoBehaviour
 
     private void StopRewind()
     {
-        isRewinding = false;
         foreach (TimeObject obj in timeObjects)
         {
             obj.StopRewind();
         }
-        Debug.Log("Stopped Rewinding Time - Stopping Rewind Sound");  // Debugging
-        
+        Debug.Log("Stopped Rewinding Time - Stopping Rewind Sound");
+
         if (timeRewindSound != null)
         {
             timeRewindSound.StopRewindSound();
@@ -116,15 +168,31 @@ public class ManagerTime : MonoBehaviour
     private IEnumerator TimeRewindCooldown()
     {
         isRewindCooldownActive = true;
-        Debug.Log("Time Rewind Cooldown Active");
-        yield return new WaitForSeconds(rewindCooldownDuration);
+        currentRewindCooldownTimer = 0;
+
+        // Increment cooldown timer for rewind
+        while (currentRewindCooldownTimer < rewindCooldownDuration)
+        {
+            currentRewindCooldownTimer += Time.deltaTime;
+            yield return null;
+        }
+
         isRewindCooldownActive = false;
         Debug.Log("Time Rewind Ready Again");
     }
 
+    public float GetRewindFillAmount()
+    {
+        if (isRewinding)
+            return currentRewindTimer / rewindDuration;
+        else if (isRewindCooldownActive)
+            return currentRewindCooldownTimer / rewindCooldownDuration;
+        else
+            return 1f;
+    }
+
     public void StopTimeForObjects()
     {
-        isTimeStopped = true;
         foreach (TimeObject obj in timeObjects)
         {
             obj.PauseTime();
@@ -139,7 +207,6 @@ public class ManagerTime : MonoBehaviour
 
     public void ResumeTimeForObjects()
     {
-        isTimeStopped = false;
         foreach (TimeObject obj in timeObjects)
         {
             obj.ResumeTime();
