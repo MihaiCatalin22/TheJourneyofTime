@@ -2892,8 +2892,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 378189515}
-  regularClip: {fileID: 0}
-  reversedClip: {fileID: 8300000, guid: 38f32a196b1904247949a614569618b9, type: 3}
+  regularClips: []
+  reversedClips:
+  - {fileID: 8300000, guid: 38f32a196b1904247949a614569618b9, type: 3}
 --- !u!1001 &379203517
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3488,8 +3489,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 105796839}
-  regularClip: {fileID: 8300000, guid: a209b945456436540bd8e4329d6ac3a3, type: 3}
-  reversedClip: {fileID: 8300000, guid: c23265a1f3aaf1f49b9fd7082661d740, type: 3}
+  regularClips: []
+  reversedClips: []
 --- !u!1001 &450426297
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6353,7 +6354,6 @@ GameObject:
   m_Component:
   - component: {fileID: 738525339}
   - component: {fileID: 738525338}
-  - component: {fileID: 738525337}
   m_Layer: 0
   m_Name: TrappedPlatformAudioSource
   m_TagString: Untagged
@@ -6361,21 +6361,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &738525337
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 738525336}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cfea4051376cf5469808866fa424804, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 738525338}
-  regularClip: {fileID: 0}
-  reversedClip: {fileID: 8300000, guid: 5955ddeae0902084b82ad8007aff98a7, type: 3}
 --- !u!82 &738525338
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7862,6 +7847,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3432917187213944957, guid: 067ddb21dc07808438a8c64408892170, type: 3}
       insertIndex: -1
       addedObject: {fileID: 902135712}
+    - targetCorrespondingSourceObject: {fileID: 3432917187213944957, guid: 067ddb21dc07808438a8c64408892170, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 902135713}
   m_SourcePrefab: {fileID: 100100000, guid: 067ddb21dc07808438a8c64408892170, type: 3}
 --- !u!4 &902135709 stripped
 Transform:
@@ -7907,6 +7895,22 @@ MonoBehaviour:
   reverseSpikeExtendSound: {fileID: 8300000, guid: 5955ddeae0902084b82ad8007aff98a7, type: 3}
   randomExtendSounds: []
   reverseRandomExtendSounds: []
+--- !u!114 &902135713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 902135710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cfea4051376cf5469808866fa424804, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource: {fileID: 738525338}
+  regularClips: []
+  reversedClips:
+  - {fileID: 8300000, guid: 5955ddeae0902084b82ad8007aff98a7, type: 3}
 --- !u!4 &906521694 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4606475812732902357, guid: 4040c5fb83d00fd478e5d865762153e5, type: 3}
@@ -10340,8 +10344,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 1232154354}
-  regularClip: {fileID: 8300000, guid: 83eaf806b18901e4ebe5889167bf3684, type: 3}
-  reversedClip: {fileID: 8300000, guid: 3df370d2647006c409ac7b07ca465e57, type: 3}
+  regularClips: []
+  reversedClips: []
 --- !u!1001 &1232576932
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -72815,7 +72819,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transitionClip: {fileID: 8300000, guid: d81fb022c429f4d4fa2b21a0b3ba5965, type: 3}
-  reverseTransitionClip: {fileID: 0}
+  reverseTransitionClip: {fileID: 8300000, guid: 38f32a196b1904247949a614569618b9, type: 3}
   transitionAudioSource: {fileID: 378189515}
   transitionMixerGroup: {fileID: 8222750374565944560, guid: 20f0c2b293081c54bbcd409b18d8623c, type: 2}
 --- !u!4 &1433503020 stripped
@@ -72964,8 +72968,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 1667749702}
-  regularClip: {fileID: 0}
-  reversedClip: {fileID: 8300000, guid: 5a3643e63caf88e44a9bd7794d7e6cdc, type: 3}
+  regularClips: []
+  reversedClips:
+  - {fileID: 8300000, guid: 5a3643e63caf88e44a9bd7794d7e6cdc, type: 3}
 --- !u!1001 &1437703036
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -73107,8 +73112,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 1667749702}
-  regularClip: {fileID: 0}
-  reversedClip: {fileID: 8300000, guid: 5a3643e63caf88e44a9bd7794d7e6cdc, type: 3}
+  regularClips: []
+  reversedClips:
+  - {fileID: 8300000, guid: 5a3643e63caf88e44a9bd7794d7e6cdc, type: 3}
 --- !u!1001 &1439084867
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -74482,8 +74488,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 1459167852}
-  regularClip: {fileID: 8300000, guid: 25438b6dde100eb42aed7d154af4050b, type: 3}
-  reversedClip: {fileID: 8300000, guid: d768e5ed6bda594448725a66e6affe71, type: 3}
+  regularClips: []
+  reversedClips:
+  - {fileID: 8300000, guid: d768e5ed6bda594448725a66e6affe71, type: 3}
 --- !u!1001 &1559943862
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -76526,8 +76533,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 105796839}
-  regularClip: {fileID: 0}
-  reversedClip: {fileID: 8300000, guid: c23265a1f3aaf1f49b9fd7082661d740, type: 3}
+  regularClips: []
+  reversedClips: []
 --- !u!1001 &1789117867
 PrefabInstance:
   m_ObjectHideFlags: 0

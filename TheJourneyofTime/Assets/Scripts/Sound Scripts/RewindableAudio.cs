@@ -1,13 +1,15 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class RewindableAudio : MonoBehaviour
 {
     public AudioSource audioSource;
-    public AudioClip regularClip;
-    public AudioClip reversedClip;
+    public List<AudioClip> regularClips = new List<AudioClip>();
+    public List<AudioClip> reversedClips = new List<AudioClip>();
 
     private bool isReversed = false; // Track if currently playing reversed clip
     private float clipLength;
+    private int currentClipIndex = 0; // Index to track which sound to play
 
     private void Start()
     {
@@ -19,65 +21,62 @@ public class RewindableAudio : MonoBehaviour
         if (audioSource == null)
         {
             Debug.LogError("AudioSource component is missing on " + gameObject.name);
+        }
+
+        // Check if there are clips in the list
+        if (regularClips.Count == 0 || reversedClips.Count == 0)
+        {
+            Debug.LogWarning("No regular or reversed clips assigned on " + gameObject.name);
             return;
         }
 
-        // Ensure Play on Awake is off to prevent auto-playing
-        audioSource.playOnAwake = false;
-
-        // Set up clip length for switching between regular and reversed playback
-        if (regularClip != null)
-        {
-            clipLength = regularClip.length;
-        }
-        else
-        {
-            Debug.LogWarning("No regular clip assigned to " + gameObject.name);
-        }
+        // Assume the first clip's length for consistency
+        clipLength = regularClips[0].length;
     }
 
-    public void PlayRegular()
+    public void PlayRegular(int index = -1)
     {
-        if (audioSource == null || regularClip == null) return;
+        if (audioSource == null || regularClips.Count == 0) return;
 
-        // Switch to regular playback if currently reversed
-        if (isReversed)
-        {
-            float reversedPosition = audioSource.time;
-            float regularPosition = clipLength - reversedPosition;
-            audioSource.clip = regularClip;
-            audioSource.time = Mathf.Clamp(regularPosition, 0, clipLength);
-            isReversed = false;
-        }
-        else if (!audioSource.isPlaying)
-        {
-            audioSource.clip = regularClip;
-            audioSource.time = 0;
-        }
+        // Set the clip based on the provided index, or play the current one if index is -1
+        currentClipIndex = (index >= 0 && index < regularClips.Count) ? index : currentClipIndex;
+
+        audioSource.clip = regularClips[currentClipIndex];
+        audioSource.time = isReversed ? clipLength - audioSource.time : audioSource.time;
+        isReversed = false;
 
         audioSource.Play();
+        Debug.Log($"Playing regular clip '{audioSource.clip.name}' at index {currentClipIndex}");
     }
 
-    public void PlayReversed()
+    public void PlayReversed(int index = -1)
     {
-        if (audioSource == null || reversedClip == null) return;
+        if (audioSource == null || reversedClips.Count == 0) return;
 
-        // Switch to reversed playback if currently regular
-        if (!isReversed)
-        {
-            float regularPosition = audioSource.time;
-            float reversedPosition = clipLength - regularPosition;
-            audioSource.clip = reversedClip;
-            audioSource.time = Mathf.Clamp(reversedPosition, 0, clipLength);
-            isReversed = true;
-        }
-        else if (!audioSource.isPlaying)
-        {
-            audioSource.clip = reversedClip;
-            audioSource.time = 0;
-        }
+        currentClipIndex = (index >= 0 && index < reversedClips.Count) ? index : currentClipIndex;
+
+        audioSource.clip = reversedClips[currentClipIndex];
+        audioSource.time = !isReversed ? clipLength - audioSource.time : audioSource.time;
+        isReversed = true;
 
         audioSource.Play();
+        Debug.Log($"Playing reversed clip '{audioSource.clip.name}' at index {currentClipIndex}");
+    }
+
+    public void PlayRandomRegular()
+    {
+        if (regularClips.Count == 0) return;
+
+        int randomIndex = Random.Range(0, regularClips.Count);
+        PlayRegular(randomIndex);
+    }
+
+    public void PlayRandomReversed()
+    {
+        if (reversedClips.Count == 0) return;
+
+        int randomIndex = Random.Range(0, reversedClips.Count);
+        PlayReversed(randomIndex);
     }
 
     public void PauseAudio()
@@ -85,6 +84,7 @@ public class RewindableAudio : MonoBehaviour
         if (audioSource != null && audioSource.isPlaying)
         {
             audioSource.Pause();
+            Debug.Log("Audio paused for " + gameObject.name);
         }
     }
 
@@ -93,6 +93,7 @@ public class RewindableAudio : MonoBehaviour
         if (audioSource != null && !audioSource.isPlaying)
         {
             audioSource.UnPause();
+            Debug.Log("Audio unpaused for " + gameObject.name);
         }
     }
 }
