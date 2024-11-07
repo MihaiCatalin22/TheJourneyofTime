@@ -107,6 +107,12 @@ public class ManagerTime : MonoBehaviour
 
     private IEnumerator TimeRewindRoutine()
     {
+        if (timeRewindSound != null)
+        {
+            timeRewindSound.StartRewindSound();
+            Debug.Log("Playing Time Rewind Sound");  // Debug for Time Rewind Sound
+        }
+
         isRewinding = true;
         currentRewindTimer = rewindDuration;
 
@@ -191,7 +197,7 @@ public class ManagerTime : MonoBehaviour
         {
             obj.PauseTime();
         }
-        Debug.Log("Time has been stopped.");
+        Debug.Log("Time Stopped - Playing Time Stop Sound");  // Debugging
 
         if (timeStopSound != null)
         {
@@ -205,7 +211,7 @@ public class ManagerTime : MonoBehaviour
         {
             obj.ResumeTime();
         }
-        Debug.Log("Time has resumed.");
+        Debug.Log("Time Resumed - Stopping Time Stop Sound");  // Debugging
 
         if (timeStopSound != null)
         {
