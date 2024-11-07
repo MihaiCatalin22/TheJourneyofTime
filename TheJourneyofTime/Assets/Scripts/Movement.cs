@@ -23,7 +23,6 @@ public class Movement : MonoBehaviour
     private bool canDoubleJump = false;
     public bool canDash = true;
     private bool isDashing;
-    private bool isClimbing = false;
     private bool isDead = false;
     private Animator animator;
 
@@ -31,12 +30,24 @@ public class Movement : MonoBehaviour
     public float climbSpeed = 8f; 
     private Rigidbody2D rb;
 
-    private bool slipperyMode = false;        // Track if on slippery platform
-    private float slipperyFactor = 1f;        // Control how much input is reduced on slippery surface
-    private float slidingMomentum = 0f;       // Momentum added when sliding
-    public float slideDecayRate = 0.98f;      // Rate at which sliding slows down (close to 1 for slow decay)
+    public DashingSound dashingSound;
+    public JumpingSound jumpingSound;
+    public LandingSound landingSound;
+    public DamageSound damageSound;
+    public VineClimbingSound vineClimbingSound;
+    private bool slipperyMode = false;
+    private float slipperyFactor = 1f;
+    private float slidingMomentum = 0f;
+    public float slideDecayRate = 0.98f;
 
     public GameObject deathText;
+
+    // Public properties for sound triggers
+    public bool isRunning { get; private set; }
+    public bool isClimbing { get; private set; }
+    public bool JumpedThisFrame { get; private set; }
+    public bool LandedThisFrame { get; private set; }
+    public bool DashedThisFrame { get; private set; }
 
     void Start()
     {
@@ -81,41 +92,46 @@ public class Movement : MonoBehaviour
                 Die();
             }
         }
-
         animator.SetBool("isJumping", !isGrounded);
         if (!isGrounded)
         {
             coyoteTimeCounter -= Time.deltaTime;
         }
+
+        CheckGroundStatus();
+
+        // Reset frame-based properties
+        JumpedThisFrame = false;
+        LandedThisFrame = false;
+        DashedThisFrame = false;
     }
 
     void HandleMovement()
     {
         float moveInput = Input.GetAxis("Horizontal");
 
+        isRunning = Mathf.Abs(moveInput) > 0.1f;
+        Debug.Log("isRunning: " + isRunning);  // Debug for running state
+
         if (slipperyMode)
         {
             if (Mathf.Abs(moveInput) > 0.1f)
             {
-                // Adjust sliding momentum based on input and slippery factor
                 slidingMomentum = moveInput * moveSpeed * slipperyFactor;
                 rb.velocity = new Vector2(slidingMomentum, rb.velocity.y);
             }
             else
             {
-                // Apply slide decay to gradually slow down momentum when no input is given
                 slidingMomentum *= slideDecayRate;
                 rb.velocity = new Vector2(slidingMomentum, rb.velocity.y);
             }
         }
         else
         {
-            // Normal movement without sliding
             rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
         }
     }
 
-    // Called by the SlipperyPlatform script to enable/disable slippery mode
     public void SetSlippery(bool isSlippery, float factor)
     {
         slipperyMode = isSlippery;
@@ -125,18 +141,20 @@ public class Movement : MonoBehaviour
     void HandleClimbing()
     {
         bool isTouchingClimbable = Physics2D.OverlapCircle(climbCheck.position, groundCheckRadius, climbableLayer);
-        Debug.Log($"Climbable Check: {isTouchingClimbable}");
 
         if (isTouchingClimbable && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space)) && !isClimbing)
         {
             isClimbing = true;
-            rb.gravityScale = 0;
             rb.velocity = Vector2.zero;
-            Debug.Log("Started climbing.");
 
             canDoubleJump = true;
             canDash = true;
-            Debug.Log("Dash and Double Jump Reset.");
+            Debug.Log("Started Climbing - Playing Vine Climbing Sound");
+
+            if (vineClimbingSound != null)
+            {
+                vineClimbingSound.PlayVineClimbSound();
+            }
         }
 
         if (isClimbing)
@@ -145,13 +163,16 @@ public class Movement : MonoBehaviour
             float horizontalInput = Input.GetAxis("Horizontal");
 
             rb.velocity = new Vector2(horizontalInput * moveSpeed, verticalInput * climbSpeed);
-            Debug.Log($"Climbing... Vertical: {verticalInput}, Horizontal: {horizontalInput}");
 
             if (!isTouchingClimbable || Input.GetKeyDown(KeyCode.Space))
             {
                 isClimbing = false;
-                rb.gravityScale = 1;
-                Debug.Log("Stopped climbing.");
+                Debug.Log("Stopped Climbing - Stopping Vine Climbing Sound");
+
+                if (vineClimbingSound != null)
+                {
+                    vineClimbingSound.StopVineClimbSound();
+                }
             }
         }
     }
@@ -164,13 +185,25 @@ public class Movement : MonoBehaviour
             canDoubleJump = true;
             isGrounded = false;
             coyoteTimeCounter = 0f;
-            Debug.Log("Jumping. Double jump available.");
+            JumpedThisFrame = true;
+            Debug.Log("Player Jumped");  // Debug for jump
+            
+            if (jumpingSound != null)
+            {
+                jumpingSound.PlayJumpSound();
+            }
         }
         else if (canDoubleJump)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             canDoubleJump = false;
-            Debug.Log("Double jump.");
+            JumpedThisFrame = true;
+            Debug.Log("Player Double Jumped");  // Debug for double jump
+            
+            if (jumpingSound != null)
+            {
+                jumpingSound.PlayJumpSound();
+            }
         }
     }
 
@@ -184,7 +217,12 @@ public class Movement : MonoBehaviour
         rb.gravityScale = 0;
 
         rb.velocity = new Vector2(direction * dashSpeed, 0);
-        Debug.Log("Dashing.");
+        DashedThisFrame = true;
+        
+        if (dashingSound != null)
+        {
+            dashingSound.PlayDashSound();
+        }
 
         yield return new WaitForSeconds(dashDuration);
 
@@ -203,22 +241,33 @@ public class Movement : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    void CheckGroundStatus()
+   void CheckGroundStatus()
+{
+    bool wasGrounded = isGrounded;
+    Collider2D groundCollider = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
+    isGrounded = groundCollider != null;
+
+    Debug.Log("Was grounded: " + wasGrounded + ", Is grounded: " + isGrounded);
+
+    if (!wasGrounded && isGrounded)
     {
-        bool wasGrounded = isGrounded;
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
+        Debug.Log("Player has just landed");
+        canDoubleJump = true;
+        canDash = true;
+        LandedThisFrame = true;
 
-        if (isGrounded)
+        if (landingSound != null)
         {
-            coyoteTimeCounter = coyoteTimeDuration;
-        }
-
-        if (!wasGrounded && isGrounded)
-        {
-            canDoubleJump = true;
-            canDash = true;
+            Debug.Log("Triggering Landing Sound");
+            landingSound.PlayLandingSound();
         }
     }
+    else if (!isGrounded && wasGrounded)
+    {
+        Debug.Log("Player has left the ground");
+    }
+}
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

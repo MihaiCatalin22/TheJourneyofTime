@@ -6,18 +6,21 @@ public class TrappedPlatform : MonoBehaviour
     public GameObject Spike;
     public float spikesDelay = 0.5f;
     public int flashCount = 10;
-    public float flashDuration = 0.05f; 
-
+    public float flashDuration = 0.05f;
+    
     private bool isTriggered = false;
     private TimeObject timeObject;
     private Renderer platformRenderer;
     private Color originalColor;
     public Color flashColor = Color.red;
 
+    private TrappedStabSound trappedStabSound;
+
     private void Start()
     {
         timeObject = GetComponent<TimeObject>();
         platformRenderer = GetComponent<Renderer>();
+        trappedStabSound = GetComponent<TrappedStabSound>();
 
         if (timeObject == null)
         {
@@ -40,6 +43,11 @@ public class TrappedPlatform : MonoBehaviour
         else
         {
             Debug.LogError("Spike GameObject is not assigned to the TrappedPlatform.");
+        }
+
+        if (trappedStabSound == null)
+        {
+            Debug.LogWarning("TrappedStabSound component is missing from TrappedPlatform.");
         }
     }
 
@@ -72,6 +80,10 @@ public class TrappedPlatform : MonoBehaviour
         if (Spike != null)
         {
             Spike.SetActive(true);
+            if (trappedStabSound != null)
+            {
+                trappedStabSound.PlaySpikeExtendSound();
+            }
         }
     }
 }
