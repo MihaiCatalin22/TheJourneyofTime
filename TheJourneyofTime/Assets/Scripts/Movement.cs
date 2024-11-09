@@ -230,7 +230,7 @@ public class Movement : MonoBehaviour
         isDashing = false;
     }
 
-    void Die()
+    public void Die()
     {
         if (deathText != null)
         {
