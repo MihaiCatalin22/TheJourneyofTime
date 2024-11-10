@@ -10,6 +10,7 @@ public class Movement : MonoBehaviour
     public float dashDuration = 0.2f;
     public float fallThreshold = -10f;
 
+    public ParticleSystem dust;
     public Transform groundCheck;
     public Transform climbCheck;
     public LayerMask whatIsGround;
@@ -195,6 +196,7 @@ public class Movement : MonoBehaviour
         }
         else if (canDoubleJump)
         {
+            CreateDust();
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             canDoubleJump = false;
             JumpedThisFrame = true;
@@ -222,6 +224,7 @@ public class Movement : MonoBehaviour
         if (dashingSound != null)
         {
             dashingSound.PlayDashSound();
+            CreateDust();
         }
 
         yield return new WaitForSeconds(dashDuration);
@@ -230,7 +233,7 @@ public class Movement : MonoBehaviour
         isDashing = false;
     }
 
-    void Die()
+    public void Die()
     {
         if (deathText != null)
         {
@@ -319,5 +322,9 @@ public class Movement : MonoBehaviour
         {
             playerCollider.enabled = true;
         }
+    }
+
+    void CreateDust(){
+        dust.Play();
     }
 }
