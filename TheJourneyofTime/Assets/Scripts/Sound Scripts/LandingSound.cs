@@ -4,7 +4,7 @@ using UnityEngine.Audio;
 
 public class LandingSound : MonoBehaviour
 {
-    public List<AudioClip> landingClips; // List of landing sounds
+    public List<AudioClip> landingClips;
     public AudioSource landingAudioSource;
     public AudioMixerGroup landingMixerGroup;
 
@@ -13,7 +13,6 @@ public class LandingSound : MonoBehaviour
         if (landingAudioSource != null)
         {
             landingAudioSource.outputAudioMixerGroup = landingMixerGroup;
-            Debug.Log("Landing Audio Source setup complete.");
         }
         else
         {
@@ -28,7 +27,6 @@ public class LandingSound : MonoBehaviour
             AudioClip clipToPlay = landingClips[Random.Range(0, landingClips.Count)];
             landingAudioSource.clip = clipToPlay;
             landingAudioSource.Play();
-            Debug.Log("Playing random landing sound: " + clipToPlay.name);
         }
         else
         {

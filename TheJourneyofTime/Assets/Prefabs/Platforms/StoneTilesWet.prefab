@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2494007212868035412}
   m_Layer: 6
   m_Name: StoneTilesWet
-  m_TagString: Untagged
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

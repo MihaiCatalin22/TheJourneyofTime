@@ -4,7 +4,7 @@ public class WaterfallSound : MonoBehaviour
 {
     public AudioSource waterfallAudioSource;
     public AudioClip waterfallClip;
-    public AudioClip reverseWaterfallClip; // Reversed version for rewind effect
+    public AudioClip reverseWaterfallClip;
 
     private bool isRewinding = false;
 
@@ -15,7 +15,6 @@ public class WaterfallSound : MonoBehaviour
             waterfallAudioSource.clip = waterfallClip;
             waterfallAudioSource.loop = true;
             waterfallAudioSource.Play();
-            Debug.Log("Waterfall Sound Playing");
         }
         else
         {
@@ -29,7 +28,6 @@ public class WaterfallSound : MonoBehaviour
         {
             waterfallAudioSource.clip = isRewinding ? reverseWaterfallClip : waterfallClip;
             waterfallAudioSource.Play();
-            Debug.Log(isRewinding ? "Playing reversed waterfall sound" : "Playing normal waterfall sound");
         }
     }
 
@@ -38,7 +36,6 @@ public class WaterfallSound : MonoBehaviour
         if (waterfallAudioSource.isPlaying)
         {
             waterfallAudioSource.Stop();
-            Debug.Log("Waterfall sound stopped.");
         }
     }
 

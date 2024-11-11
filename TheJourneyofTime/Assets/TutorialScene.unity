@@ -2941,7 +2941,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 378189513}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cfea4051376cf5469808866fa424804, type: 3}
+  m_Script: {fileID: 11500000, guid: 9531e719af426ce418611a1661564fef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 378189515}
@@ -3544,6 +3544,9 @@ MonoBehaviour:
   audioSource: {fileID: 105796839}
   regularClips: []
   reversedClips: []
+  isReversed: 0
+  clipLength: 0
+  currentClipIndex: 0
 --- !u!1001 &450426297
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8257,7 +8260,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 902135710}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cfea4051376cf5469808866fa424804, type: 3}
+  m_Script: {fileID: 11500000, guid: 9531e719af426ce418611a1661564fef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 738525338}
@@ -10873,7 +10876,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1232154353}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cfea4051376cf5469808866fa424804, type: 3}
+  m_Script: {fileID: 11500000, guid: 9531e719af426ce418611a1661564fef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 1232154354}
@@ -73497,7 +73500,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1434391411}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cfea4051376cf5469808866fa424804, type: 3}
+  m_Script: {fileID: 11500000, guid: 9531e719af426ce418611a1661564fef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 1667749702}
@@ -73641,7 +73644,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1437703038}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cfea4051376cf5469808866fa424804, type: 3}
+  m_Script: {fileID: 11500000, guid: 9531e719af426ce418611a1661564fef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 1667749702}
@@ -75092,7 +75095,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1558446919}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cfea4051376cf5469808866fa424804, type: 3}
+  m_Script: {fileID: 11500000, guid: 9531e719af426ce418611a1661564fef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 1459167852}
@@ -77316,7 +77319,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1780465941}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cfea4051376cf5469808866fa424804, type: 3}
+  m_Script: {fileID: 11500000, guid: 9531e719af426ce418611a1661564fef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 105796839}
@@ -86237,6 +86240,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 224426706064259487, guid: 22d61646809ac124081495da40a8407d, type: 3}
+      propertyPath: dust
+      value: 
+      objectReference: {fileID: 7031315933148963140}
+    - target: {fileID: 224426706064259487, guid: 22d61646809ac124081495da40a8407d, type: 3}
       propertyPath: climbCheck
       value: 
       objectReference: {fileID: 7031315933148963138}
@@ -86417,6 +86424,11 @@ Transform:
 --- !u!4 &7031315933148963139 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7927038548556046951, guid: 22d61646809ac124081495da40a8407d, type: 3}
+  m_PrefabInstance: {fileID: 7031315933148963137}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &7031315933148963140 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 8692829111657017021, guid: 22d61646809ac124081495da40a8407d, type: 3}
   m_PrefabInstance: {fileID: 7031315933148963137}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &7031315933148963149 stripped

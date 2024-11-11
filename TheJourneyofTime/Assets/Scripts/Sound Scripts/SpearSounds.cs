@@ -29,7 +29,6 @@ public class SpearSounds : MonoBehaviour
             List<AudioClip> activeClipList = isRewinding ? reverseSpearOutClips : spearOutClips;
             audioSource.clip = activeClipList[Random.Range(0, activeClipList.Count)];
             audioSource.Play();
-            Debug.Log("Playing Spear Going Out Sound");
             isSpearOut = true;
         }
     }
@@ -40,7 +39,6 @@ public class SpearSounds : MonoBehaviour
         {
             audioSource.clip = isRewinding ? reverseSpearInClip : spearInClip;
             audioSource.Play();
-            Debug.Log("Playing Spear Going In Sound");
             isSpearOut = false;
         }
     }

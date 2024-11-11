@@ -11,14 +11,11 @@ public class PlatformTrigger : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Player collided with platform!");
             platformAnimator.SetTrigger("Crack");
-            Debug.Log("Crack trigger set in Animator");
             hasPlayed = true;
         }
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         if (platformAnimator == null)
@@ -30,8 +27,6 @@ public class PlatformTrigger : MonoBehaviour
             }
         }
     }
-
-    // Update is called once per frame
     void Update()
     {
         
