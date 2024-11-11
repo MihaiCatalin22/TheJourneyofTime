@@ -41,4 +41,11 @@ public class CollapsingRockSpawner : MonoBehaviour
             rb.AddForce(new Vector2(direction * initialHorizontalForce, 0), ForceMode2D.Impulse);
         }
     }
+    
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Vector3 spawnPosition = transform.position + new Vector3(spawnOffset.x, spawnOffset.y, 0f);
+        Gizmos.DrawSphere(spawnPosition, 0.2f);
+    }
 }
