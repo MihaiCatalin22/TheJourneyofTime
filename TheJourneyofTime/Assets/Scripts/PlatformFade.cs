@@ -7,22 +7,28 @@ public class PlatformFade : MonoBehaviour
     public float fadeDuration = 1.0f;
     private bool isFading = false; 
     private SpriteRenderer spriteRenderer;
+    private Collider2D[] colliders;
 
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-    }
-
-    void Update()
-    {
-        
+        colliders = GetComponents<Collider2D>();
     }
 
     public void StartFade()
     {
         if (!isFading)
         {
+            DisableColliders();
             StartCoroutine(FadeOut());
+        }
+    }
+
+    private void DisableColliders()
+    {
+        foreach (Collider2D col in colliders)
+        {
+            col.enabled = false;
         }
     }
 
