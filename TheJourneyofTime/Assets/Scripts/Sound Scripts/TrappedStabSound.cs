@@ -46,7 +46,6 @@ public class TrappedStabSound : MonoBehaviour
         }
 
         spikeAudioSource.Play();
-        Debug.Log(isRewinding ? "Playing reversed spike extend sound" : "Playing normal spike extend sound");
     }
 
     public void SetRewindState(bool rewinding)

@@ -14,8 +14,6 @@ public class DamageSound : MonoBehaviour
 
     public void PlayDamageSound()
     {
-        Debug.Log("Attempting to play damage sound.");  // Debugging
         damageAudioSource.PlayOneShot(damageClip);
-        Debug.Log("Playing damage sound.");  // Debugging
     }
 }

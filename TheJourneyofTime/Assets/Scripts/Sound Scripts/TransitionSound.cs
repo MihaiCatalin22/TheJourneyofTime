@@ -13,7 +13,6 @@ public class TransitionSound : MonoBehaviour
     void Start()
     {
         transitionAudioSource.outputAudioMixerGroup = transitionMixerGroup;
-        Debug.Log("TransitionSound initialized without playing sound.");
     }
 
     public void PlayTransitionSound()
@@ -22,7 +21,6 @@ public class TransitionSound : MonoBehaviour
         {
             transitionAudioSource.clip = isRewinding ? reverseTransitionClip : transitionClip;
             transitionAudioSource.Play();
-            Debug.Log(isRewinding ? "Playing reversed transition sound" : "Playing normal transition sound");
         }
     }
 
@@ -32,7 +30,6 @@ public class TransitionSound : MonoBehaviour
         {
             isRewinding = rewinding;
             transitionAudioSource.Stop();
-            Debug.Log(rewinding ? "Set to play reversed transition sound on next play" : "Set to play normal transition sound on next play");
         }
     }
 
@@ -41,7 +38,6 @@ public class TransitionSound : MonoBehaviour
         if (transitionAudioSource.isPlaying)
         {
             transitionAudioSource.Stop();
-            Debug.Log("Transition sound stopped.");
         }
     }
 }

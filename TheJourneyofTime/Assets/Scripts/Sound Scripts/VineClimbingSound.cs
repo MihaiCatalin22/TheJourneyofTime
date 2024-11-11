@@ -4,7 +4,7 @@ using UnityEngine.Audio;
 public class VineClimbingSound : MonoBehaviour
 {
     public AudioClip vineClip;
-    public AudioClip reverseVineClip; // Reversed version for rewind
+    public AudioClip reverseVineClip;
     public AudioSource vineAudioSource;
     public AudioMixerGroup vineMixerGroup;
 
@@ -13,7 +13,6 @@ public class VineClimbingSound : MonoBehaviour
     void Start()
     {
         vineAudioSource.outputAudioMixerGroup = vineMixerGroup;
-        Debug.Log("VineClimbingSound initialized without playing sound.");
     }
 
     public void PlayVineClimbSound()
@@ -22,7 +21,6 @@ public class VineClimbingSound : MonoBehaviour
         {
             vineAudioSource.clip = isRewinding ? reverseVineClip : vineClip;
             vineAudioSource.Play();
-            Debug.Log(isRewinding ? "Playing reversed vine climbing sound" : "Playing normal vine climbing sound");
         }
     }
 
@@ -31,7 +29,6 @@ public class VineClimbingSound : MonoBehaviour
         if (vineAudioSource.isPlaying)
         {
             vineAudioSource.Stop();
-            Debug.Log("Vine climbing sound stopped.");
         }
     }
 
@@ -41,7 +38,6 @@ public class VineClimbingSound : MonoBehaviour
         {
             isRewinding = rewinding;
             vineAudioSource.Stop();
-            Debug.Log(rewinding ? "Set to play reversed vine sound on next play" : "Set to play normal vine sound on next play");
         }
     }
 }

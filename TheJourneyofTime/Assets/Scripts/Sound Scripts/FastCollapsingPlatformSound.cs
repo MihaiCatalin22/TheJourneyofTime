@@ -13,7 +13,6 @@ public class FastCollapsingPlatformSound : MonoBehaviour
     void Start()
     {
         fastCollapseAudioSource.outputAudioMixerGroup = fastCollapseMixerGroup;
-        Debug.Log("FastCollapsingPlatformSound initialized without playing sound.");
     }
 
     public void PlayFastCollapsingSound()
@@ -22,7 +21,6 @@ public class FastCollapsingPlatformSound : MonoBehaviour
         {
             fastCollapseAudioSource.clip = isRewinding ? reverseFastCollapseClip : fastCollapseClip;
             fastCollapseAudioSource.Play();
-            Debug.Log(isRewinding ? "Playing reversed fast collapse sound" : "Playing normal fast collapse sound");
         }
     }
 
@@ -33,7 +31,6 @@ public class FastCollapsingPlatformSound : MonoBehaviour
             isRewinding = rewinding;
             fastCollapseAudioSource.Stop();
             PlayFastCollapsingSound();
-            Debug.Log(rewinding ? "Set to play reverse fast collapse" : "Set to play normal fast collapse");
         }
     }
 
@@ -42,7 +39,6 @@ public class FastCollapsingPlatformSound : MonoBehaviour
         if (fastCollapseAudioSource.isPlaying)
         {
             fastCollapseAudioSource.Stop();
-            Debug.Log("Stopped fast collapse sound");
         }
     }
 }

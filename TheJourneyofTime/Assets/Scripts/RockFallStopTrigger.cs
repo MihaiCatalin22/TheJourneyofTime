@@ -8,15 +8,12 @@ public class RockFallStopTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player entered the RockFallStopTrigger area.");
 
             if (rockSpawner != null)
             {
-                // Call DeactivateAllRocks to stop spawning and hide all rocks
                 rockSpawner.DeactivateAllRocks();
             }
 
-            // Destroy this trigger to prevent reactivation
             Destroy(gameObject);
         }
     }

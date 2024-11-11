@@ -14,7 +14,6 @@ public class SlipperySurface : MonoBehaviour
             if (playerMovement != null)
             {
                 playerMovement.SetSlippery(true, slipperyFactor);
-                Debug.Log("Player entered slippery platform.");
             }
         }
     }
@@ -27,7 +26,6 @@ public class SlipperySurface : MonoBehaviour
             if (playerMovement != null)
             {
                 playerMovement.SetSlippery(false, 1f);
-                Debug.Log("Player left slippery platform.");
             }
         }
     }

@@ -33,13 +33,11 @@ public class ManagerTime : MonoBehaviour
         }
         else
         {
-            Debug.Log("Destroying duplicate ManagerTime instance: " + gameObject.name);
             Destroy(gameObject);
             return;
         }
 
         activeAudioSources.AddRange(FindObjectsOfType<AudioSource>());
-        Debug.Log("Loaded " + activeAudioSources.Count + " audio sources for time control.");
         InitializeAudioSources();
     }
 
@@ -76,7 +74,6 @@ public class ManagerTime : MonoBehaviour
     {
         isTimeStopped = true;
 
-        Debug.Log("ManagerTime: Calling PlayTimeStopSound on TimeStopSound"); // Check if this message appears
         timeStopSound?.PlayTimeStopSound();
 
         StopTimeForObjects();
@@ -109,7 +106,6 @@ public class ManagerTime : MonoBehaviour
         }
 
         isStopCooldownActive = false;
-        Debug.Log("Time Stop Ready Again");
     }
 
     private IEnumerator TimeRewindRoutine()
@@ -161,7 +157,6 @@ public class ManagerTime : MonoBehaviour
         }
 
         isRewindCooldownActive = false;
-        Debug.Log("Time Rewind Ready Again");
     }
 
     public float GetTimeStopFillAmount()
@@ -204,13 +199,11 @@ public class ManagerTime : MonoBehaviour
     {
         foreach (var source in activeAudioSources)
         {
-            if (source != timeStopSound.timeStopAudioSource && source.isPlaying) // Exclude the time stop audio source
+            if (source != timeStopSound.timeStopAudioSource && source.isPlaying)
             {
                 source.Pause();
-                Debug.Log($"Paused sound on {source.gameObject.name}");
             }
         }
-        Debug.Log("All sounds paused for time stop, excluding the Time Stop Audio Source.");
     }
 
     private void ResumeAllSounds()
@@ -220,10 +213,8 @@ public class ManagerTime : MonoBehaviour
             if (source != timeStopSound.timeStopAudioSource && !source.isPlaying)
             {
                 source.UnPause();
-                Debug.Log($"Resumed sound on {source.gameObject.name}");
             }
         }
-        Debug.Log("All sounds resumed after time stop, excluding the Time Stop Audio Source.");
     }
 
     private void PlayReversedSoundsImmediately()

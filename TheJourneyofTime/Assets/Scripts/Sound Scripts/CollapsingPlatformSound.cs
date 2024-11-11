@@ -13,7 +13,6 @@ public class CollapsingPlatformSound : MonoBehaviour
     void Start()
     {
         collapseAudioSource.outputAudioMixerGroup = collapseMixerGroup;
-        Debug.Log("CollapsingPlatformSound initialized without playing sound.");
     }
 
     public void PlayCollapseSound()
@@ -22,18 +21,16 @@ public class CollapsingPlatformSound : MonoBehaviour
         {
             collapseAudioSource.clip = isRewinding ? reverseCollapseClip : collapseClip;
             collapseAudioSource.Play();
-            Debug.Log(isRewinding ? "Playing reversed collapse sound" : "Playing normal collapse sound");
         }
     }
 
     public void SetRewindState(bool rewinding)
     {
-        if (isRewinding != rewinding) // Only switch if state changes
+        if (isRewinding != rewinding) 
         {
             isRewinding = rewinding;
             collapseAudioSource.Stop();
             PlayCollapseSound(); 
-            Debug.Log(rewinding ? "Set to play reverse collapse" : "Set to play normal collapse");
         }
     }
     
@@ -42,7 +39,6 @@ public class CollapsingPlatformSound : MonoBehaviour
         if (collapseAudioSource.isPlaying)
         {
             collapseAudioSource.Stop();
-            Debug.Log("Stopped collapse sound");
         }
     }
 }
