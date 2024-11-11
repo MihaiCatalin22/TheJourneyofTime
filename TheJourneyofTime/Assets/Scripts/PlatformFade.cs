@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class PlatformFade : MonoBehaviour
 {
-    public float fadeDuration = 1.0f; // Duration
+    public float fadeDuration = 1.0f;
     private bool isFading = false; 
     private SpriteRenderer spriteRenderer;
     private Collider2D[] colliders;
 
-    // Start is called before the first frame update
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -47,7 +46,6 @@ public class PlatformFade : MonoBehaviour
             yield return null;
         }
 
-        // Ensure the platform is fully transparent at the end
         spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
     }
 }

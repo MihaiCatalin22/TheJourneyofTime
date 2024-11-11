@@ -25,7 +25,6 @@ public class FallingSpikeSound : MonoBehaviour
         {
             fallingAudioSource.clip = isRewinding ? reverseFallingClip : fallingClip;
             fallingAudioSource.Play();
-            Debug.Log("Playing Falling Spike Sound");
         }
     }
 

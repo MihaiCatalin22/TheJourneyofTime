@@ -12,7 +12,7 @@ public class TutorialToStart : MonoBehaviour
     {
         if (other.CompareTag("Player") && !hasTriggered)
         {
-            hasTriggered = true; // Prevent retriggering
+            hasTriggered = true;
             CheckpointManager.Instance.ClearCheckpoint(); 
             
             if (transitionSound != null && transitionSound.transitionClip != null)

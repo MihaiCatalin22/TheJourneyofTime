@@ -14,7 +14,6 @@ public class Spike : MonoBehaviour
                 if (playerMovement.damageSound != null)
                 {
                     playerMovement.damageSound.PlayDamageSound();
-                    Debug.Log("Playing Damage Sound");
                 }
 
                 playerMovement.SetDead(true);

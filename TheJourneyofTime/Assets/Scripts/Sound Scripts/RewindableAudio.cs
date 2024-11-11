@@ -7,9 +7,9 @@ public class RewindableAudio : MonoBehaviour
     public List<AudioClip> regularClips = new List<AudioClip>();
     public List<AudioClip> reversedClips = new List<AudioClip>();
 
-    private bool isReversed = false; // Track if currently playing reversed clip
+    private bool isReversed = false;
     private float clipLength;
-    private int currentClipIndex = 0; // Index to track which sound to play
+    private int currentClipIndex = 0;
 
     private void Start()
     {
@@ -21,24 +21,19 @@ public class RewindableAudio : MonoBehaviour
         if (audioSource == null)
         {
             Debug.LogError("AudioSource component is missing on " + gameObject.name);
-        }
-
-        // Check if there are clips in the list
-        if (regularClips.Count == 0 || reversedClips.Count == 0)
-        {
-            Debug.LogWarning("No regular or reversed clips assigned on " + gameObject.name);
             return;
         }
 
-        // Assume the first clip's length for consistency
-        clipLength = regularClips[0].length;
+        if (regularClips.Count > 0)
+        {
+            clipLength = regularClips[0].length;
+        }
     }
 
     public void PlayRegular(int index = -1)
     {
         if (audioSource == null || regularClips.Count == 0) return;
 
-        // Set the clip based on the provided index, or play the current one if index is -1
         currentClipIndex = (index >= 0 && index < regularClips.Count) ? index : currentClipIndex;
 
         audioSource.clip = regularClips[currentClipIndex];
@@ -46,7 +41,6 @@ public class RewindableAudio : MonoBehaviour
         isReversed = false;
 
         audioSource.Play();
-        Debug.Log($"Playing regular clip '{audioSource.clip.name}' at index {currentClipIndex}");
     }
 
     public void PlayReversed(int index = -1)
@@ -60,7 +54,6 @@ public class RewindableAudio : MonoBehaviour
         isReversed = true;
 
         audioSource.Play();
-        Debug.Log($"Playing reversed clip '{audioSource.clip.name}' at index {currentClipIndex}");
     }
 
     public void PlayRandomRegular()
@@ -84,7 +77,6 @@ public class RewindableAudio : MonoBehaviour
         if (audioSource != null && audioSource.isPlaying)
         {
             audioSource.Pause();
-            Debug.Log("Audio paused for " + gameObject.name);
         }
     }
 
@@ -93,7 +85,6 @@ public class RewindableAudio : MonoBehaviour
         if (audioSource != null && !audioSource.isPlaying)
         {
             audioSource.UnPause();
-            Debug.Log("Audio unpaused for " + gameObject.name);
         }
     }
 }

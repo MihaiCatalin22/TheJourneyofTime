@@ -10,7 +10,6 @@ public class SpikeProximityTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player") && spikeScript != null)
         {
-            Debug.Log("Player detected by proximity trigger.");
             StartCoroutine(TriggerSpikeFall());
         }
     }

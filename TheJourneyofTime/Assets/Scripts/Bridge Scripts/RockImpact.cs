@@ -21,7 +21,6 @@ public class RockImpact : MonoBehaviour
             if (impactSoundScript != null)
             {
                 impactSoundScript.PlayImpactSound();
-                Debug.Log("Playing Rock Impact Sound on Bridge Segment");
             }
 
             if (rockScript != null)
@@ -34,7 +33,6 @@ public class RockImpact : MonoBehaviour
             if (impactSoundScript != null)
             {
                 impactSoundScript.PlayImpactSound();
-                Debug.Log("Playing Rock Impact Sound on Other Object");
             }
 
             if (rockScript != null)

@@ -22,10 +22,6 @@ public class TrappedPlatform : MonoBehaviour
         platformRenderer = GetComponent<Renderer>();
         trappedStabSound = GetComponent<TrappedStabSound>();
 
-        if (timeObject == null)
-        {
-            Debug.LogError("TimeObject component is missing from this GameObject.");
-        }
 
         if (platformRenderer != null)
         {

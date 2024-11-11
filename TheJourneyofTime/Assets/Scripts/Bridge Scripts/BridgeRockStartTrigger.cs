@@ -8,15 +8,12 @@ public class BridgeRockStartTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player entered the BridgeRockStartTrigger.");
 
-            // Start spawning rocks when the player enters the trigger area
             if (rockSpawner != null)
             {
                 rockSpawner.StartSpawning();
             }
 
-            // Destroy this trigger after activation to prevent re-triggering
             Destroy(gameObject);
         }
     }

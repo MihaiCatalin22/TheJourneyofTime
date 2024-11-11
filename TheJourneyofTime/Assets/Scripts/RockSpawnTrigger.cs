@@ -10,7 +10,6 @@ public class RockSpawnTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player entered the RockFallStartTrigger area.");
 
             if (rockSpawner != null)
             {

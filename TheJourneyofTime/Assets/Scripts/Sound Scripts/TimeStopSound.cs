@@ -34,23 +34,19 @@ public class TimeStopSound : MonoBehaviour
     if (timeStopAudioSource != null && timeStopClip != null)
     {
         timeStopAudioSource.clip = timeStopClip;
-        timeStopAudioSource.volume = 1f; // Ensure max volume
-        timeStopAudioSource.Play(); // Use Play instead of PlayOneShot
-        Debug.Log("Directly playing Time Stop Sound with Play()");
+        timeStopAudioSource.volume = 1f;
+        timeStopAudioSource.Play();
     }
 }
 
     public void PlayTimeRestartSound()
     {
-        Debug.Log("PlayTimeRestartSound called");
-
         if (timeStopAudioSource != null && timeRestartClip != null)
         {
             timeStopAudioSource.outputAudioMixerGroup = timeStopMixerGroup;
             timeStopAudioSource.clip = timeRestartClip;
             timeStopAudioSource.volume = 1f;
-            timeStopAudioSource.Play();  // Direct play method for consistent playback
-            Debug.Log($"Time Restart Sound is playing: {timeStopAudioSource.isPlaying}");
+            timeStopAudioSource.Play();  
         }
         else
         {
@@ -61,6 +57,5 @@ public class TimeStopSound : MonoBehaviour
     private IEnumerator LogPlaybackTime(float delay)
     {
         yield return new WaitForSeconds(delay);
-        Debug.Log($"Playback time after Play(): {(timeStopAudioSource.isPlaying ? "Still playing" : "Stopped")}");
     }
 }

@@ -4,20 +4,19 @@ using UnityEngine.UI;
 public class HUDManager : MonoBehaviour
 {
     [Header("Dash")]
-    public Image dashIcon; // Icon for dash status
-    public Color availableColor = Color.white; // Color when dash is available
-    public Color unavailableColor = Color.gray; // Color when dash is unavailable
+    public Image dashIcon;
+    public Color availableColor = Color.white;
+    public Color unavailableColor = Color.gray;
 
     [Header("Time Manipulation")]
-    public Slider timeStopTimer; // Circular clock for time stop
-    public Slider timeRewindTimer; // Circular clock for time rewind
+    public Slider timeStopTimer;
+    public Slider timeRewindTimer;
 
     private Movement playerMovement;
     private ManagerTime timeManager;
 
     private void Start()
     {
-        // Find references to the player's movement and time management scripts
         playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<Movement>();
         timeManager = FindObjectOfType<ManagerTime>();
 
