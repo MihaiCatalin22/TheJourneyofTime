@@ -43,7 +43,6 @@ public class Movement : MonoBehaviour
 
     public GameObject deathText;
 
-    // Public properties for sound triggers
     public bool isRunning { get; private set; }
     public bool isClimbing { get; private set; }
     public bool JumpedThisFrame { get; private set; }
@@ -101,7 +100,6 @@ public class Movement : MonoBehaviour
 
         CheckGroundStatus();
 
-        // Reset frame-based properties
         JumpedThisFrame = false;
         LandedThisFrame = false;
         DashedThisFrame = false;
@@ -112,7 +110,7 @@ public class Movement : MonoBehaviour
         float moveInput = Input.GetAxis("Horizontal");
 
         isRunning = Mathf.Abs(moveInput) > 0.1f;
-        Debug.Log("isRunning: " + isRunning);  // Debug for running state
+        Debug.Log("isRunning: " + isRunning);
 
         if (slipperyMode)
         {
@@ -141,7 +139,6 @@ public class Movement : MonoBehaviour
 
    void OnTriggerEnter2D(Collider2D other)
 {
-    // Check if we are entering a climbable area
     if (other.gameObject.layer == LayerMask.NameToLayer("Climbable"))
     {
         canClimb = true;
@@ -150,21 +147,19 @@ public class Movement : MonoBehaviour
 
 void OnTriggerExit2D(Collider2D other)
 {
-    // Check if we are leaving a climbable area
     if (other.gameObject.layer == LayerMask.NameToLayer("Climbable"))
     {
         canClimb = false;
-        EndClimbing(); // End climbing if we leave the trigger
+        EndClimbing();
     }
 }
 
 void HandleClimbing()
 {
-    // Only allow climbing if within the climbable trigger area
     if (canClimb && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space)) && !isClimbing)
     {
         isClimbing = true;
-        rb.velocity = Vector2.zero; // Reset velocity
+        rb.velocity = Vector2.zero;
         canDoubleJump = true;
         canDash = true;
 
@@ -179,10 +174,8 @@ void HandleClimbing()
         float verticalInput = Input.GetAxis("Vertical");
         float horizontalInput = Input.GetAxis("Horizontal");
 
-        // Allow both horizontal and vertical movement
         rb.velocity = new Vector2(horizontalInput * moveSpeed, verticalInput * climbSpeed);
 
-        // Stop climbing if jump is pressed
         if (Input.GetKeyDown(KeyCode.Space))
         {
             EndClimbing();
@@ -209,7 +202,7 @@ void EndClimbing()
             isGrounded = false;
             coyoteTimeCounter = 0f;
             JumpedThisFrame = true;
-            Debug.Log("Player Jumped");  // Debug for jump
+            Debug.Log("Player Jumped");
             
             if (jumpingSound != null)
             {
@@ -222,7 +215,7 @@ void EndClimbing()
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             canDoubleJump = false;
             JumpedThisFrame = true;
-            Debug.Log("Player Double Jumped");  // Debug for double jump
+            Debug.Log("Player Double Jumped");
             
             if (jumpingSound != null)
             {
@@ -272,24 +265,17 @@ void EndClimbing()
     Collider2D groundCollider = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
     isGrounded = groundCollider != null;
 
-    Debug.Log("Was grounded: " + wasGrounded + ", Is grounded: " + isGrounded);
 
     if (!wasGrounded && isGrounded)
     {
-        Debug.Log("Player has just landed");
         canDoubleJump = true;
         canDash = true;
         LandedThisFrame = true;
 
         if (landingSound != null)
         {
-            Debug.Log("Triggering Landing Sound");
             landingSound.PlayLandingSound();
         }
-    }
-    else if (!isGrounded && wasGrounded)
-    {
-        Debug.Log("Player has left the ground");
     }
 }
 

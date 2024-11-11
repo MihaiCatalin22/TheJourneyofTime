@@ -15,7 +15,6 @@ public class CollapsingPlatform : MonoBehaviour
     private TimeObject timeObject;
     private Renderer platformRenderer;
 
-    // Reference to CollapsingPlatformSound
     private CollapsingPlatformSound collapseSound;
 
     private void Start()
@@ -24,7 +23,6 @@ public class CollapsingPlatform : MonoBehaviour
         platformRenderer = GetComponent<Renderer>();
         collapseSpeed = Random.Range(minCollapseSpeed, maxCollapseSpeed);
 
-        // Get reference to the sound script
         collapseSound = GetComponent<CollapsingPlatformSound>();
         if (collapseSound == null)
         {
@@ -85,11 +83,10 @@ public class CollapsingPlatform : MonoBehaviour
         yield return new WaitForSeconds(collapseDelay);
         isCollapsing = true;
 
-        // Only play the sound when collapse starts
         if (collapseSound != null && !collapseSound.collapseAudioSource.isPlaying)
         {
             collapseSound.PlayCollapseSound();
-            Debug.Log("Playing Collapsing Platform Sound"); // Debugging
+            Debug.Log("Playing Collapsing Platform Sound"); 
         }
 
         yield return new WaitForSeconds(colliderDisableDelay);
