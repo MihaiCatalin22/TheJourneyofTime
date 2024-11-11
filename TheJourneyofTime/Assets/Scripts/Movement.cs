@@ -15,10 +15,10 @@ public class Movement : MonoBehaviour
     public Transform climbCheck;
     public LayerMask whatIsGround;
     public LayerMask climbableLayer;
-
+    
     public float coyoteTimeDuration = 0.2f;
     private float coyoteTimeCounter; 
-
+    private bool canClimb = false;
     private bool isFacingRight = true;
     private bool isGrounded = false;  
     private bool canDoubleJump = false;
@@ -139,44 +139,66 @@ public class Movement : MonoBehaviour
         slipperyFactor = factor;
     }
 
-    void HandleClimbing()
+   void OnTriggerEnter2D(Collider2D other)
+{
+    // Check if we are entering a climbable area
+    if (other.gameObject.layer == LayerMask.NameToLayer("Climbable"))
     {
-        bool isTouchingClimbable = Physics2D.OverlapCircle(climbCheck.position, groundCheckRadius, climbableLayer);
+        canClimb = true;
+    }
+}
 
-        if (isTouchingClimbable && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space)) && !isClimbing)
+void OnTriggerExit2D(Collider2D other)
+{
+    // Check if we are leaving a climbable area
+    if (other.gameObject.layer == LayerMask.NameToLayer("Climbable"))
+    {
+        canClimb = false;
+        EndClimbing(); // End climbing if we leave the trigger
+    }
+}
+
+void HandleClimbing()
+{
+    // Only allow climbing if within the climbable trigger area
+    if (canClimb && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space)) && !isClimbing)
+    {
+        isClimbing = true;
+        rb.velocity = Vector2.zero; // Reset velocity
+        canDoubleJump = true;
+        canDash = true;
+
+        if (vineClimbingSound != null)
         {
-            isClimbing = true;
-            rb.velocity = Vector2.zero;
-
-            canDoubleJump = true;
-            canDash = true;
-            Debug.Log("Started Climbing - Playing Vine Climbing Sound");
-
-            if (vineClimbingSound != null)
-            {
-                vineClimbingSound.PlayVineClimbSound();
-            }
-        }
-
-        if (isClimbing)
-        {
-            float verticalInput = Input.GetAxis("Vertical");
-            float horizontalInput = Input.GetAxis("Horizontal");
-
-            rb.velocity = new Vector2(horizontalInput * moveSpeed, verticalInput * climbSpeed);
-
-            if (!isTouchingClimbable || Input.GetKeyDown(KeyCode.Space))
-            {
-                isClimbing = false;
-                Debug.Log("Stopped Climbing - Stopping Vine Climbing Sound");
-
-                if (vineClimbingSound != null)
-                {
-                    vineClimbingSound.StopVineClimbSound();
-                }
-            }
+            vineClimbingSound.PlayVineClimbSound();
         }
     }
+
+    if (isClimbing)
+    {
+        float verticalInput = Input.GetAxis("Vertical");
+        float horizontalInput = Input.GetAxis("Horizontal");
+
+        // Allow both horizontal and vertical movement
+        rb.velocity = new Vector2(horizontalInput * moveSpeed, verticalInput * climbSpeed);
+
+        // Stop climbing if jump is pressed
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            EndClimbing();
+        }
+    }
+}
+
+void EndClimbing()
+{
+    isClimbing = false;
+
+    if (vineClimbingSound != null)
+    {
+        vineClimbingSound.StopVineClimbSound();
+    }
+}
 
     void HandleJump()
     {
