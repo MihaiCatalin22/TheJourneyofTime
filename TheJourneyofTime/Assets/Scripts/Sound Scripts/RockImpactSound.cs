@@ -16,7 +16,6 @@ public class RockImpactSound : MonoBehaviour
             List<AudioClip> activeClipList = isRewinding ? reverseImpactClips : impactClips;
             AudioClip randomImpactClip = activeClipList[Random.Range(0, activeClipList.Count)];
             impactAudioSource.PlayOneShot(randomImpactClip);
-            Debug.Log("Playing Rock Impact Sound");
         }
     }
 

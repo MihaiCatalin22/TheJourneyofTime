@@ -4,7 +4,7 @@ using UnityEngine;
 public class Rock : MonoBehaviour
 {
     public float fallSpeed = 5f;
-    public float despawnYThreshold = -10f; // Y position at which the rock should reset
+    public float despawnYThreshold = -10f;
     private Vector3 startPosition;
     private bool isFalling = false;
     private Collider2D rockCollider;
@@ -13,12 +13,11 @@ public class Rock : MonoBehaviour
 
     private void Start()
     {
-        startPosition = transform.position;  // Save the initial position to reset to
+        startPosition = transform.position;
         rockCollider = GetComponent<Collider2D>();
         rockRenderer = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
 
-        // Initial setup: Make the rock invisible and disable physics
         rockRenderer.enabled = false;
         rockCollider.enabled = false;
         rb.isKinematic = true;
@@ -30,7 +29,6 @@ public class Rock : MonoBehaviour
         {
             Fall();
 
-            // Check if rock has fallen below the threshold
             if (transform.position.y <= despawnYThreshold)
             {
                 ResetPosition();
@@ -47,19 +45,17 @@ public class Rock : MonoBehaviour
         }
 
         isFalling = true;
-        rockCollider.enabled = true;      // Enable collider while falling
-        rockRenderer.enabled = true;      // Make the rock visible
+        rockCollider.enabled = true;
+        rockRenderer.enabled = true;
     }
 
     private void Fall()
     {
-        // Manually move the rock downwards
         transform.position += Vector3.down * fallSpeed * Time.deltaTime;
     }
 
     public void DeactivateRock()
     {
-        // Stop falling and hide the rock
         isFalling = false;
         rockCollider.enabled = false;
         rockRenderer.enabled = false;
@@ -67,7 +63,6 @@ public class Rock : MonoBehaviour
 
     public void ResetPosition()
     {
-        // Reset position to the start and deactivate the rock
         transform.position = startPosition;
         DeactivateRock();
     }

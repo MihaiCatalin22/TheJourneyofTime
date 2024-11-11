@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class RockSpawner : MonoBehaviour
 {
-    public List<GameObject> rockLines;  // List of rocks in the order they should fall
-    public float fallInterval = 0.75f;   // Time interval between each rock starting to fall
+    public List<GameObject> rockLines;
+    public float fallInterval = 0.75f;
     public float respawnDelay = 2.0f;
     private Coroutine spawnCoroutine;
     public void StartSpawning()
@@ -27,10 +27,8 @@ public class RockSpawner : MonoBehaviour
 
     public void DeactivateAllRocks()
     {
-        // Stop spawning rocks
         StopSpawning();
 
-        // Deactivate each rock in the list
         foreach (GameObject rock in rockLines)
         {
             Rock rockScript = rock.GetComponent<Rock>();

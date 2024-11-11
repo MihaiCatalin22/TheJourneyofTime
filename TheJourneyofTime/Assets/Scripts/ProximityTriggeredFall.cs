@@ -30,7 +30,6 @@ public class ProximityTriggeredFall : MonoBehaviour
     {
         if (other.CompareTag("Player") && !isFalling)
         {
-            Debug.Log("Player detected. Starting fall delay.");
             StartCoroutine(FallAfterDelay(fallDelay));
         }
     }
@@ -51,7 +50,6 @@ public class ProximityTriggeredFall : MonoBehaviour
         isFalling = true;
         rb.isKinematic = false;
         rb.gravityScale = 1;
-        Debug.Log("Trap falling!");
 
         if (fallingSpikeSound != null)
         {

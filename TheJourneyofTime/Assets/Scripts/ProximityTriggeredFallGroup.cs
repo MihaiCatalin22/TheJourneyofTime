@@ -8,7 +8,7 @@ public class ProximityTriggeredFallGroup : MonoBehaviour
     private Rigidbody2D[] spikeRigidbodies;
     private TimeObject[] timeObjects;
 
-    public FallingSpikeSound fallingSpikeSound; // Sound reference
+    public FallingSpikeSound fallingSpikeSound;
 
     private void Start()
     {
@@ -25,7 +25,6 @@ public class ProximityTriggeredFallGroup : MonoBehaviour
     {
         if (other.CompareTag("Player") && !isFalling)
         {
-            Debug.Log("Player detected near spike group. Starting fall delay.");
             StartCoroutine(FallAfterDelay(fallDelay));
         }
     }
@@ -49,7 +48,6 @@ public class ProximityTriggeredFallGroup : MonoBehaviour
             rb.isKinematic = false;
             rb.gravityScale = 1;
         }
-        Debug.Log("Spike group falling!");
 
         if (fallingSpikeSound != null)
         {
