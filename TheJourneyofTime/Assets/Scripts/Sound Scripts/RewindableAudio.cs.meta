@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:TheJourneyofTime/Assets/Scripts/ChasingWall.cs.meta
+guid: 9531e719af426ce418611a1661564fef
+========
+guid: 7cfea4051376cf5469808866fa424804
+>>>>>>>> cata/sounds&collapse:TheJourneyofTime/Assets/Scripts/Sound Scripts/RewindableAudio.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

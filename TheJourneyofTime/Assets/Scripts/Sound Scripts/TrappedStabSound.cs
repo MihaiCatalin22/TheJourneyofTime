@@ -4,7 +4,11 @@ public class TrappedStabSound : MonoBehaviour
 {
     public AudioSource spikeAudioSource;
     public AudioClip spikeExtendSound;
+    public AudioClip reverseSpikeExtendSound;
     public AudioClip[] randomExtendSounds;
+    public AudioClip[] reverseRandomExtendSounds;
+
+    private bool isRewinding = false;
 
     private void Start()
     {
@@ -28,17 +32,33 @@ public class TrappedStabSound : MonoBehaviour
     {
         if (spikeAudioSource == null) return;
 
-        if (randomExtendSounds != null && randomExtendSounds.Length > 0)
+        AudioClip[] activeExtendSounds = isRewinding ? reverseRandomExtendSounds : randomExtendSounds;
+        AudioClip singleExtendSound = isRewinding ? reverseSpikeExtendSound : spikeExtendSound;
+
+        if (activeExtendSounds != null && activeExtendSounds.Length > 0)
         {
-            AudioClip randomClip = randomExtendSounds[Random.Range(0, randomExtendSounds.Length)];
+            AudioClip randomClip = activeExtendSounds[Random.Range(0, activeExtendSounds.Length)];
             spikeAudioSource.clip = randomClip;
         }
         else
         {
-            spikeAudioSource.clip = spikeExtendSound;
+            spikeAudioSource.clip = singleExtendSound;
         }
 
         spikeAudioSource.Play();
-        Debug.Log("Playing spike extend sound");
+        Debug.Log(isRewinding ? "Playing reversed spike extend sound" : "Playing normal spike extend sound");
+    }
+
+    public void SetRewindState(bool rewinding)
+    {
+        isRewinding = rewinding;
+    }
+
+    public void StopSound()
+    {
+        if (spikeAudioSource.isPlaying)
+        {
+            spikeAudioSource.Stop();
+        }
     }
 }
