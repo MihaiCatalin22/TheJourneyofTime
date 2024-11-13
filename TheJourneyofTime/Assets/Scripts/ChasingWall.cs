@@ -9,6 +9,7 @@ public class ChasingWall : MonoBehaviour
     private bool canMove = false; // Controls whether the wall should move
     private Renderer wallRenderer;
     private Collider2D wallCollider;
+    private Vector3 lockedPosition; // Position to retain during time manipulation
 
     void Awake()
     {
@@ -61,15 +62,27 @@ public class ChasingWall : MonoBehaviour
         }
     }
 
+    // Lock the wall in place during a pause or rewind
+    public void LockPosition()
+    {
+        lockedPosition = transform.position;
+        canMove = false; // Stop movement while locked
+    }
+
+    // Resume normal movement after a pause or rewind
+    public void UnlockPosition()
+    {
+        transform.position = lockedPosition; // Reset position to locked position
+        canMove = true;
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player")) 
         {
-            // Trigger Die
             Movement playerMovement = other.GetComponent<Movement>();
             if (playerMovement != null)
             {
-                Debug.LogWarning("trigger die");
                 playerMovement.Die(); 
             }
             else
@@ -79,11 +92,9 @@ public class ChasingWall : MonoBehaviour
         }
         else if (other.CompareTag("Platform"))
         {
-            // Trigger fade 
             PlatformFade platformFade = other.GetComponent<PlatformFade>();
             if (platformFade != null)
             {
-                Debug.LogWarning("start fade");
                 platformFade.StartFade(); 
             }
             else

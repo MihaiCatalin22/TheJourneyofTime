@@ -88103,6 +88103,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 7031315933148963139}
+    - target: {fileID: 7158849832839259363, guid: bbe83a3c27e15ba4ab10156b8e0d0c66, type: 3}
+      propertyPath: m_Constraints
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 7754487746497465877, guid: bbe83a3c27e15ba4ab10156b8e0d0c66, type: 3}
       propertyPath: m_LocalScale.x
       value: 5.7734027
@@ -88161,7 +88165,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7869284792445896154, guid: bbe83a3c27e15ba4ab10156b8e0d0c66, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
