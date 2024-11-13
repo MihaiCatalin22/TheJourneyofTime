@@ -8,11 +8,24 @@ public class ChasingWall : MonoBehaviour
 
     private bool canMove = false; // Controls whether the wall should move
     private Renderer wallRenderer;
+    private Collider2D wallCollider;
 
     void Awake()
     {
         wallRenderer = GetComponent<Renderer>();
-        SetVisibility(false); // Make sure it's invisible initially
+        wallCollider = GetComponent<Collider2D>();
+
+        if (wallRenderer == null)
+        {
+            Debug.LogWarning("Renderer component is missing on " + gameObject.name);
+        }
+
+        if (wallCollider == null)
+        {
+            Debug.LogWarning("Collider2D component is missing on " + gameObject.name);
+        }
+
+        SetVisibility(false); // Ensure the wall is invisible and collider is disabled initially
     }
 
     void Update()
@@ -34,12 +47,17 @@ public class ChasingWall : MonoBehaviour
         canMove = false;
     }
 
-    // This method is optional and allows controlling visibility separately
+    // This method controls the visibility and collider state of the wall
     public void SetVisibility(bool isVisible)
     {
         if (wallRenderer != null)
         {
             wallRenderer.enabled = isVisible;
+        }
+
+        if (wallCollider != null)
+        {
+            wallCollider.enabled = isVisible;
         }
     }
 
