@@ -14,6 +14,7 @@ public class TimeObject : MonoBehaviour
     private List<Quaternion> rotations = new List<Quaternion>();
     private Rigidbody2D rb;
     private Animator animator;
+    private ChasingWall chasingWall; // Reference to ChasingWall if it exists on this object
 
     private Vector2 savedVelocity;
     private float savedAngularVelocity;
@@ -22,6 +23,7 @@ public class TimeObject : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        chasingWall = GetComponent<ChasingWall>();
 
         if (ManagerTime.instance != null)
         {
@@ -48,7 +50,7 @@ public class TimeObject : MonoBehaviour
         if (positions.Count >= maxPositions)
         {
             positions.RemoveAt(positions.Count - 1);
-            rotations.RemoveAt(rotations.Count - 1);
+            rotations.RemoveAt(positions.Count - 1);
         }
 
         positions.Insert(0, transform.position);
@@ -82,9 +84,14 @@ public class TimeObject : MonoBehaviour
             rb.isKinematic = true;
         }
 
-        if (animator != null)
+        if (chasingWall != null)
         {
-            animator.enabled = false;
+            chasingWall.LockPosition(); // Lock position for ChasingWall
+        }
+
+        if (positions.Count == 0)
+        {
+            Record();
         }
     }
 
@@ -98,9 +105,9 @@ public class TimeObject : MonoBehaviour
             rb.angularVelocity = savedAngularVelocity;
         }
 
-        if (animator != null)
+        if (chasingWall != null)
         {
-            animator.enabled = true;
+            chasingWall.UnlockPosition(); // Unlock position for ChasingWall
         }
 
         StartCoroutine(RewindCooldown());
@@ -118,6 +125,11 @@ public class TimeObject : MonoBehaviour
             rb.angularVelocity = 0;
         }
 
+        if (chasingWall != null)
+        {
+            chasingWall.LockPosition(); // Lock position during pause
+        }
+
         if (animator != null)
         {
             animator.enabled = false;
@@ -132,6 +144,11 @@ public class TimeObject : MonoBehaviour
             rb.isKinematic = false;
             rb.velocity = savedVelocity;
             rb.angularVelocity = savedAngularVelocity;
+        }
+
+        if (chasingWall != null)
+        {
+            chasingWall.UnlockPosition(); // Resume movement for ChasingWall
         }
 
         if (animator != null)
