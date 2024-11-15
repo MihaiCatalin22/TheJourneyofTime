@@ -15,8 +15,7 @@ public class FastCollapsingPlatform : MonoBehaviour
     private Collider2D platformCollider;
     private TimeObject timeObject;
     private Renderer platformRenderer;
-    
-    // Reference to FastCollapsingPlatformSound
+
     private FastCollapsingPlatformSound fastCollapseSound;
 
     private void Start()
@@ -25,7 +24,6 @@ public class FastCollapsingPlatform : MonoBehaviour
         platformRenderer = GetComponent<Renderer>();
         collapseSpeed = Random.Range(minCollapseSpeed, maxCollapseSpeed);
 
-        // Get reference to the sound script
         fastCollapseSound = GetComponent<FastCollapsingPlatformSound>();
         if (fastCollapseSound == null)
         {
@@ -41,16 +39,7 @@ public class FastCollapsingPlatform : MonoBehaviour
 
     private void Update()
     {
-        if (timeObject == null) return;
-
-        if (timeObject.isPaused || timeObject.isRewinding)
-        {
-            if (isDespawned && timeObject.isRewinding)
-            {
-                Respawn();
-            }
-            return;
-        }
+        if (timeObject == null || timeObject.isPaused || timeObject.isRewinding) return;
 
         if (isCollapsing)
         {
@@ -94,8 +83,7 @@ public class FastCollapsingPlatform : MonoBehaviour
     {
         isCollapsing = true;
 
-        // Play the fast collapsing sound
-        if (fastCollapseSound != null)
+        if (fastCollapseSound != null && !fastCollapseSound.fastCollapseAudioSource.isPlaying)
         {
             fastCollapseSound.PlayFastCollapsingSound();
             Debug.Log("Playing Fast Collapsing Platform Sound"); // Debugging

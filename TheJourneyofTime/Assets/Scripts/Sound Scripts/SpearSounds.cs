@@ -1,44 +1,58 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SpearSounds : MonoBehaviour
 {
     public List<AudioClip> spearOutClips; 
-    public AudioClip spearInClip; 
-    public AudioSource audioSource;   
+    public List<AudioClip> reverseSpearOutClips;
+    public AudioClip spearInClip;
+    public AudioClip reverseSpearInClip;
+    public AudioSource audioSource;
 
-    private bool isSpearOut = false;    
+    private bool isSpearOut = false;
+    private bool isRewinding = false;
 
     void Start()
     {
         if (audioSource == null)
         {
             audioSource = gameObject.AddComponent<AudioSource>();
-            audioSource.spatialBlend = 1f;   
-            audioSource.loop = false;       
+            audioSource.spatialBlend = 1f;
+            audioSource.loop = false;
         }
     }
 
     public void PlaySpearOutSound()
     {
-        if (!isSpearOut && spearOutClips.Count > 0)
+        if (!isSpearOut && (spearOutClips.Count > 0 || reverseSpearOutClips.Count > 0))
         {
-            audioSource.clip = spearOutClips[Random.Range(0, spearOutClips.Count)];
+            List<AudioClip> activeClipList = isRewinding ? reverseSpearOutClips : spearOutClips;
+            audioSource.clip = activeClipList[Random.Range(0, activeClipList.Count)];
             audioSource.Play();
-            Debug.Log("Playing Spear Going Out Sound");
             isSpearOut = true;
         }
     }
 
     public void PlaySpearInSound()
     {
-        if (isSpearOut) 
+        if (isSpearOut)
         {
-            audioSource.clip = spearInClip;
+            audioSource.clip = isRewinding ? reverseSpearInClip : spearInClip;
             audioSource.Play();
-            Debug.Log("Playing Spear Going In Sound");
             isSpearOut = false;
+        }
+    }
+
+    public void SetRewindState(bool rewinding)
+    {
+        isRewinding = rewinding;
+    }
+
+    public void StopSound()
+    {
+        if (audioSource.isPlaying)
+        {
+            audioSource.Stop();
         }
     }
 }

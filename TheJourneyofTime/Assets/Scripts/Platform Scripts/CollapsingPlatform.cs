@@ -6,7 +6,7 @@ public class CollapsingPlatform : MonoBehaviour
     public float collapseDelay = 1.5f;
     public float minCollapseSpeed = 3f;
     public float maxCollapseSpeed = 9f;
-    public float despawnYThreshold = -10f; 
+    public float despawnYThreshold = -10f;
     public float colliderDisableDelay = 2f;
     private bool isCollapsing = false;
     private bool isDespawned = false;
@@ -14,8 +14,7 @@ public class CollapsingPlatform : MonoBehaviour
     private Collider2D platformCollider;
     private TimeObject timeObject;
     private Renderer platformRenderer;
-    
-    // Reference to CollapsingPlatformSound
+
     private CollapsingPlatformSound collapseSound;
 
     private void Start()
@@ -24,7 +23,6 @@ public class CollapsingPlatform : MonoBehaviour
         platformRenderer = GetComponent<Renderer>();
         collapseSpeed = Random.Range(minCollapseSpeed, maxCollapseSpeed);
 
-        // Get reference to the sound script
         collapseSound = GetComponent<CollapsingPlatformSound>();
         if (collapseSound == null)
         {
@@ -40,16 +38,7 @@ public class CollapsingPlatform : MonoBehaviour
 
     private void Update()
     {
-        if (timeObject == null) return;
-
-        if (timeObject.isPaused || timeObject.isRewinding)
-        {
-            if (isDespawned && timeObject.isRewinding)
-            {
-                Respawn(); 
-            }
-            return;
-        }
+        if (timeObject == null || timeObject.isPaused || timeObject.isRewinding) return;
 
         if (isCollapsing)
         {
@@ -77,7 +66,7 @@ public class CollapsingPlatform : MonoBehaviour
     private void Respawn()
     {
         platformCollider.enabled = true;
-        platformRenderer.enabled = true; 
+        platformRenderer.enabled = true;
         isDespawned = false;
     }
 
@@ -93,14 +82,13 @@ public class CollapsingPlatform : MonoBehaviour
     {
         yield return new WaitForSeconds(collapseDelay);
         isCollapsing = true;
-        
-        // Play the collapse sound
-        if (collapseSound != null)
+
+        if (collapseSound != null && !collapseSound.collapseAudioSource.isPlaying)
         {
             collapseSound.PlayCollapseSound();
-            Debug.Log("Playing Collapsing Platform Sound"); // Debugging
+            Debug.Log("Playing Collapsing Platform Sound"); 
         }
-        
+
         yield return new WaitForSeconds(colliderDisableDelay);
         platformCollider.enabled = false;
     }

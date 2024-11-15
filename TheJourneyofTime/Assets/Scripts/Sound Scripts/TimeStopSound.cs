@@ -5,10 +5,11 @@ using UnityEngine.Audio;
 public class TimeStopSound : MonoBehaviour
 {
     public AudioClip timeStopClip;
+    public AudioClip timeRestartClip;
     public AudioSource timeStopAudioSource;
     public AudioMixerGroup timeStopMixerGroup;
 
-    void Start()
+    private void Start()
     {
         if (timeStopAudioSource == null)
         {
@@ -16,32 +17,45 @@ public class TimeStopSound : MonoBehaviour
         }
         else
         {
-            timeStopAudioSource.outputAudioMixerGroup = timeStopMixerGroup;
             Debug.Log("Time Stop Audio Source setup complete.");
         }
     }
-    public IEnumerator PlayWithDelay(AudioSource source, AudioClip clip, float delay)
+
+    private void Update()
     {
-        yield return new WaitForSeconds(delay);
-        source.clip = clip;
-        source.Play();
-        Debug.Log("Played sound with delay");
+        if (timeStopAudioSource != null)
+        {
+            Debug.Log($"Time Stop AudioSource Playing State: {timeStopAudioSource.isPlaying}");
+        }
     }
+
     public void PlayTimeStopSound()
 {
-    Debug.Log("Attempting to play time stop sound.");
-    timeStopAudioSource.PlayOneShot(timeStopClip);
-    Debug.Log("Played time stop sound with PlayOneShot.");
+    if (timeStopAudioSource != null && timeStopClip != null)
+    {
+        timeStopAudioSource.clip = timeStopClip;
+        timeStopAudioSource.volume = 1f;
+        timeStopAudioSource.Play();
+    }
 }
 
-
-
-    public void StopTimeStopSound()
+    public void PlayTimeRestartSound()
     {
-        if (timeStopAudioSource != null && timeStopAudioSource.isPlaying)
+        if (timeStopAudioSource != null && timeRestartClip != null)
         {
-            timeStopAudioSource.Stop();
-            Debug.Log("Stopped time stop sound.");
+            timeStopAudioSource.outputAudioMixerGroup = timeStopMixerGroup;
+            timeStopAudioSource.clip = timeRestartClip;
+            timeStopAudioSource.volume = 1f;
+            timeStopAudioSource.Play();  
         }
+        else
+        {
+            Debug.LogError("Time Restart Clip or AudioSource is missing.");
+        }
+    }
+
+    private IEnumerator LogPlaybackTime(float delay)
+    {
+        yield return new WaitForSeconds(delay);
     }
 }

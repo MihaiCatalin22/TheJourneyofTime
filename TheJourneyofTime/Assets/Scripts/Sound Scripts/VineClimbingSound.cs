@@ -4,8 +4,11 @@ using UnityEngine.Audio;
 public class VineClimbingSound : MonoBehaviour
 {
     public AudioClip vineClip;
+    public AudioClip reverseVineClip;
     public AudioSource vineAudioSource;
     public AudioMixerGroup vineMixerGroup;
+
+    private bool isRewinding = false;
 
     void Start()
     {
@@ -14,21 +17,27 @@ public class VineClimbingSound : MonoBehaviour
 
     public void PlayVineClimbSound()
     {
-        Debug.Log("Attempting to play vine climbing sound.");  // Debugging
         if (!vineAudioSource.isPlaying)
         {
-            vineAudioSource.clip = vineClip;
+            vineAudioSource.clip = isRewinding ? reverseVineClip : vineClip;
             vineAudioSource.Play();
-            Debug.Log("Playing vine climbing sound.");  // Debugging
         }
     }
 
-    public void StopVineClimbSound()  // New method to stop the sound
+    public void StopVineClimbSound()
     {
         if (vineAudioSource.isPlaying)
         {
             vineAudioSource.Stop();
-            Debug.Log("Stopping vine climbing sound.");  // Debugging
+        }
+    }
+
+    public void SetRewindState(bool rewinding)
+    {
+        if (isRewinding != rewinding)
+        {
+            isRewinding = rewinding;
+            vineAudioSource.Stop();
         }
     }
 }

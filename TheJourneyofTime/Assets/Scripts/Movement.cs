@@ -10,14 +10,15 @@ public class Movement : MonoBehaviour
     public float dashDuration = 0.2f;
     public float fallThreshold = -10f;
 
+    public ParticleSystem dust;
     public Transform groundCheck;
     public Transform climbCheck;
     public LayerMask whatIsGround;
     public LayerMask climbableLayer;
-
+    
     public float coyoteTimeDuration = 0.2f;
     private float coyoteTimeCounter; 
-
+    private bool canClimb = false;
     private bool isFacingRight = true;
     private bool isGrounded = false;  
     private bool canDoubleJump = false;
@@ -42,7 +43,6 @@ public class Movement : MonoBehaviour
 
     public GameObject deathText;
 
-    // Public properties for sound triggers
     public bool isRunning { get; private set; }
     public bool isClimbing { get; private set; }
     public bool JumpedThisFrame { get; private set; }
@@ -100,7 +100,6 @@ public class Movement : MonoBehaviour
 
         CheckGroundStatus();
 
-        // Reset frame-based properties
         JumpedThisFrame = false;
         LandedThisFrame = false;
         DashedThisFrame = false;
@@ -111,7 +110,7 @@ public class Movement : MonoBehaviour
         float moveInput = Input.GetAxis("Horizontal");
 
         isRunning = Mathf.Abs(moveInput) > 0.1f;
-        Debug.Log("isRunning: " + isRunning);  // Debug for running state
+        Debug.Log("isRunning: " + isRunning);
 
         if (slipperyMode)
         {
@@ -138,44 +137,61 @@ public class Movement : MonoBehaviour
         slipperyFactor = factor;
     }
 
-    void HandleClimbing()
+   void OnTriggerEnter2D(Collider2D other)
+{
+    if (other.gameObject.layer == LayerMask.NameToLayer("Climbable"))
     {
-        bool isTouchingClimbable = Physics2D.OverlapCircle(climbCheck.position, groundCheckRadius, climbableLayer);
+        canClimb = true;
+    }
+}
 
-        if (isTouchingClimbable && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space)) && !isClimbing)
+void OnTriggerExit2D(Collider2D other)
+{
+    if (other.gameObject.layer == LayerMask.NameToLayer("Climbable"))
+    {
+        canClimb = false;
+        EndClimbing();
+    }
+}
+
+void HandleClimbing()
+{
+    if (canClimb && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space)) && !isClimbing)
+    {
+        isClimbing = true;
+        rb.velocity = Vector2.zero;
+        canDoubleJump = true;
+        canDash = true;
+
+        if (vineClimbingSound != null)
         {
-            isClimbing = true;
-            rb.velocity = Vector2.zero;
-
-            canDoubleJump = true;
-            canDash = true;
-            Debug.Log("Started Climbing - Playing Vine Climbing Sound");
-
-            if (vineClimbingSound != null)
-            {
-                vineClimbingSound.PlayVineClimbSound();
-            }
-        }
-
-        if (isClimbing)
-        {
-            float verticalInput = Input.GetAxis("Vertical");
-            float horizontalInput = Input.GetAxis("Horizontal");
-
-            rb.velocity = new Vector2(horizontalInput * moveSpeed, verticalInput * climbSpeed);
-
-            if (!isTouchingClimbable || Input.GetKeyDown(KeyCode.Space))
-            {
-                isClimbing = false;
-                Debug.Log("Stopped Climbing - Stopping Vine Climbing Sound");
-
-                if (vineClimbingSound != null)
-                {
-                    vineClimbingSound.StopVineClimbSound();
-                }
-            }
+            vineClimbingSound.PlayVineClimbSound();
         }
     }
+
+    if (isClimbing)
+    {
+        float verticalInput = Input.GetAxis("Vertical");
+        float horizontalInput = Input.GetAxis("Horizontal");
+
+        rb.velocity = new Vector2(horizontalInput * moveSpeed, verticalInput * climbSpeed);
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            EndClimbing();
+        }
+    }
+}
+
+void EndClimbing()
+{
+    isClimbing = false;
+
+    if (vineClimbingSound != null)
+    {
+        vineClimbingSound.StopVineClimbSound();
+    }
+}
 
     void HandleJump()
     {
@@ -186,7 +202,7 @@ public class Movement : MonoBehaviour
             isGrounded = false;
             coyoteTimeCounter = 0f;
             JumpedThisFrame = true;
-            Debug.Log("Player Jumped");  // Debug for jump
+            Debug.Log("Player Jumped");
             
             if (jumpingSound != null)
             {
@@ -195,10 +211,11 @@ public class Movement : MonoBehaviour
         }
         else if (canDoubleJump)
         {
+            CreateDust();
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             canDoubleJump = false;
             JumpedThisFrame = true;
-            Debug.Log("Player Double Jumped");  // Debug for double jump
+            Debug.Log("Player Double Jumped");
             
             if (jumpingSound != null)
             {
@@ -222,6 +239,7 @@ public class Movement : MonoBehaviour
         if (dashingSound != null)
         {
             dashingSound.PlayDashSound();
+            CreateDust();
         }
 
         yield return new WaitForSeconds(dashDuration);
@@ -230,7 +248,7 @@ public class Movement : MonoBehaviour
         isDashing = false;
     }
 
-    void Die()
+    public void Die()
     {
         if (deathText != null)
         {
@@ -247,24 +265,17 @@ public class Movement : MonoBehaviour
     Collider2D groundCollider = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
     isGrounded = groundCollider != null;
 
-    Debug.Log("Was grounded: " + wasGrounded + ", Is grounded: " + isGrounded);
 
     if (!wasGrounded && isGrounded)
     {
-        Debug.Log("Player has just landed");
         canDoubleJump = true;
         canDash = true;
         LandedThisFrame = true;
 
         if (landingSound != null)
         {
-            Debug.Log("Triggering Landing Sound");
             landingSound.PlayLandingSound();
         }
-    }
-    else if (!isGrounded && wasGrounded)
-    {
-        Debug.Log("Player has left the ground");
     }
 }
 
@@ -319,5 +330,9 @@ public class Movement : MonoBehaviour
         {
             playerCollider.enabled = true;
         }
+    }
+
+    void CreateDust(){
+        dust.Play();
     }
 }

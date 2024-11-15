@@ -5,13 +5,14 @@ using UnityEngine.SceneManagement;
 public class TutorialToStart : MonoBehaviour
 {
     public string nextSceneName = "End - Level 1";
-
     public TransitionSound transitionSound;
+    private bool hasTriggered = false;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !hasTriggered)
         {
+            hasTriggered = true;
             CheckpointManager.Instance.ClearCheckpoint(); 
             
             if (transitionSound != null && transitionSound.transitionClip != null)

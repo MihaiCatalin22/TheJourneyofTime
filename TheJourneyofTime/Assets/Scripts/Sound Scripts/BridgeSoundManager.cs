@@ -7,13 +7,13 @@ public class BridgeSoundManager : MonoBehaviour
     [Header("Creaking Settings")]
     public AudioSource creakingAudioSource;
     public AudioClip creakingClip;
-    public float creakInterval = 5f; // Time between creaks
+    public float creakInterval = 5f;
     public bool isCreakingEnabled = true;
 
     [Header("Footstep Settings")]
     public AudioSource footstepAudioSource;
     public List<AudioClip> footstepClips = new List<AudioClip>();
-    public float footstepInterval = 0.5f; // Interval between footsteps
+    public float footstepInterval = 0.5f;
 
     private float nextCreakTime;
     private float nextFootstepTime;
